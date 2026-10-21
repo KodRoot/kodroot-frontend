@@ -2,7 +2,9 @@
 
 Official website for KodRoot, a software development company founded in Kosovo.
 
-This repository currently contains the Next.js application after starter-template cleanup, with linting, formatting, and git hooks in place. Brand assets live in `public/brand/` and `app/fonts/`. Design tokens, full page sections, and the project inquiry form will follow in later stages.
+This repository currently contains the Next.js application after starter-template cleanup, with linting, formatting, git hooks, brand tokens, and Source Sans 3 in place. Brand assets live in `public/brand/` and `app/fonts/`. Homepage sections and the project inquiry form will follow in later stages.
+
+Site identity is centralized in `lib/site.ts`. Color tokens live in `app/globals.css` and match `lib/brand.ts`.
 
 ## Stack
 

@@ -1,18 +1,74 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f6f1e8;
-  --foreground: #1a1614;
+  --burgundy: #7c2430;
+  --ink: #1a1614;
+  --paper: #f6f1e8;
+  --night: #1a1214;
+  --stone: #6e675e;
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --muted: var(--stone);
+  --mark: var(--burgundy);
+  --surface-dark: var(--night);
+  --on-dark: var(--paper);
+
   color-scheme: light;
 }
 
 @theme inline {
+  --color-burgundy: var(--burgundy);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-night: var(--night);
+  --color-stone: var(--stone);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-mark: var(--mark);
+  --color-surface-dark: var(--surface-dark);
+  --color-on-dark: var(--on-dark);
+  --font-sans: var(--font-source-sans);
+  --font-weight-normal: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 600;
+  --tracking-label: 0.08em;
+}
+
+html {
+  background: var(--background);
+  color: var(--foreground);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.surface-dark {
+  background: var(--surface-dark);
+  color: var(--on-dark);
+  color-scheme: dark;
+}
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
 }
