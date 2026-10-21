@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { MobileNav } from "@/components/mobile-nav";
+import { PageContainer } from "@/components/page-container";
 import { navCta, navItems } from "@/lib/navigation";
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-ink/12 bg-paper">
-      <div className="mx-auto flex h-[var(--header-height)] max-w-[1440px] items-center justify-between gap-8 px-6 lg:px-10">
+      <PageContainer className="flex h-[var(--header-height)] items-center justify-between gap-8">
         <Logo priority />
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
           {navItems.map((item) => (
@@ -26,7 +27,7 @@ export function SiteHeader() {
           </Link>
         </nav>
         <MobileNav />
-      </div>
+      </PageContainer>
     </header>
   );
 }

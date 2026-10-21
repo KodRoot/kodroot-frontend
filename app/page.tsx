@@ -1,25 +1,13 @@
-import Image from "next/image";
-import { brandAssets } from "@/lib/brand";
-import { site } from "@/lib/site";
+import { Capabilities } from "@/components/sections/capabilities";
+import { Hero } from "@/components/sections/hero";
+import { Services } from "@/components/sections/services";
 
 export default function Home() {
   return (
-    <main
-      id="main-content"
-      className="flex flex-1 flex-col justify-center px-6 py-16"
-    >
-      <p>
-        <Image
-          src={brandAssets.logoPrimary}
-          alt={site.name}
-          width={240}
-          height={54}
-          priority
-        />
-      </p>
-      <h1>{site.headline}</h1>
-      <p className="max-w-xl text-muted">{site.description}</p>
-      <p>{site.tagline}</p>
+    <main id="main-content">
+      <Hero />
+      <Services />
+      <Capabilities />
     </main>
   );
 }

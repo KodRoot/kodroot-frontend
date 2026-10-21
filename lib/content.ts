@@ -1,0 +1,46 @@
+export const services = [
+  {
+    id: "web",
+    number: "01",
+    name: "Web development",
+    summary:
+      "Modern websites and web applications designed around your business and built to support its next stage.",
+  },
+  {
+    id: "mobile",
+    number: "02",
+    name: "Mobile development",
+    summary:
+      "Mobile experiences designed around the people who use them, from the first interaction to everyday use.",
+  },
+  {
+    id: "software",
+    number: "03",
+    name: "Software engineering",
+    summary:
+      "Reliable systems engineered for real-world demands, maintainability, and long-term growth.",
+  },
+] as const;
+
+export const capabilities = [
+  {
+    id: "product",
+    name: "Product development",
+    summary:
+      "When the product is still taking shape, we help define it, then build the first version on a foundation that can take on more.",
+  },
+  {
+    id: "consulting",
+    name: "Technical consulting",
+    summary:
+      "Clear advice on structure, approach, and trade-offs, so you can decide what to build, and how, before the work begins.",
+  },
+] as const;
+
+export const servicesIntro = "Three kinds of work. The same care in each.";
+
+export const capabilitiesIntro =
+  "Product development and technical consulting sit inside the same practice, not beside it. We can help you decide what to build, and how to approach it, then engineer it with the same standard.";
+
+export const audienceLine =
+  "We work with businesses, startups, and people shaping a product who want software they can keep using as the company grows.";
