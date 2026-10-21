@@ -62,6 +62,14 @@ export const approachPrinciples = [
   "Avoid unnecessary complexity.",
 ] as const;
 
+export const discussHeading = "Let’s work out what you need.";
+
+export const discussCopy =
+  "Tell us what you are planning to build. We’ll help turn your requirements into a clearer project brief.";
+
+export const discussGuidance =
+  "You do not need technical knowledge to complete this.";
+
 export const closingHeading = "When you are ready to build.";
 
 export const closingCopy =

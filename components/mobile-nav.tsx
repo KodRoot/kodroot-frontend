@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import Link from "next/link";
+import { AppLink } from "@/components/app-link";
 import { Logo } from "@/components/logo";
 import { navCta, navItems } from "@/lib/navigation";
 import { site } from "@/lib/site";
@@ -90,23 +90,23 @@ export function MobileNav() {
             <ul className="flex flex-col border-t border-ink/12">
               {navItems.map((item) => (
                 <li key={item.href} className="border-b border-ink/12">
-                  <Link
+                  <AppLink
                     href={item.href}
                     className="flex min-h-14 items-center py-4 text-3xl font-semibold tracking-tight"
                     onClick={closeMenu}
                   >
                     {item.label}
-                  </Link>
+                  </AppLink>
                 </li>
               ))}
             </ul>
-            <Link
+            <AppLink
               href={navCta.href}
               className="mt-10 inline-flex w-fit border-b-2 border-mark pb-1 text-[13px] font-semibold uppercase tracking-label"
               onClick={closeMenu}
             >
               {navCta.label}
-            </Link>
+            </AppLink>
           </nav>
 
           <p className="mt-auto pb-8 pt-16 text-muted">{site.tagline}</p>

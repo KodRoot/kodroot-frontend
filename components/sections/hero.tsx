@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { AppLink } from "@/components/app-link";
 import { PageContainer } from "@/components/page-container";
 import { brandAssets } from "@/lib/brand";
 import { navCta } from "@/lib/navigation";
@@ -29,18 +29,18 @@ export function Hero() {
               {site.supportingCopy}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
-              <Link
+              <AppLink
                 href={navCta.href}
                 className="inline-flex min-h-11 items-center border-b-2 border-mark pb-0.5 text-[13px] font-semibold uppercase tracking-label"
               >
                 {navCta.label}
-              </Link>
-              <Link
+              </AppLink>
+              <AppLink
                 href="/#services"
                 className="inline-flex min-h-11 items-center border-b border-ink/35 pb-0.5 text-[13px] font-semibold uppercase tracking-label text-muted hover:border-ink hover:text-ink"
               >
                 Explore our work
-              </Link>
+              </AppLink>
             </div>
           </div>
         </div>

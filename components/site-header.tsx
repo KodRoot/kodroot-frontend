@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { AppLink } from "@/components/app-link";
 import { Logo } from "@/components/logo";
 import { MobileNav } from "@/components/mobile-nav";
 import { PageContainer } from "@/components/page-container";
@@ -11,20 +11,20 @@ export function SiteHeader() {
         <Logo priority />
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
           {navItems.map((item) => (
-            <Link
+            <AppLink
               key={item.href}
               href={item.href}
               className="border-b border-transparent pb-0.5 text-[13px] font-semibold uppercase tracking-label text-muted hover:border-ink/40 hover:text-ink"
             >
               {item.label}
-            </Link>
+            </AppLink>
           ))}
-          <Link
+          <AppLink
             href={navCta.href}
             className="border-b-2 border-mark pb-0.5 text-[13px] font-semibold uppercase tracking-label text-ink"
           >
             {navCta.label}
-          </Link>
+          </AppLink>
         </nav>
         <MobileNav />
       </PageContainer>

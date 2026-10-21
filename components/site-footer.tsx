@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { AppLink } from "@/components/app-link";
 import { Logo } from "@/components/logo";
 import { PageContainer } from "@/components/page-container";
 import { originLine, services } from "@/lib/content";
@@ -7,7 +7,7 @@ import { site } from "@/lib/site";
 
 export function SiteFooter() {
   return (
-    <footer className="surface-dark mt-auto border-t border-paper/10">
+    <footer className="surface-dark border-t border-paper/10">
       <PageContainer className="py-16 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-5">
@@ -24,12 +24,12 @@ export function SiteFooter() {
               <ul className="mt-4 space-y-3">
                 {services.map((service) => (
                   <li key={service.id}>
-                    <Link
+                    <AppLink
                       href="/#services"
                       className="text-paper underline-offset-4 hover:underline"
                     >
                       {service.name}
-                    </Link>
+                    </AppLink>
                   </li>
                 ))}
               </ul>
@@ -40,12 +40,12 @@ export function SiteFooter() {
               </p>
               <ul className="mt-4 space-y-3">
                 <li>
-                  <Link
+                  <AppLink
                     href={navCta.href}
                     className="text-paper underline-offset-4 hover:underline"
                   >
-                    Project inquiry
-                  </Link>
+                    {navCta.label}
+                  </AppLink>
                 </li>
                 <li>
                   <a
