@@ -153,7 +153,7 @@ export function InquiryForm() {
           </p>
           <h3
             aria-live="polite"
-            className="mt-3 text-2xl leading-snug text-ink sm:text-3xl"
+            className="type-display mt-4 text-[clamp(1.75rem,3vw,2.5rem)] text-ink"
           >
             {stepCopy[step].question}
           </h3>
@@ -252,7 +252,7 @@ export function InquiryForm() {
             {answers.accounts === "yes-accounts" ? (
               <FollowUp
                 question="What should people be able to do once they have signed in?"
-                hint="Optional. Select all that apply."
+                hint="Optional."
               >
                 <ChoiceList
                   multiple
@@ -324,9 +324,7 @@ export function InquiryForm() {
                 id="budget-amount"
                 label="Budget note"
                 hint={
-                  PRICING_ENABLED
-                    ? undefined
-                    : "Use whatever currency you work in. This is not a quote."
+                  PRICING_ENABLED ? undefined : "Any currency. Not a quote."
                 }
                 value={answers.budgetAmount}
                 onChange={(budgetAmount) => update({ budgetAmount })}
@@ -382,7 +380,7 @@ export function InquiryForm() {
             <TextField
               id="inquiry-description"
               label="Project notes"
-              hint="Optional. Anything else we should know."
+              hint="Optional."
               value={answers.projectDescription}
               onChange={(projectDescription) => update({ projectDescription })}
               multiline
@@ -413,7 +411,7 @@ export function InquiryForm() {
         </p>
       ) : null}
 
-      <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3">
+      <div className="mt-12 flex flex-wrap items-center gap-4">
         {step !== "type" ? (
           <TextButton variant="secondary" onClick={goBack}>
             Back

@@ -49,7 +49,7 @@ export function AppLink({
       onClick?.();
       window.history.pushState(null, "", `/#${sectionId}`);
       window.requestAnimationFrame(() => {
-        scrollToSection(sectionId);
+        scrollToSection(sectionId, "smooth");
       });
     }
 
@@ -70,7 +70,10 @@ export function AppLink({
       event.preventDefault();
       onClick?.();
       window.history.pushState(null, "", "/");
-      window.scrollTo(0, 0);
+      const reduce = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
       return;
     }
 

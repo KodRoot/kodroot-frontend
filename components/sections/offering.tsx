@@ -1,62 +1,48 @@
 import { Section } from "@/components/ui/section";
 import { Kicker } from "@/components/ui/kicker";
-import {
-  audienceLine,
-  capabilities,
-  capabilitiesIntro,
-  services,
-  servicesIntro,
-} from "@/lib/content";
+import { capabilities, services, servicesHeading } from "@/lib/content";
 
 export function Offering() {
   return (
-    <Section id="services" labelledBy="services-heading" surface="night">
-      <Kicker className="text-paper/55">What we build</Kicker>
+    <Section id="services" labelledBy="services-heading">
+      <Kicker className="text-muted">01</Kicker>
       <h2
         id="services-heading"
-        className="mt-4 max-w-2xl text-3xl leading-snug text-paper sm:text-4xl"
+        className="type-display mt-4 max-w-3xl text-[clamp(2.75rem,6vw,5.5rem)]"
       >
-        {servicesIntro}
+        {servicesHeading}
       </h2>
 
-      <div className="mt-12 space-y-12">
+      <div className="mt-16 border-t border-ink/15 lg:mt-24">
         {services.map((service) => (
-          <article key={service.id} className="max-w-2xl">
-            <p className="text-[13px] font-semibold uppercase tracking-label text-paper/45">
+          <article
+            key={service.id}
+            className="motion-enter grid gap-4 border-b border-ink/15 py-10 lg:grid-cols-12 lg:items-baseline lg:py-14"
+          >
+            <p className="type-display text-4xl text-mark sm:text-5xl lg:col-span-2 lg:text-6xl">
               {service.number}
             </p>
-            <h3 className="mt-3 text-2xl text-paper sm:text-3xl">
+            <h3 className="text-3xl leading-none sm:text-4xl lg:col-span-4">
               {service.name}
             </h3>
-            <p className="mt-4 text-lg leading-relaxed text-paper/75">
+            <p className="max-w-md text-lg leading-relaxed text-muted lg:col-span-5 lg:col-start-8">
               {service.detail}
-            </p>
-            <p className="mt-3 leading-relaxed text-paper/75">
-              {service.problems}
-            </p>
-            <p className="mt-3 leading-relaxed text-paper/75">
-              {service.intelligence}
             </p>
           </article>
         ))}
       </div>
 
-      <div className="mt-16 max-w-2xl">
-        <Kicker className="text-paper/55">How a project starts</Kicker>
-        <p className="mt-4 text-lg leading-relaxed text-paper">
-          {capabilitiesIntro}
-        </p>
-        <div className="mt-10 space-y-8">
-          {capabilities.map((capability) => (
-            <article key={capability.id}>
-              <h3 className="text-xl text-paper">{capability.name}</h3>
-              <p className="mt-3 leading-relaxed text-paper/75">
-                {capability.summary}
-              </p>
-            </article>
-          ))}
-        </div>
-        <p className="mt-10 leading-relaxed text-paper/75">{audienceLine}</p>
+      <div className="mt-16 grid gap-12 sm:grid-cols-2 lg:mt-24 lg:gap-16">
+        {capabilities.map((capability) => (
+          <article key={capability.id}>
+            <h3 className="text-2xl leading-tight sm:text-3xl">
+              {capability.name}
+            </h3>
+            <p className="mt-4 max-w-md leading-relaxed text-muted">
+              {capability.summary}
+            </p>
+          </article>
+        ))}
       </div>
     </Section>
   );

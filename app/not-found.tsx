@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { PageContainer } from "@/components/page-container";
+import { Kicker } from "@/components/ui/kicker";
 import { TextLink } from "@/components/ui/text-link";
+import { brandAssets } from "@/lib/brand";
 import { navCta } from "@/lib/navigation";
 
 export const metadata: Metadata = {
@@ -13,21 +16,29 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <main id="main-content">
-      <PageContainer className="py-[var(--section-y)] lg:py-[var(--section-y-lg)]">
-        <h1 className="max-w-2xl text-4xl leading-tight sm:text-5xl">
-          This page is not on the site.
-        </h1>
-        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-          The address may be mistyped, or the page may have moved. The rest of
-          KodRoot is still here.
-        </p>
-        <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3">
-          <TextLink href="/">KodRoot home</TextLink>
-          <TextLink href={navCta.href} variant="secondary">
-            {navCta.label}
-          </TextLink>
+    <main id="main-content" className="surface-dark">
+      <PageContainer className="grid min-h-[70vh] content-center gap-10 py-20 lg:grid-cols-12 lg:items-end lg:py-28">
+        <div className="lg:col-span-8">
+          <Kicker className="text-paper/45">404</Kicker>
+          <h1 className="type-display mt-6 max-w-4xl text-[clamp(3rem,9vw,6.5rem)] text-paper">
+            This page is not on the site.
+          </h1>
+          <div className="mt-10 flex flex-wrap items-center gap-4">
+            <TextLink href="/" surface="night">
+              KodRoot home
+            </TextLink>
+            <TextLink href={navCta.href} variant="secondary" surface="night">
+              {navCta.label}
+            </TextLink>
+          </div>
         </div>
+        <Image
+          src={brandAssets.symbol}
+          alt=""
+          width={180}
+          height={180}
+          className="w-28 lg:col-span-3 lg:col-start-10 lg:w-40"
+        />
       </PageContainer>
     </main>
   );

@@ -1,31 +1,55 @@
+import Image from "next/image";
 import { PageContainer } from "@/components/page-container";
 import { TextLink } from "@/components/ui/text-link";
-import { originLine } from "@/lib/content";
+import { brandAssets } from "@/lib/brand";
 import { navCta } from "@/lib/navigation";
 import { site } from "@/lib/site";
 
+const heroHeadline = "Software built on solid foundations.";
+
+const heroLines =
+  site.headline === heroHeadline
+    ? ["Software built", "on solid", "foundations."]
+    : [site.headline];
+
 export function Hero() {
   return (
-    <section aria-labelledby="hero-heading">
-      <PageContainer className="py-[var(--section-y)] lg:py-[var(--section-y-lg)]">
-        <h1
-          id="hero-heading"
-          className="max-w-3xl text-4xl leading-tight sm:text-5xl"
-        >
-          {site.headline}
-        </h1>
-        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-          {site.supportingCopy}
-        </p>
-        <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
-          <TextLink href={navCta.href}>{navCta.label}</TextLink>
-          <TextLink href="/#services" variant="secondary">
-            What we build
-          </TextLink>
+    <section aria-labelledby="hero-heading" className="surface-dark">
+      <PageContainer className="flex min-h-[calc(100svh-var(--header-height))] flex-col py-8 sm:py-10 lg:py-12">
+        <div className="motion-rise my-auto grid items-end gap-10 py-16 lg:grid-cols-12 lg:py-24">
+          <h1
+            id="hero-heading"
+            className="type-display text-[clamp(2.35rem,8vw,6.25rem)] text-paper lg:col-span-8"
+          >
+            {heroLines.map((line) => (
+              <span key={line} className="block">
+                {line}
+              </span>
+            ))}
+          </h1>
+          <Image
+            src={brandAssets.symbol}
+            alt=""
+            width={280}
+            height={280}
+            priority
+            className="w-24 justify-self-end sm:w-28 lg:col-span-4 lg:w-52 xl:w-64"
+          />
         </div>
-        <p className="mt-16 text-[13px] font-semibold uppercase tracking-label text-muted">
-          {originLine}
-        </p>
+
+        <div className="grid gap-8 border-t border-paper/15 pt-8 lg:grid-cols-12 lg:items-end">
+          <p className="max-w-md text-lg leading-relaxed text-paper/75 lg:col-span-6">
+            {site.supportingCopy}
+          </p>
+          <div className="flex flex-wrap items-center gap-4 lg:col-span-6 lg:justify-end">
+            <TextLink href={navCta.href} surface="night">
+              {navCta.label}
+            </TextLink>
+            <TextLink href="/#services" variant="secondary" surface="night">
+              What we build
+            </TextLink>
+          </div>
+        </div>
       </PageContainer>
     </section>
   );

@@ -5,7 +5,6 @@ import { AppLink } from "@/components/app-link";
 import { Logo } from "@/components/logo";
 import { TextLink } from "@/components/ui/text-link";
 import { navCta, navItems } from "@/lib/navigation";
-import { site } from "@/lib/site";
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -42,7 +41,7 @@ export function MobileNav() {
       <button
         ref={buttonRef}
         type="button"
-        className="inline-flex min-h-11 min-w-11 items-center justify-end text-[13px] font-semibold uppercase tracking-label text-muted hover:text-ink motion-safe:transition-colors"
+        className="inline-flex min-h-11 min-w-11 items-center justify-end text-[13px] font-semibold uppercase tracking-label text-paper/70 hover:text-paper motion-safe:transition-colors"
         aria-expanded={open}
         aria-controls="mobile-navigation"
         aria-haspopup="dialog"
@@ -54,49 +53,53 @@ export function MobileNav() {
         ref={dialogRef}
         id="mobile-navigation"
         aria-labelledby={titleId}
-        className="fixed inset-0 z-50 m-0 h-full max-h-none w-full max-w-none border-0 bg-paper p-0 text-ink backdrop:bg-paper"
+        className="fixed inset-0 z-50 m-0 h-full max-h-none w-full max-w-none border-0 bg-night p-0 text-paper backdrop:bg-night"
       >
-        <div className="flex min-h-full flex-col bg-paper px-6 py-[1.125rem] text-ink">
+        <div className="flex min-h-full flex-col bg-night px-5 py-5 text-paper sm:px-8">
           <div className="flex items-center justify-between gap-6">
-            <Logo />
+            <Logo variant="dark" />
             <button
               type="button"
-              className="inline-flex min-h-11 min-w-11 items-center justify-end text-[13px] font-semibold uppercase tracking-label text-muted hover:text-ink motion-safe:transition-colors"
+              className="inline-flex min-h-11 min-w-11 items-center justify-end text-[13px] font-semibold uppercase tracking-label text-paper/70 hover:text-paper motion-safe:transition-colors"
               onClick={closeMenu}
             >
               Close
             </button>
           </div>
-          <div className="mt-[1.125rem] h-px bg-ink/12" aria-hidden="true" />
+          <div className="mt-5 h-px bg-paper/15" aria-hidden="true" />
 
           <h2 id={titleId} className="sr-only">
             Site menu
           </h2>
 
-          <nav className="mt-16 flex flex-1 flex-col" aria-label="Primary">
-            <ul className="flex flex-col border-t border-ink/12">
-              {navItems.map((item) => (
-                <li key={item.href} className="border-b border-ink/12">
+          <nav className="mt-12 flex flex-1 flex-col" aria-label="Primary">
+            <ul className="flex flex-col border-t border-paper/15">
+              {navItems.map((item, index) => (
+                <li key={item.href} className="border-b border-paper/15">
                   <AppLink
                     href={item.href}
-                    className="flex min-h-14 items-center py-4 text-3xl font-semibold tracking-tight"
+                    className="flex min-h-16 items-baseline justify-between gap-6 py-4"
                     onClick={closeMenu}
                   >
-                    {item.label}
+                    <span className="text-4xl leading-none font-semibold tracking-[-0.04em]">
+                      {item.label}
+                    </span>
+                    <span className="text-[11px] font-semibold tracking-label text-paper/45">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
                   </AppLink>
                 </li>
               ))}
             </ul>
             <TextLink
               href={navCta.href}
+              surface="night"
               className="mt-10 w-fit"
               onClick={closeMenu}
             >
               {navCta.label}
             </TextLink>
           </nav>
-
-          <p className="mt-auto pt-16 pb-8 text-muted">{site.tagline}</p>
         </div>
       </dialog>
     </div>

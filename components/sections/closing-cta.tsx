@@ -1,23 +1,25 @@
+import { AppLink } from "@/components/app-link";
 import { Section } from "@/components/ui/section";
-import { TextLink } from "@/components/ui/text-link";
-import { closingCopy, closingHeading } from "@/lib/content";
+import { closingHeading } from "@/lib/content";
 import { navCta } from "@/lib/navigation";
 
 export function ClosingCta() {
   return (
-    <Section labelledBy="closing-heading">
+    <Section labelledBy="closing-heading" surface="mark">
+      <p className="text-[11px] font-semibold tracking-label text-paper/70">
+        04
+      </p>
       <h2
         id="closing-heading"
-        className="max-w-2xl text-3xl leading-snug sm:text-4xl"
+        className="type-display mt-6 max-w-5xl text-[clamp(3rem,9vw,7.5rem)]"
       >
-        {closingHeading}
+        <AppLink
+          href={navCta.href}
+          className="text-paper underline decoration-paper/40 decoration-2 underline-offset-[0.14em] hover:decoration-paper"
+        >
+          {closingHeading}
+        </AppLink>
       </h2>
-      <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-        {closingCopy}
-      </p>
-      <TextLink href={navCta.href} className="mt-8">
-        {navCta.label}
-      </TextLink>
     </Section>
   );
 }

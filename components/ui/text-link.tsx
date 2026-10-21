@@ -2,7 +2,7 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { AppLink } from "@/components/app-link";
 
 type TextLinkVariant = "primary" | "secondary";
-type TextLinkSurface = "paper" | "night";
+type TextLinkSurface = "paper" | "night" | "mark";
 
 type TextLinkProps = {
   href: string;
@@ -18,17 +18,23 @@ function textLinkClassName(
   surface: TextLinkSurface = "paper",
 ) {
   const base =
-    "inline-flex min-h-11 items-center pb-0.5 text-[13px] font-semibold uppercase tracking-label motion-safe:transition-colors";
+    "inline-flex min-h-12 items-center text-[13px] font-semibold uppercase tracking-label motion-safe:transition-colors";
 
-  if (surface === "night") {
-    return variant === "primary"
-      ? `${base} border-b-2 border-mark text-paper`
-      : `${base} border-b border-paper/35 text-paper/75 hover:border-paper hover:text-paper`;
+  if (variant === "primary") {
+    if (surface === "mark") {
+      return `${base} bg-paper px-5 text-ink hover:bg-night hover:text-paper`;
+    }
+    if (surface === "night") {
+      return `${base} bg-mark px-5 text-paper hover:bg-paper hover:text-ink`;
+    }
+    return `${base} bg-mark px-5 text-paper hover:bg-ink`;
   }
 
-  return variant === "primary"
-    ? `${base} border-b-2 border-mark text-ink`
-    : `${base} border-b border-ink/35 text-muted hover:border-ink hover:text-ink`;
+  const quiet = `${base} border-b pb-0.5`;
+  if (surface === "mark" || surface === "night") {
+    return `${quiet} border-paper/40 text-paper/80 hover:border-paper hover:text-paper`;
+  }
+  return `${quiet} border-ink/30 text-muted hover:border-ink hover:text-ink`;
 }
 
 export function TextLink({

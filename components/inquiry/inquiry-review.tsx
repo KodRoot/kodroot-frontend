@@ -12,13 +12,10 @@ export function InquiryReview({ answers, onEdit }: InquiryReviewProps) {
 
   return (
     <div>
-      <h3 className="text-2xl leading-snug text-ink sm:text-3xl">
-        Check your answers before preparing the brief.
+      <h3 className="type-display text-[clamp(1.75rem,3vw,2.5rem)] text-ink">
+        Check your answers.
       </h3>
-      <p className="mt-3 leading-relaxed text-muted">
-        This is a project brief, not a quote. No price and no delivery date have
-        been promised.
-      </p>
+      <p className="mt-3 leading-relaxed text-muted">A brief, not a quote.</p>
       <dl className="mt-8 border-t border-ink/12">
         {items.map((item) => (
           <div

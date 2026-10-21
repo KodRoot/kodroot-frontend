@@ -43,8 +43,7 @@ export function TextField({
   multiline?: boolean;
 }) {
   const hintId = hint ? `${id}-hint` : undefined;
-  const fieldClassName =
-    "mt-2 w-full border border-ink/20 bg-paper px-3 py-2.5 text-ink";
+  const fieldClassName = "field-line mt-2 w-full px-0 py-3 text-lg text-ink";
 
   return (
     <div>
@@ -70,7 +69,7 @@ export function TextField({
           required={required}
           aria-describedby={hintId}
           rows={4}
-          className={`${fieldClassName} min-h-28`}
+          className={`${fieldClassName} min-h-32`}
         />
       ) : (
         <input

@@ -65,11 +65,8 @@ npm start
 
 `npm install` also runs `prepare`, which sets up Husky. The pre-commit hook runs lint-staged (ESLint and Prettier on staged files only). To skip hooks for a single command, set `HUSKY=0`.
 
-## Later redesign
+## Visual system
 
-Pages are stacked and plain so a later visual pass can change composition without first undoing a layout system.
+The current direction is industrial brutalist editorial: night and paper fields, burgundy used as a mark rather than small text on dark grounds, and Source Sans 3 for every line of type. Section composition lives in `components/sections/` and `components/inquiry/`. Tokens live in `app/globals.css`.
 
-- Keep routes and the frontend-only questionnaire contract.
-- Change composition in `components/sections/` and `components/inquiry/`.
-- Change tokens in `app/globals.css` / `lib/brand.ts` only with an approved palette.
-- Do not invent clients, metrics, quotes, prices, or case studies.
+A later pass can restyle those compositions without changing routes or the frontend-only questionnaire. Do not invent clients, metrics, quotes, prices, or case studies. Change palette tokens only with an approved brand change.

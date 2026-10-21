@@ -6,20 +6,26 @@ import { navCta, navItems } from "@/lib/navigation";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 bg-paper">
+    <header className="surface-dark sticky top-0 z-50 border-b border-paper/15">
       <PageContainer className="flex h-[var(--header-height)] items-center justify-between gap-8">
-        <Logo priority />
+        <Logo priority variant="dark" />
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
           {navItems.map((item) => (
-            <TextLink key={item.href} href={item.href} variant="secondary">
+            <TextLink
+              key={item.href}
+              href={item.href}
+              variant="secondary"
+              surface="night"
+            >
               {item.label}
             </TextLink>
           ))}
-          <TextLink href={navCta.href}>{navCta.label}</TextLink>
+          <TextLink href={navCta.href} surface="night">
+            {navCta.label}
+          </TextLink>
         </nav>
         <MobileNav />
       </PageContainer>
-      <div className="h-px bg-ink/12" aria-hidden="true" />
     </header>
   );
 }

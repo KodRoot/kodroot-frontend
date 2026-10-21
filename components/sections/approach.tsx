@@ -1,33 +1,29 @@
 import { Section } from "@/components/ui/section";
 import { Kicker } from "@/components/ui/kicker";
-import {
-  approachBody,
-  approachHeading,
-  approachIntro,
-  approachPrinciples,
-} from "@/lib/content";
+import { approachHeading, approachPrinciples } from "@/lib/content";
 
 export function Approach() {
   return (
     <Section id="approach" labelledBy="approach-heading">
-      <Kicker className="text-muted">How we work</Kicker>
+      <Kicker className="text-muted">03</Kicker>
       <h2
         id="approach-heading"
-        className="mt-4 max-w-2xl text-3xl leading-snug sm:text-4xl"
+        className="type-display mt-4 max-w-3xl text-[clamp(2.75rem,6vw,5.5rem)]"
       >
         {approachHeading}
       </h2>
-      <p className="mt-6 max-w-2xl text-lg leading-relaxed">{approachIntro}</p>
-      <p className="mt-4 max-w-2xl leading-relaxed text-muted">
-        {approachBody}
-      </p>
-      <ol className="mt-12 max-w-2xl space-y-5">
+      <ol className="mt-14 border-t border-ink/15 lg:mt-20">
         {approachPrinciples.map((principle, index) => (
-          <li key={principle} className="text-xl leading-snug">
-            <span className="mr-3 text-[13px] font-semibold uppercase tracking-label text-muted">
+          <li
+            key={principle}
+            className="motion-enter flex items-baseline justify-between gap-6 border-b border-ink/15 py-6 sm:py-8"
+          >
+            <p className="text-[clamp(1.5rem,3.4vw,2.75rem)] leading-tight">
+              {principle}
+            </p>
+            <span className="shrink-0 text-[11px] font-semibold tracking-label text-muted">
               {String(index + 1).padStart(2, "0")}
             </span>
-            {principle}
           </li>
         ))}
       </ol>

@@ -6,12 +6,11 @@ export const site = {
   url: "https://kodroot.com",
   email: "hello@kodroot.com",
   locale: "en",
-  tagline: "Rooted in code. Built for growth.",
+  tagline: "Websites, mobile products, and custom software.",
   headline: "Software built on solid foundations.",
   description:
-    "KodRoot is a software development company founded in Kosovo, building digital solutions for businesses everywhere.",
-  supportingCopy:
-    "KodRoot designs and builds websites, mobile products, and custom software for businesses ready to grow — including intelligent features when they serve the work.",
+    "KodRoot designs and builds websites, mobile products, and custom software.",
+  supportingCopy: "Websites, mobile products, and custom software.",
 } as const;
 
 export const siteMetadata: Metadata = {

@@ -41,17 +41,17 @@ export const stepCopy: Record<
   integrations: {
     kicker: "Other tools",
     question: "Does the project need to work with any other tools?",
-    hint: "Optional. Select all that apply, or continue if nothing specific comes to mind.",
+    hint: "Optional.",
   },
   budget: {
     kicker: "Budget and timing",
     question: "Do you have a budget in mind?",
-    hint: "A launch window is a hope, not a delivery promise.",
+    hint: "A date here is a hope, not a promise.",
   },
   contact: {
     kicker: "Contact",
     question: "How should we reach you?",
-    hint: "We will use these details only to respond to this inquiry.",
+    hint: "Used only to reply.",
   },
 };
 

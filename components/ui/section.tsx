@@ -4,9 +4,15 @@ import { PageContainer } from "@/components/page-container";
 type SectionProps = {
   id?: string;
   labelledBy: string;
-  surface?: "paper" | "night";
+  surface?: "paper" | "night" | "mark";
   children: ReactNode;
 };
+
+const surfaceClass = {
+  paper: "bg-paper",
+  night: "surface-dark",
+  mark: "surface-mark",
+} as const;
 
 export function Section({
   id,
@@ -18,7 +24,7 @@ export function Section({
     <section
       id={id}
       aria-labelledby={labelledBy}
-      className={surface === "night" ? "surface-dark" : "bg-paper"}
+      className={surfaceClass[surface]}
     >
       <PageContainer className="py-[var(--section-y)] lg:py-[var(--section-y-lg)]">
         {children}

@@ -32,18 +32,17 @@ export function InquiryResult({
   return (
     <div>
       <Kicker className="text-muted">Brief ready</Kicker>
-      <h3 className="mt-3 text-2xl leading-snug text-ink sm:text-3xl">
-        Your project brief is ready to send.
+      <h3 className="type-display mt-4 text-[clamp(1.75rem,3vw,2.5rem)] text-ink">
+        Ready to send.
       </h3>
       <p className="mt-4 leading-relaxed text-muted">
-        This page does not deliver the brief to KodRoot. Open the prepared
-        email, or copy the brief and send it to {site.email} yourself. This is
-        not a quote, and no delivery date has been promised.
+        Nothing is sent from this page. Email the brief, or copy it to{" "}
+        {site.email}.
       </p>
-      <pre className="mt-8 max-h-80 overflow-auto border border-ink/12 bg-paper p-4 text-sm leading-relaxed whitespace-pre-wrap text-ink">
+      <pre className="mt-8 max-h-80 overflow-auto border border-ink/15 p-5 text-sm leading-relaxed whitespace-pre-wrap text-ink">
         {brief}
       </pre>
-      <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
+      <div className="mt-8 flex flex-wrap items-center gap-4">
         <TextLink href={mailto}>Email this brief</TextLink>
         <TextButton variant="secondary" onClick={copyBrief}>
           {copied ? "Brief copied" : "Copy brief"}

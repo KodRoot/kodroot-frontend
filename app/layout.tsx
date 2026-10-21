@@ -12,7 +12,7 @@ export const metadata = siteMetadata;
 
 export const viewport: Viewport = {
   colorScheme: "light",
-  themeColor: brandColors.paper,
+  themeColor: brandColors.night,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
