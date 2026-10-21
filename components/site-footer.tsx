@@ -9,7 +9,6 @@ import { site } from "@/lib/site";
 export function SiteFooter() {
   return (
     <footer className="surface-dark">
-      <div className="h-[2px] bg-mark" aria-hidden="true" />
       <PageContainer className="py-16 lg:py-20">
         <div className="flex flex-col gap-12 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-sm">

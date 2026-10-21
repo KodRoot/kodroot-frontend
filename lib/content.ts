@@ -3,8 +3,6 @@ export const services = [
     id: "web",
     number: "01",
     name: "Web development",
-    summary:
-      "Modern websites and web applications designed around your business and built to support its next stage.",
     detail:
       "Public websites, customer tools, and internal systems — designed around how the business actually works, and built so the next requirement has a place to go.",
     problems:
@@ -16,8 +14,6 @@ export const services = [
     id: "mobile",
     number: "02",
     name: "Mobile development",
-    summary:
-      "Mobile experiences designed around the people who use them, from the first interaction to everyday use.",
     detail:
       "Applications for phones and tablets, designed around the people who will use them every day, from the first version through the work that follows.",
     problems:
@@ -29,8 +25,6 @@ export const services = [
     id: "software",
     number: "03",
     name: "Custom software",
-    summary:
-      "Reliable systems engineered for real-world demands, maintainability, and long-term growth.",
     detail:
       "Software engineered around a specific way a business works, including the integrations and supporting systems the work depends on.",
     problems:

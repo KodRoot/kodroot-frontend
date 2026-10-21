@@ -13,7 +13,7 @@ type TextLinkProps = {
   onClick?: () => void;
 };
 
-export function textLinkClassName(
+function textLinkClassName(
   variant: TextLinkVariant = "primary",
   surface: TextLinkSurface = "paper",
 ) {

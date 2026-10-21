@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { HomeLink } from "@/components/home-link";
+import { AppLink } from "@/components/app-link";
 import { brandAssets } from "@/lib/brand";
 import { site } from "@/lib/site";
 
@@ -13,7 +13,7 @@ export function Logo({ priority = false, variant = "primary" }: LogoProps) {
     variant === "dark" ? brandAssets.logoDark : brandAssets.logoPrimary;
 
   return (
-    <HomeLink aria-label={`${site.name} home`} className="inline-flex">
+    <AppLink href="/" aria-label={`${site.name} home`} className="inline-flex">
       <Image
         src={src}
         alt=""
@@ -22,6 +22,6 @@ export function Logo({ priority = false, variant = "primary" }: LogoProps) {
         priority={priority}
         className="h-8 w-auto"
       />
-    </HomeLink>
+    </AppLink>
   );
 }

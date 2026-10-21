@@ -105,7 +105,7 @@ export function formatInquiryBrief(data: InquirySubmission): string {
   return lines.join("\n");
 }
 
-export function deriveInternalNotes(data: InquirySubmission): string[] {
+function deriveInternalNotes(data: InquirySubmission): string[] {
   const notes: string[] = [];
 
   notes.push(`Project type: ${data.projectType}`);
@@ -159,7 +159,7 @@ export function buildMailto(
   return `mailto:${email}?subject=${subject}&body=${body}`;
 }
 
-export type InquirySummaryItem = {
+type InquirySummaryItem = {
   step: InquiryStep;
   label: string;
   value: string;

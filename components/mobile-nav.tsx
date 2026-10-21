@@ -37,21 +37,6 @@ export function MobileNav() {
     return () => dialog.removeEventListener("close", handleClose);
   }, []);
 
-  useEffect(() => {
-    if (!open) {
-      return;
-    }
-
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        dialogRef.current?.close();
-      }
-    }
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [open]);
-
   return (
     <div className="lg:hidden">
       <button
@@ -82,10 +67,7 @@ export function MobileNav() {
               Close
             </button>
           </div>
-          <div className="relative mt-[1.125rem]" aria-hidden="true">
-            <div className="h-px bg-ink/12" />
-            <div className="absolute top-0 left-0 h-[2px] w-10 bg-mark" />
-          </div>
+          <div className="mt-[1.125rem] h-px bg-ink/12" aria-hidden="true" />
 
           <h2 id={titleId} className="sr-only">
             Site menu

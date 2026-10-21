@@ -19,10 +19,7 @@ export function SiteHeader() {
         </nav>
         <MobileNav />
       </PageContainer>
-      <div className="relative" aria-hidden="true">
-        <div className="h-px bg-ink/12" />
-        <div className="absolute top-0 left-6 h-[2px] w-10 bg-mark lg:left-10" />
-      </div>
+      <div className="h-px bg-ink/12" aria-hidden="true" />
     </header>
   );
 }

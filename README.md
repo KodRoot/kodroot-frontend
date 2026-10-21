@@ -29,10 +29,10 @@ There is no Work, About, or per-service page. There is no backend, database, or 
 ## Project structure
 
 - `app/` — App Router layouts, pages, metadata, sitemap, robots, Open Graph image, branded 404
+- `components/app-link.tsx` — in-site links, including hash scroll on the homepage
 - `components/sections/` — homepage sections (server components)
-- `components/inquiry/` — questionnaire UI (client only where state is required)
+- `components/inquiry/` — questionnaire UI and field helpers (client only where state is required)
 - `components/ui/` — small shared primitives (`Section`, `TextLink`, `Kicker`, `Vinculum`)
-- `components/brand/` — official radical geometry, not a redrawn logo
 - `lib/content.ts` — marketing copy
 - `lib/site.ts` — identity and default metadata (`kodroot.com`, `hello@kodroot.com`)
 - `lib/navigation.ts` — primary nav and the “Discuss your project” CTA
@@ -67,7 +67,7 @@ npm start
 
 ## Later redesign
 
-A future visual pass should be able to restyle pages without replacing this structure:
+Pages are stacked and plain so a later visual pass can change composition without first undoing a layout system.
 
 - Keep routes and the frontend-only questionnaire contract.
 - Change composition in `components/sections/` and `components/inquiry/`.

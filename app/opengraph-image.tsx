@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
+import { brandColors } from "@/lib/brand";
 import { site } from "@/lib/site";
 
 export const alt = `${site.name} — ${site.headline}`;
@@ -23,8 +24,8 @@ export default async function OpenGraphImage() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        backgroundColor: "#F6F1E8",
-        color: "#1A1614",
+        backgroundColor: brandColors.paper,
+        color: brandColors.ink,
         padding: "72px 80px",
       }}
     >
@@ -32,7 +33,7 @@ export default async function OpenGraphImage() {
         style={{
           display: "flex",
           alignItems: "flex-start",
-          color: "#7C2430",
+          color: brandColors.burgundy,
         }}
       >
         <div
@@ -40,8 +41,8 @@ export default async function OpenGraphImage() {
             width: 28,
             height: 36,
             display: "flex",
-            borderLeft: "6px solid #7C2430",
-            borderBottom: "6px solid #7C2430",
+            borderLeft: `6px solid ${brandColors.burgundy}`,
+            borderBottom: `6px solid ${brandColors.burgundy}`,
             transform: "skewX(-18deg)",
             marginTop: 4,
           }}
@@ -50,7 +51,7 @@ export default async function OpenGraphImage() {
           style={{
             height: 10,
             flex: 1,
-            backgroundColor: "#7C2430",
+            backgroundColor: brandColors.burgundy,
             marginLeft: -2,
           }}
         />
@@ -61,7 +62,7 @@ export default async function OpenGraphImage() {
             fontSize: 28,
             letterSpacing: "0.08em",
             textTransform: "uppercase",
-            color: "#6E675E",
+            color: brandColors.stone,
           }}
         >
           {site.name}
@@ -79,7 +80,7 @@ export default async function OpenGraphImage() {
       <div
         style={{
           fontSize: 24,
-          color: "#6E675E",
+          color: brandColors.stone,
         }}
       >
         {site.tagline}

@@ -10,6 +10,7 @@ type AppLinkProps = {
   className?: string;
   children: ReactNode;
   onClick?: () => void;
+  "aria-label"?: string;
 };
 
 function homeHashId(href: string) {
@@ -22,14 +23,20 @@ function homeHashId(href: string) {
   return null;
 }
 
-export function AppLink({ href, className, children, onClick }: AppLinkProps) {
+export function AppLink({
+  href,
+  className,
+  children,
+  onClick,
+  "aria-label": ariaLabel,
+}: AppLinkProps) {
   const pathname = usePathname();
   const hashId = homeHashId(href);
 
   if (hashId) {
     const sectionId = hashId;
 
-    function handleClick(event: MouseEvent<HTMLAnchorElement>) {
+    function handleHashClick(event: MouseEvent<HTMLAnchorElement>) {
       if (pathname !== "/") {
         return;
       }
@@ -47,14 +54,36 @@ export function AppLink({ href, className, children, onClick }: AppLinkProps) {
     }
 
     return (
-      <a href={`/#${sectionId}`} className={className} onClick={handleClick}>
+      <a
+        href={`/#${sectionId}`}
+        className={className}
+        aria-label={ariaLabel}
+        onClick={handleHashClick}
+      >
         {children}
       </a>
     );
   }
 
+  function handleClick(event: MouseEvent<HTMLAnchorElement>) {
+    if (href === "/" && pathname === "/" && window.location.hash) {
+      event.preventDefault();
+      onClick?.();
+      window.history.pushState(null, "", "/");
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    onClick?.();
+  }
+
   return (
-    <Link href={href} className={className} onClick={onClick}>
+    <Link
+      href={href}
+      className={className}
+      aria-label={ariaLabel}
+      onClick={handleClick}
+    >
       {children}
     </Link>
   );

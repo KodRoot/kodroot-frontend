@@ -11,7 +11,7 @@ export const questionSteps = [
   "contact",
 ] as const satisfies readonly InquiryStep[];
 
-export type QuestionStep = (typeof questionSteps)[number];
+type QuestionStep = (typeof questionSteps)[number];
 
 export const stepCopy: Record<
   QuestionStep,
