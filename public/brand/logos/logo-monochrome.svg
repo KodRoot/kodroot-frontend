@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 609.36 137" role="img" aria-label="KodRoot">
+<title>KodRoot</title>
+<g id="symbol" fill="#1A1614" transform="translate(0 -4.17) scale(1.45930)"><polygon points="-2.49,65.49 19.51,91.49 32.49,80.51 10.49,54.51"/><polygon points="33.86,89.23 65.86,11.23 50.14,4.77 18.14,82.77"/></g>
+<rect id="bar" fill="#1A1614" x="76.39" y="0" width="528.97" height="15"/>
+<g id="wordmark" fill="#1A1614" transform="translate(141.45 33)"><g><rect x="0" y="0" width="10.2" height="100"/><polygon points="10.2,46 54.01,0 39.92,0 10.2,31.21"/><polygon points="10.2,46 61.63,100 47.54,100 10.2,60.79"/></g>
+<g transform="translate(67.03 0)"><path fill-rule="evenodd" d="M 0 67 a 34.5 34.5 0 1 0 69 0 a 34.5 34.5 0 1 0 -69 0 Z M 10.2 67 a 24.3 24.3 0 1 0 48.6 0 a 24.3 24.3 0 1 0 -48.6 0 Z"/></g>
+<g transform="translate(140.43 0)"><path fill-rule="evenodd" d="M 0 67 a 34.5 34.5 0 1 0 69 0 a 34.5 34.5 0 1 0 -69 0 Z M 10.2 67 a 24.3 24.3 0 1 0 48.6 0 a 24.3 24.3 0 1 0 -48.6 0 Z"/><rect x="58.8" y="0" width="10.2" height="100"/></g>
+<g transform="translate(217.43 0)"><rect x="0" y="0" width="10.2" height="100"/><path d="M 10.2 0 A 25 25 0 0 1 10.2 50 L 10.2 39.8 A 14.8 14.8 0 0 0 10.2 10.2 Z"/><polygon points="10.2,50 57.82,100 43.73,100 10.2,64.79"/></g>
+<g transform="translate(279.85 0)"><path fill-rule="evenodd" d="M 0 67 a 34.5 34.5 0 1 0 69 0 a 34.5 34.5 0 1 0 -69 0 Z M 10.2 67 a 24.3 24.3 0 1 0 48.6 0 a 24.3 24.3 0 1 0 -48.6 0 Z"/></g>
+<g transform="translate(352.65 0)"><path fill-rule="evenodd" d="M 0 67 a 34.5 34.5 0 1 0 69 0 a 34.5 34.5 0 1 0 -69 0 Z M 10.2 67 a 24.3 24.3 0 1 0 48.6 0 a 24.3 24.3 0 1 0 -48.6 0 Z"/></g>
+<g transform="translate(431.55 0)"><rect x="0" y="15" width="10.2" height="85"/><rect x="-5.1" y="28.9" width="20.4" height="10.2"/><rect x="0" y="89.8" width="18.36" height="10.2"/></g></g>
+</svg>
