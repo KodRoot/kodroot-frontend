@@ -1,73 +1,62 @@
-import { AppLink } from "@/components/app-link";
 import { Logo } from "@/components/logo";
 import { PageContainer } from "@/components/page-container";
+import { Kicker } from "@/components/ui/kicker";
+import { TextLink } from "@/components/ui/text-link";
 import { originLine, services } from "@/lib/content";
 import { navCta } from "@/lib/navigation";
 import { site } from "@/lib/site";
 
 export function SiteFooter() {
   return (
-    <footer className="surface-dark border-t border-paper/10">
+    <footer className="surface-dark">
+      <div className="h-[2px] bg-mark" aria-hidden="true" />
       <PageContainer className="py-16 lg:py-20">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-5">
+        <div className="flex flex-col gap-12 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-sm">
             <Logo variant="dark" />
-            <p className="mt-8 max-w-sm leading-relaxed text-paper/75">
+            <p className="mt-8 leading-relaxed text-paper/75">
               {site.description}
             </p>
           </div>
-          <div className="grid gap-10 sm:grid-cols-2 lg:col-span-6 lg:col-start-7">
+          <div className="flex flex-col gap-10 sm:flex-row sm:gap-16">
             <div>
-              <p className="text-[12px] font-semibold uppercase tracking-label text-paper/55">
-                Services
-              </p>
+              <Kicker className="text-paper/55">What we build</Kicker>
               <ul className="mt-4 space-y-3">
                 {services.map((service) => (
                   <li key={service.id}>
-                    <AppLink
+                    <TextLink
                       href="/#services"
-                      className="text-paper underline-offset-4 hover:underline"
+                      variant="secondary"
+                      surface="night"
                     >
                       {service.name}
-                    </AppLink>
+                    </TextLink>
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <p className="text-[12px] font-semibold uppercase tracking-label text-paper/55">
-                Contact
-              </p>
+              <Kicker className="text-paper/55">Contact</Kicker>
               <ul className="mt-4 space-y-3">
                 <li>
-                  <AppLink
-                    href={navCta.href}
-                    className="text-paper underline-offset-4 hover:underline"
-                  >
+                  <TextLink href={navCta.href} surface="night">
                     {navCta.label}
-                  </AppLink>
+                  </TextLink>
                 </li>
                 <li>
-                  <a
-                    href={site.url}
-                    className="text-paper underline-offset-4 hover:underline"
-                  >
-                    {site.domain}
-                  </a>
-                </li>
-                <li>
-                  <a
+                  <TextLink
                     href={`mailto:${site.email}`}
-                    className="text-paper underline-offset-4 hover:underline"
+                    variant="secondary"
+                    surface="night"
                   >
                     {site.email}
-                  </a>
+                  </TextLink>
                 </li>
               </ul>
             </div>
           </div>
         </div>
-        <p className="mt-16 border-t border-paper/10 pt-6 text-[13px] font-semibold uppercase tracking-label text-paper/55">
+        <p className="mt-16 pt-6 text-[13px] font-semibold uppercase tracking-label text-paper/55">
           {originLine}
         </p>
       </PageContainer>

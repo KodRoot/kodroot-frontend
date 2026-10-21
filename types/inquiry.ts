@@ -15,6 +15,7 @@ export const projectGoals = [
   "customer-accounts",
   "operations",
   "automation",
+  "intelligent-features",
   "something-else",
 ] as const;
 

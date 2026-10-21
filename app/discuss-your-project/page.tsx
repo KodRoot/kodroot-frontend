@@ -13,6 +13,11 @@ export const metadata: Metadata = {
     title: "Discuss your project",
     description: discussCopy,
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Discuss your project",
+    description: discussCopy,
+  },
 };
 
 export default function DiscussYourProjectPage() {

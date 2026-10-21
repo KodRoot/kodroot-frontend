@@ -11,7 +11,7 @@ export const site = {
   description:
     "KodRoot is a software development company founded in Kosovo, building digital solutions for businesses everywhere.",
   supportingCopy:
-    "KodRoot designs and builds websites, mobile products, and software systems for businesses ready to grow.",
+    "KodRoot designs and builds websites, mobile products, and custom software for businesses ready to grow — including intelligent features when they serve the work.",
 } as const;
 
 export const siteMetadata: Metadata = {
@@ -42,7 +42,7 @@ export const siteMetadata: Metadata = {
     description: site.description,
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: `${site.name} — ${site.headline}`,
     description: site.description,
   },

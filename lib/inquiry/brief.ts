@@ -135,6 +135,16 @@ export function deriveInternalNotes(data: InquirySubmission): string[] {
     notes.push("Likely needs connections to existing tools.");
   }
 
+  if (data.goals.includes("intelligent-features")) {
+    notes.push(
+      "Visitor asked for intelligent features in the product, in plain language.",
+    );
+  }
+
+  if (data.goals.includes("automation")) {
+    notes.push("Visitor asked to reduce repetitive work.");
+  }
+
   notes.push("No price was quoted. No delivery date was promised.");
   return notes;
 }

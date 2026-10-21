@@ -41,9 +41,7 @@ export function ChoiceList<T extends string>(props: ChoiceListProps<T>) {
           return (
             <label
               key={option.value}
-              className={`flex cursor-pointer gap-4 border-b border-ink/12 py-4 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-[-2px] has-[:focus-visible]:outline-ink ${
-                selected ? "bg-ink/[0.03]" : ""
-              }`}
+              className="inquiry-choice flex cursor-pointer gap-4 border-b border-ink/12 py-5"
             >
               <input
                 type={props.multiple ? "checkbox" : "radio"}

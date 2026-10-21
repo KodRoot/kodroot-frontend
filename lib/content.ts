@@ -5,6 +5,12 @@ export const services = [
     name: "Web development",
     summary:
       "Modern websites and web applications designed around your business and built to support its next stage.",
+    detail:
+      "Public websites, customer tools, and internal systems — designed around how the business actually works, and built so the next requirement has a place to go.",
+    problems:
+      "A site that cannot take on more, a first version without a clear structure, or a product that is hard to change once people start using it.",
+    intelligence:
+      "When people need to find the right information, finish a task, or stop doing the same step by hand, those features belong in the product — not beside it.",
   },
   {
     id: "mobile",
@@ -12,13 +18,25 @@ export const services = [
     name: "Mobile development",
     summary:
       "Mobile experiences designed around the people who use them, from the first interaction to everyday use.",
+    detail:
+      "Applications for phones and tablets, designed around the people who will use them every day, from the first version through the work that follows.",
+    problems:
+      "An idea that needs a careful first version in someone’s hand, or an existing product that has to work as well on a phone as it does everywhere else.",
+    intelligence:
+      "Help finishing a task on the go, or taking over a repetitive step, is built into the same application. It is not a separate novelty.",
   },
   {
     id: "software",
     number: "03",
-    name: "Software engineering",
+    name: "Custom software",
     summary:
       "Reliable systems engineered for real-world demands, maintainability, and long-term growth.",
+    detail:
+      "Software engineered around a specific way a business works, including the integrations and supporting systems the work depends on.",
+    problems:
+      "Processes that still live in spreadsheets, tools that do not talk to each other, or software that cannot take on the next requirement without starting over.",
+    intelligence:
+      "Automation and intelligent features are useful when they shorten a real workflow, and a person can still review the decisions that need judgement.",
   },
 ] as const;
 
@@ -45,13 +63,42 @@ export const capabilitiesIntro =
 export const audienceLine =
   "We work with businesses, startups, and people shaping a product who want software they can keep using as the company grows.";
 
+export const intelligenceHeading = "When the work needs intelligence.";
+
+export const intelligenceIntro =
+  "AI is part of how we engineer software, not a separate offering. We use it when it helps a customer, an employee, or a business finish real work — and we leave it out when it would only add noise.";
+
+export const intelligenceCapabilities = [
+  {
+    id: "features",
+    number: "01",
+    name: "Intelligent features inside a product",
+    summary:
+      "Help people find answers, complete a task, or work with information more easily — built into the application they already use.",
+  },
+  {
+    id: "integrations",
+    number: "02",
+    name: "Connections that shorten a workflow",
+    summary:
+      "When a business already relies on software, we can connect it to a suitable service so a repetitive step does not have to stay manual.",
+  },
+  {
+    id: "automation",
+    number: "03",
+    name: "Automation with a person in the loop",
+    summary:
+      "Reduce steps that still happen by hand, and keep a person able to review the decisions that need judgement.",
+  },
+] as const;
+
 export const approachHeading = "Build the foundation right.";
 
 export const approachIntro =
   "A product should be reliable today and able to evolve tomorrow. Growth is easier when the foundation was built for it.";
 
 export const approachBody =
-  "We start with the structure: clear decisions, careful engineering, and room for what the product has to become. The same care applies to web, mobile, and software engineering. The surface changes. The standard does not.";
+  "We start with the structure: clear decisions, careful engineering, and room for what the product has to become. The same care applies to web, mobile, and custom software. The surface changes. The standard does not.";
 
 export const approachPrinciples = [
   "Start with the structure.",

@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { AppLink } from "@/components/app-link";
 import { Logo } from "@/components/logo";
+import { TextLink } from "@/components/ui/text-link";
 import { navCta, navItems } from "@/lib/navigation";
 import { site } from "@/lib/site";
 
@@ -56,7 +57,7 @@ export function MobileNav() {
       <button
         ref={buttonRef}
         type="button"
-        className="inline-flex min-h-11 min-w-11 items-center justify-end text-[13px] font-semibold uppercase tracking-label text-muted"
+        className="inline-flex min-h-11 min-w-11 items-center justify-end text-[13px] font-semibold uppercase tracking-label text-muted hover:text-ink motion-safe:transition-colors"
         aria-expanded={open}
         aria-controls="mobile-navigation"
         aria-haspopup="dialog"
@@ -75,11 +76,15 @@ export function MobileNav() {
             <Logo />
             <button
               type="button"
-              className="inline-flex min-h-11 min-w-11 items-center justify-end text-[13px] font-semibold uppercase tracking-label text-muted"
+              className="inline-flex min-h-11 min-w-11 items-center justify-end text-[13px] font-semibold uppercase tracking-label text-muted hover:text-ink motion-safe:transition-colors"
               onClick={closeMenu}
             >
               Close
             </button>
+          </div>
+          <div className="relative mt-[1.125rem]" aria-hidden="true">
+            <div className="h-px bg-ink/12" />
+            <div className="absolute top-0 left-0 h-[2px] w-10 bg-mark" />
           </div>
 
           <h2 id={titleId} className="sr-only">
@@ -100,16 +105,16 @@ export function MobileNav() {
                 </li>
               ))}
             </ul>
-            <AppLink
+            <TextLink
               href={navCta.href}
-              className="mt-10 inline-flex w-fit border-b-2 border-mark pb-1 text-[13px] font-semibold uppercase tracking-label"
+              className="mt-10 w-fit"
               onClick={closeMenu}
             >
               {navCta.label}
-            </AppLink>
+            </TextLink>
           </nav>
 
-          <p className="mt-auto pb-8 pt-16 text-muted">{site.tagline}</p>
+          <p className="mt-auto pt-16 pb-8 text-muted">{site.tagline}</p>
         </div>
       </dialog>
     </div>

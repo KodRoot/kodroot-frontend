@@ -10,6 +10,8 @@ import {
 import { ChoiceList } from "@/components/inquiry/choice-list";
 import { InquiryResult } from "@/components/inquiry/inquiry-result";
 import { InquiryReview } from "@/components/inquiry/inquiry-review";
+import { TextButton } from "@/components/ui/text-link";
+import { Vinculum } from "@/components/ui/vinculum";
 import { completeInquiry } from "@/lib/inquiry/complete";
 import { emptyInquiryAnswers, PRICING_ENABLED } from "@/lib/inquiry/defaults";
 import {
@@ -125,26 +127,25 @@ export function InquiryForm() {
     step === "review" ? 1 : (questionIndex + 1) / (questionSteps.length + 1);
 
   return (
-    <form onSubmit={handleSubmit} noValidate autoComplete="off">
-      <div className="flex items-end justify-between gap-6">
-        <p className="text-[12px] font-semibold uppercase tracking-label text-muted">
-          {step === "review"
-            ? "Review"
-            : `Question ${String(questionIndex + 1).padStart(2, "0")} of ${String(questionSteps.length).padStart(2, "0")}`}
-        </p>
-        <div
-          className="h-px w-24 bg-ink/12"
-          role="progressbar"
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={Math.round(progress * 100)}
-          aria-label="Question progress"
-        >
-          <div
-            className="h-px bg-mark motion-safe:transition-[width] motion-safe:duration-200"
-            style={{ width: `${Math.round(progress * 100)}%` }}
-          />
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      autoComplete="off"
+      aria-describedby={error ? errorId : undefined}
+    >
+      <div className="pb-4">
+        <div className="flex items-end justify-between gap-6">
+          <p className="text-[12px] font-semibold uppercase tracking-label text-muted">
+            {step === "review"
+              ? "Review"
+              : `Question ${String(questionIndex + 1).padStart(2, "0")} of ${String(questionSteps.length).padStart(2, "0")}`}
+          </p>
         </div>
+        <Vinculum
+          className="mt-3"
+          progress={progress}
+          label="Question progress"
+        />
       </div>
 
       {isQuestionStep(step) ? (
@@ -154,7 +155,7 @@ export function InquiryForm() {
           </p>
           <h3
             aria-live="polite"
-            className="mt-3 text-2xl leading-snug text-ink"
+            className="mt-3 text-2xl leading-snug text-ink sm:text-3xl"
           >
             {stepCopy[step].question}
           </h3>
@@ -416,20 +417,13 @@ export function InquiryForm() {
 
       <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3">
         {step !== "type" ? (
-          <button
-            type="button"
-            onClick={goBack}
-            className="inline-flex min-h-11 items-center border-b border-ink/35 pb-0.5 text-[13px] font-semibold uppercase tracking-label text-muted hover:border-ink hover:text-ink"
-          >
+          <TextButton variant="secondary" onClick={goBack}>
             Back
-          </button>
+          </TextButton>
         ) : null}
-        <button
-          type="submit"
-          className="inline-flex min-h-11 items-center border-b-2 border-mark pb-0.5 text-[13px] font-semibold uppercase tracking-label"
-        >
+        <TextButton type="submit">
           {step === "review" ? "Prepare brief" : "Continue"}
-        </button>
+        </TextButton>
       </div>
     </form>
   );

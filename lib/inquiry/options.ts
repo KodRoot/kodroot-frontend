@@ -90,6 +90,12 @@ export const projectGoalOptions: Choice<ProjectGoal>[] = [
     description: "Reduce work that currently happens by hand.",
   },
   {
+    value: "intelligent-features",
+    label: "Give the product useful intelligent features",
+    description:
+      "Help people find answers, complete tasks, or work with information more easily.",
+  },
+  {
     value: "something-else",
     label: "Something else",
     description: "Tell us in your own words on the next screens.",

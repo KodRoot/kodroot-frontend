@@ -1,15 +1,15 @@
 import { Approach } from "@/components/sections/approach";
-import { Capabilities } from "@/components/sections/capabilities";
 import { ClosingCta } from "@/components/sections/closing-cta";
 import { Hero } from "@/components/sections/hero";
-import { Services } from "@/components/sections/services";
+import { Intelligence } from "@/components/sections/intelligence";
+import { Offering } from "@/components/sections/offering";
 
 export default function Home() {
   return (
     <main id="main-content">
       <Hero />
-      <Services />
-      <Capabilities />
+      <Offering />
+      <Intelligence />
       <Approach />
       <ClosingCta />
     </main>

@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { Kicker } from "@/components/ui/kicker";
+import { TextButton, TextLink } from "@/components/ui/text-link";
 import { site } from "@/lib/site";
 
 type InquiryResultProps = {
@@ -29,10 +31,8 @@ export function InquiryResult({
 
   return (
     <div>
-      <p className="text-[12px] font-semibold uppercase tracking-label text-muted">
-        Brief ready
-      </p>
-      <h3 className="mt-3 text-2xl leading-snug text-ink">
+      <Kicker className="text-muted">Brief ready</Kicker>
+      <h3 className="mt-3 text-2xl leading-snug text-ink sm:text-3xl">
         Your project brief is ready to send.
       </h3>
       <p className="mt-4 leading-relaxed text-muted">
@@ -44,33 +44,16 @@ export function InquiryResult({
         {brief}
       </pre>
       <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
-        <a
-          href={mailto}
-          className="inline-flex min-h-11 items-center border-b-2 border-mark pb-0.5 text-[13px] font-semibold uppercase tracking-label"
-        >
-          Email this brief
-        </a>
-        <button
-          type="button"
-          onClick={copyBrief}
-          className="inline-flex min-h-11 items-center border-b border-ink/35 pb-0.5 text-[13px] font-semibold uppercase tracking-label text-muted hover:border-ink hover:text-ink"
-        >
+        <TextLink href={mailto}>Email this brief</TextLink>
+        <TextButton variant="secondary" onClick={copyBrief}>
           {copied ? "Brief copied" : "Copy brief"}
-        </button>
-        <button
-          type="button"
-          onClick={onRevise}
-          className="inline-flex min-h-11 items-center border-b border-ink/35 pb-0.5 text-[13px] font-semibold uppercase tracking-label text-muted hover:border-ink hover:text-ink"
-        >
+        </TextButton>
+        <TextButton variant="secondary" onClick={onRevise}>
           Review answers
-        </button>
-        <button
-          type="button"
-          onClick={onReset}
-          className="inline-flex min-h-11 items-center border-b border-ink/35 pb-0.5 text-[13px] font-semibold uppercase tracking-label text-muted hover:border-ink hover:text-ink"
-        >
+        </TextButton>
+        <TextButton variant="secondary" onClick={onReset}>
           Start again
-        </button>
+        </TextButton>
       </div>
     </div>
   );
