@@ -4,7 +4,10 @@ import { site } from "@/lib/site";
 
 export default function Home() {
   return (
-    <main className="flex flex-1 flex-col justify-center px-6 py-16">
+    <main
+      id="main-content"
+      className="flex flex-1 flex-col justify-center px-6 py-16"
+    >
       <p>
         <Image
           src={brandAssets.logoPrimary}
