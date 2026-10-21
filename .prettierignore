@@ -1,0 +1,16 @@
+.next
+out
+build
+coverage
+node_modules
+.vercel
+package-lock.json
+next-env.d.ts
+*.tsbuildinfo
+app/fonts
+public/brand
+*.svg
+*.woff2
+*.png
+*.ico
+*.webp
