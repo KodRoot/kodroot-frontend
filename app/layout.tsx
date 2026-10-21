@@ -1,4 +1,5 @@
 import type { Viewport } from "next";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { brandColors } from "@/lib/brand";
 import { siteMetadata } from "@/lib/site";
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </a>
         <SiteHeader />
         {children}
+        <SiteFooter />
       </body>
     </html>
   );

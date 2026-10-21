@@ -44,3 +44,28 @@ export const capabilitiesIntro =
 
 export const audienceLine =
   "We work with businesses, startups, and people shaping a product who want software they can keep using as the company grows.";
+
+export const approachHeading = "Build the foundation right.";
+
+export const approachIntro =
+  "A product should be reliable today and able to evolve tomorrow. Growth is easier when the foundation was built for it.";
+
+export const approachBody =
+  "We start with the structure: clear decisions, careful engineering, and room for what the product has to become. The same care applies to web, mobile, and software engineering. The surface changes. The standard does not.";
+
+export const approachPrinciples = [
+  "Start with the structure.",
+  "Make clear decisions.",
+  "Engineer carefully.",
+  "Build for actual use.",
+  "Leave room for future requirements.",
+  "Avoid unnecessary complexity.",
+] as const;
+
+export const closingHeading = "When you are ready to build.";
+
+export const closingCopy =
+  "If you have a website, a product, or a system that has to grow, tell us what you are planning.";
+
+export const originLine =
+  "KodRoot begins in Kosovo. The work is for an international audience.";

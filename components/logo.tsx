@@ -5,13 +5,17 @@ import { site } from "@/lib/site";
 
 type LogoProps = {
   priority?: boolean;
+  variant?: "primary" | "dark";
 };
 
-export function Logo({ priority = false }: LogoProps) {
+export function Logo({ priority = false, variant = "primary" }: LogoProps) {
+  const src =
+    variant === "dark" ? brandAssets.logoDark : brandAssets.logoPrimary;
+
   return (
     <Link href="/" aria-label={`${site.name} home`} className="inline-flex">
       <Image
-        src={brandAssets.logoPrimary}
+        src={src}
         alt=""
         width={148}
         height={33}
