@@ -21,7 +21,7 @@ export function InquiryReview({
       <h2
         ref={headingRef}
         tabIndex={-1}
-        className="type-display text-[clamp(1.75rem,3vw,2.5rem)] text-ink outline-none"
+        className="type-display text-[clamp(1.6rem,2.8vw,2.25rem)] text-ink outline-none"
       >
         Check your answers.
       </h2>

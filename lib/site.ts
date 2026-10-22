@@ -7,6 +7,7 @@ export const site = {
   email: "hello@kodroot.com",
   locale: "en",
   tagline: "Websites, mobile products, and custom software.",
+  motto: "Rooted in code. Built for growth.",
   headline: "Software built on solid foundations.",
   description:
     "KodRoot designs and builds websites, mobile products, and custom software.",

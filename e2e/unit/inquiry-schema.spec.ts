@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { inquiryRequest } from "../helpers/inquiry";
 import {
+  applyInquiryPatch,
   inquiryRequestMetaSchema,
   inquirySubmissionSchema,
   validateInquiryStep,
@@ -60,12 +61,46 @@ test.describe("inquiry validation", () => {
   });
 
   test("validates the first step in the browser", () => {
-    expect(validateInquiryStep("type", emptyInquiryAnswers)).toMatch(/Choose/);
+    expect(validateInquiryStep("project", emptyInquiryAnswers)).toMatch(
+      /Choose/,
+    );
     expect(
-      validateInquiryStep("type", {
+      validateInquiryStep("project", {
         ...emptyInquiryAnswers,
         projectType: "business-website",
       }),
+    ).toMatch(/Describe/);
+    expect(
+      validateInquiryStep("project", {
+        ...emptyInquiryAnswers,
+        projectType: "business-website",
+        projectDescription: "A small business site with a services page.",
+      }),
     ).toBeNull();
+  });
+
+  test("clears follow-up answers that no longer apply", () => {
+    const filled = applyInquiryPatch(emptyInquiryAnswers, {
+      projectType: "online-store",
+      payments: "sell-products",
+      productCount: "few",
+      manageStore: "yes",
+      shipping: "no",
+      accounts: "yes-accounts",
+      accountFeatures: ["save-info"],
+      goals: ["something-else"],
+      goalsOther: "A private tool",
+    });
+    const cleared = applyInquiryPatch(filled, {
+      projectType: "business-website",
+      payments: "no-payments",
+      accounts: "no-accounts",
+      goals: ["present-business"],
+    });
+    expect(cleared.productCount).toBeNull();
+    expect(cleared.manageStore).toBeNull();
+    expect(cleared.shipping).toBeNull();
+    expect(cleared.accountFeatures).toEqual([]);
+    expect(cleared.goalsOther).toBe("");
   });
 });

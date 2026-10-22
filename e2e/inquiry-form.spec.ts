@@ -24,7 +24,6 @@ test.describe("project inquiry form", () => {
     await page.goto("/discuss-your-project");
     await chooseOption(page, "A business website");
     await continueInquiry(page);
-    await continueInquiry(page);
     await expect(page.locator("p[role='alert']")).toContainText(
       "Describe the project in a sentence or two.",
     );
@@ -36,14 +35,12 @@ test.describe("project inquiry form", () => {
     await chooseMany(page, "Present my business and services");
     await continueInquiry(page);
     await chooseOption(page, "No, I only need to present my business");
-    await continueInquiry(page);
     await chooseOption(
       page,
       "No, visitors can use the website without signing in",
     );
     await continueInquiry(page);
     await chooseOption(page, "No, the information can stay mostly as it is");
-    await continueInquiry(page);
     await chooseMany(page, "Nothing specific");
     await continueInquiry(page);
     await chooseOption(page, "I’d rather discuss it");
@@ -60,7 +57,6 @@ test.describe("project inquiry form", () => {
   test("preserves answers when moving backward", async ({ page }) => {
     await page.goto("/discuss-your-project");
     await chooseOption(page, "A business website");
-    await continueInquiry(page);
     await page
       .getByRole("textbox", { name: /Project description/i })
       .fill("A small business site with a services page.");
@@ -69,6 +65,41 @@ test.describe("project inquiry form", () => {
     await expect(
       page.getByRole("textbox", { name: /Project description/i }),
     ).toHaveValue("A small business site with a services page.");
+  });
+
+  test("keeps the next question in view after continue", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 700 });
+    await page.goto("/discuss-your-project");
+    await chooseOption(page, "A business website");
+    await page
+      .getByRole("textbox", { name: /Project description/i })
+      .fill("A small business site with a services page.");
+    await continueInquiry(page);
+    const heading = page.getByRole("heading", {
+      name: "What should your website or product help you do?",
+    });
+    await expect(heading).toBeVisible();
+    await expect(heading).toBeInViewport();
+
+    await page.getByRole("button", { name: "Back" }).click();
+    const previous = page.getByRole("heading", {
+      name: "What are you looking to build?",
+    });
+    await expect(previous).toBeVisible();
+    await expect(previous).toBeInViewport();
+  });
+
+  test("returns to review after changing an answer", async ({ page }) => {
+    await page.goto("/discuss-your-project");
+    await fillHappyPath(page);
+    await page.getByRole("button", { name: "Change" }).first().click();
+    await expect(
+      page.getByRole("heading", { name: "What are you looking to build?" }),
+    ).toBeVisible();
+    await continueInquiry(page);
+    await expect(
+      page.getByRole("heading", { name: "Check your answers." }),
+    ).toBeVisible();
   });
 
   test("shows success only when the server accepts the inquiry", async ({
@@ -170,10 +201,15 @@ test.describe("project inquiry form", () => {
   test("can be completed with the keyboard", async ({ page }) => {
     await page.goto("/discuss-your-project");
     await chooseOption(page, "A business website");
+    await page
+      .getByRole("textbox", { name: /Project description/i })
+      .fill("A small business site with a services page.");
     await page.getByRole("button", { name: "Continue" }).focus();
     await page.keyboard.press("Enter");
     await expect(
-      page.getByRole("heading", { name: "What should we know about it?" }),
+      page.getByRole("heading", {
+        name: "What should your website or product help you do?",
+      }),
     ).toBeVisible();
   });
 

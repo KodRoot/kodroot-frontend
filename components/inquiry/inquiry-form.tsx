@@ -1,13 +1,11 @@
 "use client";
 
 import {
-  addTransitionType,
   useEffect,
   useId,
+  useLayoutEffect,
   useRef,
   useState,
-  useTransition,
-  ViewTransition,
   type FormEvent,
 } from "react";
 import { AppLink } from "@/components/app-link";
@@ -36,6 +34,7 @@ import {
   yesNoUnsureOptions,
 } from "@/lib/inquiry/options";
 import {
+  applyInquiryPatch,
   inquirySubmissionSchema,
   needsStoreFollowUp,
   validateInquiryStep,
@@ -66,19 +65,40 @@ function failureMessage(status: number, payload: InquiryApiResult | null) {
   return "The inquiry was not sent. Try again.";
 }
 
+function revealInquiry(panel: HTMLElement | null, focus: HTMLElement | null) {
+  if (!panel) {
+    return;
+  }
+
+  const active = document.activeElement;
+  if (active instanceof HTMLElement && active !== focus) {
+    active.blur();
+  }
+
+  const margin =
+    Number.parseFloat(getComputedStyle(panel).scrollMarginTop) || 0;
+  const top = Math.max(
+    0,
+    window.scrollY + panel.getBoundingClientRect().top - margin,
+  );
+  window.scrollTo({ top, behavior: "auto" });
+  focus?.focus({ preventScroll: true });
+}
+
 export function InquiryForm() {
-  const [step, setStep] = useState<InquiryStep>("type");
+  const [step, setStep] = useState<InquiryStep>("project");
   const [answers, setAnswers] = useState<InquiryAnswers>(emptyInquiryAnswers);
   const [company, setCompany] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [received, setReceived] = useState(false);
-  const [, startTransition] = useTransition();
   const errorId = useId();
   const errorRef = useRef<HTMLParagraphElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const mounted = useRef(false);
   const sending = useRef(false);
+  const fromReview = useRef(false);
   const startedAt = useRef(0);
   const submissionId = useRef("");
 
@@ -87,35 +107,45 @@ export function InquiryForm() {
     submissionId.current = crypto.randomUUID();
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!mounted.current) {
       mounted.current = true;
       return;
     }
-    headingRef.current?.focus();
+
+    revealInquiry(panelRef.current, headingRef.current);
+    const retry = window.setTimeout(() => {
+      revealInquiry(panelRef.current, headingRef.current);
+    }, 50);
+
+    return () => window.clearTimeout(retry);
   }, [step]);
 
-  useEffect(() => {
-    if (error) {
-      errorRef.current?.focus();
+  useLayoutEffect(() => {
+    if (!error) {
+      return;
     }
+
+    revealInquiry(panelRef.current, errorRef.current);
   }, [error]);
 
   function update(partial: Partial<InquiryAnswers>) {
-    setAnswers((current) => ({ ...current, ...partial }));
+    setAnswers((current) => applyInquiryPatch(current, partial));
     setError(null);
   }
 
   function goTo(next: InquiryStep) {
-    startTransition(() => {
-      addTransitionType("step-change");
-      setError(null);
-      setStep(next);
-    });
+    setError(null);
+    setStep(next);
   }
 
   function goBack() {
     if (submitting) {
+      return;
+    }
+    if (fromReview.current) {
+      fromReview.current = false;
+      goTo("review");
       return;
     }
     if (step === "review") {
@@ -127,6 +157,11 @@ export function InquiryForm() {
     if (previous) {
       goTo(previous);
     }
+  }
+
+  function editFromReview(next: InquiryStep) {
+    fromReview.current = true;
+    goTo(next);
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -141,6 +176,11 @@ export function InquiryForm() {
     const message = validateInquiryStep(step, answers);
     if (message) {
       setError(message);
+      return;
+    }
+    if (fromReview.current) {
+      fromReview.current = false;
+      goTo("review");
       return;
     }
     if (step === "contact") {
@@ -205,11 +245,12 @@ export function InquiryForm() {
   function reset() {
     startedAt.current = Date.now();
     submissionId.current = crypto.randomUUID();
+    fromReview.current = false;
     setCompany("");
     setAnswers(emptyInquiryAnswers);
     setReceived(false);
     setError(null);
-    setStep("type");
+    setStep("project");
   }
 
   if (received) {
@@ -220,7 +261,7 @@ export function InquiryForm() {
     ? questionSteps.indexOf(step)
     : questionSteps.length;
   const progress =
-    step === "review" ? 1 : (questionIndex + 1) / (questionSteps.length + 1);
+    step === "review" ? 1 : (questionIndex + 1) / questionSteps.length;
 
   return (
     <form
@@ -242,26 +283,25 @@ export function InquiryForm() {
         />
       </div>
 
-      <div className="pb-4">
-        <p className="text-[12px] font-semibold uppercase tracking-label text-muted">
-          {step === "review"
-            ? "Review"
-            : `Question ${String(questionIndex + 1).padStart(2, "0")} of ${String(questionSteps.length).padStart(2, "0")}`}
-        </p>
-        <Vinculum
-          className="mt-3"
-          progress={progress}
-          label="Question progress"
-        />
-      </div>
-
-      <ViewTransition
+      <div
+        ref={panelRef}
+        id="inquiry-panel"
         key={step}
-        name="inquiry-step"
-        enter={{ "step-change": "step-enter", default: "none" }}
-        exit={{ "step-change": "step-exit", default: "none" }}
-        default="none"
+        className="inquiry-panel"
       >
+        <div className="pb-4">
+          <p className="text-[12px] font-semibold uppercase tracking-label text-muted">
+            {step === "review"
+              ? "Review"
+              : `${questionIndex + 1} of ${questionSteps.length}`}
+          </p>
+          <Vinculum
+            className="mt-3"
+            progress={progress}
+            label="Question progress"
+          />
+        </div>
+
         <div className="mt-8">
           {isQuestionStep(step) ? (
             <div>
@@ -271,7 +311,7 @@ export function InquiryForm() {
               <h2
                 ref={headingRef}
                 tabIndex={-1}
-                className="type-display mt-4 text-[clamp(1.75rem,3vw,2.5rem)] text-ink outline-none"
+                className="type-display mt-3 text-[clamp(1.6rem,2.8vw,2.25rem)] text-ink outline-none"
               >
                 {stepCopy[step].question}
               </h2>
@@ -283,27 +323,38 @@ export function InquiryForm() {
             </div>
           ) : null}
 
-          <div className={isQuestionStep(step) ? "mt-8" : undefined}>
-            {step === "type" ? (
-              <ChoiceList
-                legend={stepCopy.type.question}
-                options={projectTypeOptions}
-                value={answers.projectType}
-                onChange={(projectType) => update({ projectType })}
-              />
-            ) : null}
+          {error ? (
+            <p
+              ref={errorRef}
+              id={errorId}
+              tabIndex={-1}
+              role="alert"
+              className="form-note mt-6 leading-relaxed text-ink outline-none"
+            >
+              {error}
+            </p>
+          ) : null}
 
-            {step === "description" ? (
-              <TextField
-                id="inquiry-description"
-                label="Project description"
-                required
-                value={answers.projectDescription}
-                onChange={(projectDescription) =>
-                  update({ projectDescription })
-                }
-                multiline
-              />
+          <div className={isQuestionStep(step) ? "mt-8" : undefined}>
+            {step === "project" ? (
+              <div className="space-y-10">
+                <ChoiceList
+                  legend={stepCopy.project.question}
+                  options={projectTypeOptions}
+                  value={answers.projectType}
+                  onChange={(projectType) => update({ projectType })}
+                />
+                <TextField
+                  id="inquiry-description"
+                  label="Project description"
+                  required
+                  value={answers.projectDescription}
+                  onChange={(projectDescription) =>
+                    update({ projectDescription })
+                  }
+                  multiline
+                />
+              </div>
             ) : null}
 
             {step === "goals" ? (
@@ -333,14 +384,16 @@ export function InquiryForm() {
               </div>
             ) : null}
 
-            {step === "payments" ? (
-              <div className="space-y-10">
-                <ChoiceList
-                  legend={stepCopy.payments.question}
-                  options={paymentsOptions}
-                  value={answers.payments}
-                  onChange={(payments) => update({ payments })}
-                />
+            {step === "customers" ? (
+              <div className="space-y-12">
+                <FollowUp question="Will customers need to pay you online?">
+                  <ChoiceList
+                    legend="Will customers need to pay you online?"
+                    options={paymentsOptions}
+                    value={answers.payments}
+                    onChange={(payments) => update({ payments })}
+                  />
+                </FollowUp>
                 {needsStoreFollowUp(answers) ? (
                   <>
                     <FollowUp question="Approximately how many products will you sell?">
@@ -369,17 +422,14 @@ export function InquiryForm() {
                     </FollowUp>
                   </>
                 ) : null}
-              </div>
-            ) : null}
-
-            {step === "accounts" ? (
-              <div className="space-y-10">
-                <ChoiceList
-                  legend={stepCopy.accounts.question}
-                  options={accountOptions}
-                  value={answers.accounts}
-                  onChange={(accounts) => update({ accounts })}
-                />
+                <FollowUp question="Will your customers need their own accounts?">
+                  <ChoiceList
+                    legend="Will your customers need their own accounts?"
+                    options={accountOptions}
+                    value={answers.accounts}
+                    onChange={(accounts) => update({ accounts })}
+                  />
+                </FollowUp>
                 {answers.accounts === "yes-accounts" ? (
                   <FollowUp
                     question="What should people be able to do once they have signed in?"
@@ -407,31 +457,37 @@ export function InquiryForm() {
               </div>
             ) : null}
 
-            {step === "content" ? (
-              <ChoiceList
-                legend={stepCopy.content.question}
-                options={contentOptions}
-                value={answers.contentManagement}
-                onChange={(contentManagement) => update({ contentManagement })}
-              />
-            ) : null}
-
-            {step === "integrations" ? (
-              <div className="space-y-8">
-                <ChoiceList
-                  multiple
-                  legend={stepCopy.integrations.question}
-                  options={integrationOptions}
-                  value={answers.integrations}
-                  onChange={(integration) =>
-                    update({
-                      integrations: toggleIntegration(
-                        answers.integrations,
-                        integration,
-                      ),
-                    })
-                  }
-                />
+            {step === "running" ? (
+              <div className="space-y-12">
+                <FollowUp question="Would you like to update the website yourself?">
+                  <ChoiceList
+                    legend="Would you like to update the website yourself?"
+                    options={contentOptions}
+                    value={answers.contentManagement}
+                    onChange={(contentManagement) =>
+                      update({ contentManagement })
+                    }
+                  />
+                </FollowUp>
+                <FollowUp
+                  question="Does the project need to work with any other tools?"
+                  hint="Optional."
+                >
+                  <ChoiceList
+                    multiple
+                    legend="Does the project need to work with any other tools?"
+                    options={integrationOptions}
+                    value={answers.integrations}
+                    onChange={(integration) =>
+                      update({
+                        integrations: toggleIntegration(
+                          answers.integrations,
+                          integration,
+                        ),
+                      })
+                    }
+                  />
+                </FollowUp>
                 {answers.integrations.includes("other") ? (
                   <TextField
                     id="integrations-other"
@@ -447,7 +503,7 @@ export function InquiryForm() {
             ) : null}
 
             {step === "budget" ? (
-              <div className="space-y-10">
+              <div className="space-y-12">
                 <ChoiceList
                   legend={stepCopy.budget.question}
                   options={budgetRangeOptions}
@@ -530,43 +586,35 @@ export function InquiryForm() {
             {step === "review" ? (
               <InquiryReview
                 answers={answers}
-                onEdit={goTo}
+                onEdit={editFromReview}
                 headingRef={headingRef}
               />
             ) : null}
           </div>
         </div>
-      </ViewTransition>
 
-      {error ? (
-        <p
-          ref={errorRef}
-          id={errorId}
-          tabIndex={-1}
-          role="alert"
-          className="form-note mt-6 leading-relaxed text-ink outline-none"
-        >
-          {error}
-        </p>
-      ) : null}
-
-      <div className="mt-12 flex flex-wrap items-center gap-4">
-        {step !== "type" ? (
+        <div className="inquiry-nav mt-10 flex flex-wrap items-center gap-4 border-t border-ink/10 pt-5 pb-[max(0.25rem,env(safe-area-inset-bottom))]">
+          {step !== "project" ? (
+            <TextButton
+              variant="secondary"
+              onClick={goBack}
+              disabled={submitting}
+            >
+              Back
+            </TextButton>
+          ) : null}
           <TextButton
-            variant="secondary"
-            onClick={goBack}
+            type="submit"
             disabled={submitting}
+            aria-busy={submitting}
           >
-            Back
+            {submitting
+              ? "Sending"
+              : step === "review"
+                ? "Send inquiry"
+                : "Continue"}
           </TextButton>
-        ) : null}
-        <TextButton type="submit" disabled={submitting} aria-busy={submitting}>
-          {submitting
-            ? "Sending"
-            : step === "review"
-              ? "Send inquiry"
-              : "Continue"}
-        </TextButton>
+        </div>
       </div>
     </form>
   );

@@ -157,12 +157,12 @@ export function summarizeInquiry(
 ): InquirySummaryItem[] {
   const items: InquirySummaryItem[] = [
     {
-      step: "type",
+      step: "project",
       label: "What you want to build",
       value: labelFor(projectTypeOptions, answers.projectType),
     },
     {
-      step: "description",
+      step: "project",
       label: "Project",
       value: answers.projectDescription.trim() || "Not specified",
     },
@@ -182,7 +182,7 @@ export function summarizeInquiry(
   }
 
   items.push({
-    step: "payments",
+    step: "customers",
     label: "Online payments",
     value: labelFor(paymentsOptions, answers.payments),
   });
@@ -190,17 +190,17 @@ export function summarizeInquiry(
   if (needsStoreFollowUp(answers)) {
     items.push(
       {
-        step: "payments",
+        step: "customers",
         label: "Catalogue size",
         value: labelFor(productCountOptions, answers.productCount),
       },
       {
-        step: "payments",
+        step: "customers",
         label: "Manage products and orders yourself",
         value: labelFor(yesNoUnsureOptions, answers.manageStore),
       },
       {
-        step: "payments",
+        step: "customers",
         label: "Delivery or shipping",
         value: labelFor(yesNoUnsureOptions, answers.shipping),
       },
@@ -208,14 +208,14 @@ export function summarizeInquiry(
   }
 
   items.push({
-    step: "accounts",
+    step: "customers",
     label: "Customer accounts",
     value: labelFor(accountOptions, answers.accounts),
   });
 
   if (answers.accounts === "yes-accounts") {
     items.push({
-      step: "accounts",
+      step: "customers",
       label: "Account features",
       value: labelsFor(accountFeatureOptions, answers.accountFeatures),
     });
@@ -223,12 +223,12 @@ export function summarizeInquiry(
 
   items.push(
     {
-      step: "content",
+      step: "running",
       label: "Updating the website",
       value: labelFor(contentOptions, answers.contentManagement),
     },
     {
-      step: "integrations",
+      step: "running",
       label: "Other tools",
       value: labelsFor(integrationOptions, answers.integrations),
     },
@@ -236,7 +236,7 @@ export function summarizeInquiry(
 
   if (answers.integrationsOther.trim()) {
     items.push({
-      step: "integrations",
+      step: "running",
       label: "Other tools described",
       value: answers.integrationsOther.trim(),
     });

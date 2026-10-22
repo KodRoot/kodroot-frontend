@@ -41,7 +41,7 @@ export function ChoiceList<T extends string>(props: ChoiceListProps<T>) {
           return (
             <label
               key={option.value}
-              className="inquiry-choice flex cursor-pointer gap-4 border-b border-ink/15 py-6 motion-safe:transition-colors hover:bg-ink/[0.03]"
+              className="inquiry-choice flex min-h-14 cursor-pointer gap-4 border-b border-ink/12 py-5 motion-safe:transition-colors hover:bg-ink/[0.03] sm:py-6"
             >
               <input
                 type={props.multiple ? "checkbox" : "radio"}

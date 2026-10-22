@@ -16,6 +16,9 @@ export function SiteFooter() {
         <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
           <div className="lg:col-span-5">
             <Logo variant="dark" />
+            <p className="mt-5 max-w-xs text-[15px] leading-relaxed text-paper/70">
+              {site.motto}
+            </p>
           </div>
           <div className="lg:col-span-3 lg:col-start-7">
             <Kicker className="text-paper/60">What we build</Kicker>

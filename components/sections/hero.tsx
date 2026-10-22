@@ -27,16 +27,21 @@ export function Hero() {
       <HeroPointer>
         <PageContainer className="relative flex min-h-[calc(100svh-var(--header-height))] flex-col py-8 sm:py-10 lg:py-12">
           <div className="my-auto grid items-end gap-10 py-16 lg:grid-cols-12 lg:py-24">
-            <h1
-              id="hero-heading"
-              className="type-display text-[clamp(2.35rem,8vw,6.25rem)] text-paper lg:col-span-8"
-            >
-              {heroLines.map((line) => (
-                <span key={line} className="hero-line block">
-                  {line}
-                </span>
-              ))}
-            </h1>
+            <div className="lg:col-span-8">
+              <p className="hero-line max-w-md text-[15px] leading-relaxed text-paper/70">
+                {site.motto}
+              </p>
+              <h1
+                id="hero-heading"
+                className="type-display mt-5 text-[clamp(2.35rem,8vw,6.25rem)] text-paper sm:mt-6"
+              >
+                {heroLines.map((line) => (
+                  <span key={line} className="hero-line block">
+                    {line}
+                  </span>
+                ))}
+              </h1>
+            </div>
             <div className="hero-symbol w-24 justify-self-end sm:w-28 lg:col-span-4 lg:w-52 xl:w-64">
               <RootSymbol titleId="hero-symbol" animate className="w-full" />
             </div>

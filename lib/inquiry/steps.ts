@@ -1,13 +1,10 @@
 import type { InquiryStep } from "@/types/inquiry";
 
 export const questionSteps = [
-  "type",
-  "description",
+  "project",
   "goals",
-  "payments",
-  "accounts",
-  "content",
-  "integrations",
+  "customers",
+  "running",
   "budget",
   "contact",
 ] as const satisfies readonly InquiryStep[];
@@ -18,35 +15,23 @@ export const stepCopy: Record<
   QuestionStep,
   { kicker: string; question: string; hint?: string }
 > = {
-  type: {
-    kicker: "Project type",
+  project: {
+    kicker: "The project",
     question: "What are you looking to build?",
-  },
-  description: {
-    kicker: "Project",
-    question: "What should we know about it?",
+    hint: "Then a sentence or two about it.",
   },
   goals: {
     kicker: "Outcomes",
     question: "What should your website or product help you do?",
     hint: "Select all that apply.",
   },
-  payments: {
-    kicker: "Payments",
-    question: "Will customers need to pay you online?",
+  customers: {
+    kicker: "Customers",
+    question: "How will people use it?",
   },
-  accounts: {
-    kicker: "Accounts",
-    question: "Will your customers need their own accounts?",
-  },
-  content: {
-    kicker: "Content",
-    question: "Would you like to update the website yourself?",
-  },
-  integrations: {
-    kicker: "Other tools",
-    question: "Does the project need to work with any other tools?",
-    hint: "Optional.",
+  running: {
+    kicker: "Running it",
+    question: "How would you like to work with the site?",
   },
   budget: {
     kicker: "Budget and timing",

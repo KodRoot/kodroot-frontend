@@ -69,11 +69,6 @@ export async function continueInquiry(page: Page) {
 
 export async function fillHappyPath(page: Page) {
   await chooseOption(page, "A business website");
-  await continueInquiry(page);
-  await expect(
-    page.getByRole("heading", { name: "What should we know about it?" }),
-  ).toBeVisible();
-
   await page
     .getByRole("textbox", { name: /Project description/i })
     .fill(validInquiry.projectDescription);
@@ -87,19 +82,10 @@ export async function fillHappyPath(page: Page) {
   await chooseMany(page, "Present my business and services");
   await continueInquiry(page);
   await expect(
-    page.getByRole("heading", {
-      name: "Will customers need to pay you online?",
-    }),
+    page.getByRole("heading", { name: "How will people use it?" }),
   ).toBeVisible();
 
   await chooseOption(page, "No, I only need to present my business");
-  await continueInquiry(page);
-  await expect(
-    page.getByRole("heading", {
-      name: "Will your customers need their own accounts?",
-    }),
-  ).toBeVisible();
-
   await chooseOption(
     page,
     "No, visitors can use the website without signing in",
@@ -107,18 +93,11 @@ export async function fillHappyPath(page: Page) {
   await continueInquiry(page);
   await expect(
     page.getByRole("heading", {
-      name: "Would you like to update the website yourself?",
+      name: "How would you like to work with the site?",
     }),
   ).toBeVisible();
 
   await chooseOption(page, "No, the information can stay mostly as it is");
-  await continueInquiry(page);
-  await expect(
-    page.getByRole("heading", {
-      name: "Does the project need to work with any other tools?",
-    }),
-  ).toBeVisible();
-
   await chooseMany(page, "Nothing specific");
   await continueInquiry(page);
   await expect(

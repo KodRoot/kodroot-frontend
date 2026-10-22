@@ -12,7 +12,7 @@ export function InquirySuccess({ onReset }: InquirySuccessProps) {
       <p className="text-[12px] font-semibold uppercase tracking-label text-muted">
         Received
       </p>
-      <h2 className="type-display mt-4 text-[clamp(1.75rem,3vw,2.5rem)] text-ink">
+      <h2 className="type-display mt-4 text-[clamp(1.6rem,2.8vw,2.25rem)] text-ink">
         We have the brief.
       </h2>
       <p className="mt-4 max-w-md leading-relaxed text-muted">

@@ -90,6 +90,15 @@ h4 {
   outline-offset: 3px;
 }
 
+.inquiry-panel {
+  overflow-anchor: none;
+  scroll-margin-top: calc(var(--header-height) + 0.75rem);
+}
+
+.inquiry-nav {
+  overflow-anchor: none;
+}
+
 .inquiry-choice {
   scroll-margin-top: calc(var(--header-height) + 1rem);
   box-shadow: inset 0 0 0 0 var(--mark);
@@ -470,17 +479,10 @@ h4 {
   }
 }
 
-@keyframes step-out {
-  to {
-    opacity: 0;
-    transform: translateX(-14px);
-  }
-}
-
-@keyframes step-in {
+@keyframes inquiry-panel-in {
   from {
-    opacity: 0;
-    transform: translateX(14px);
+    opacity: 0.4;
+    transform: translateY(8px);
   }
 
   to {
@@ -584,6 +586,10 @@ h4 {
 
   .form-note {
     animation: kodroot-rise 0.4s var(--ease-out) both;
+  }
+
+  .inquiry-panel {
+    animation: inquiry-panel-in 0.2s var(--ease-out) both;
   }
 
   #mobile-navigation[open] {
@@ -795,14 +801,6 @@ h4 {
   animation: 320ms var(--ease-out) both page-arrive-back;
 }
 
-::view-transition-old(.step-exit) {
-  animation: 160ms ease both step-out;
-}
-
-::view-transition-new(.step-enter) {
-  animation: 280ms var(--ease-out) both step-in;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .hero-line,
   .hero-late,
@@ -818,7 +816,8 @@ h4 {
   .panel-guide-y,
   .section-guide-x,
   .section-guide-y,
-  .form-note {
+  .form-note,
+  .inquiry-panel {
     animation: none;
   }
 

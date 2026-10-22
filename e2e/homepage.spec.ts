@@ -8,6 +8,9 @@ test.describe("homepage", () => {
 
     await page.goto("/");
     await expect(page.locator("#hero-heading")).toBeVisible();
+    await expect(
+      page.getByText("Rooted in code. Built for growth.").first(),
+    ).toBeVisible();
     await expect(page.locator("#services")).toBeVisible();
     await expect(page.locator("#intelligence")).toBeVisible();
     await expect(page.locator("#approach")).toBeVisible();

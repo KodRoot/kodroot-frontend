@@ -105,16 +105,42 @@ export function needsStoreFollowUp(answers: {
   );
 }
 
+export function applyInquiryPatch(
+  current: InquiryAnswers,
+  partial: Partial<InquiryAnswers>,
+): InquiryAnswers {
+  const next = { ...current, ...partial };
+
+  if (!needsStoreFollowUp(next)) {
+    next.productCount = null;
+    next.manageStore = null;
+    next.shipping = null;
+  }
+
+  if (next.accounts !== "yes-accounts") {
+    next.accountFeatures = [];
+  }
+
+  if (!next.goals.includes("something-else")) {
+    next.goalsOther = "";
+  }
+
+  if (!next.integrations.includes("other")) {
+    next.integrationsOther = "";
+  }
+
+  return next;
+}
+
 export function validateInquiryStep(
   step: InquiryStep,
   answers: InquiryAnswers,
 ): string | null {
   switch (step) {
-    case "type":
-      return answers.projectType
-        ? null
-        : "Choose the option that best matches what you want to build.";
-    case "description":
+    case "project":
+      if (!answers.projectType) {
+        return "Choose the option that best matches what you want to build.";
+      }
       return answers.projectDescription.trim().length >= 10
         ? null
         : "Describe the project in a sentence or two.";
@@ -129,7 +155,7 @@ export function validateInquiryStep(
         return "Briefly describe the other outcome you have in mind.";
       }
       return null;
-    case "payments":
+    case "customers": {
       if (!answers.payments) {
         return "Tell us whether customers will need to pay you online.";
       }
@@ -142,16 +168,14 @@ export function validateInquiryStep(
       if (needsStoreFollowUp(answers) && !answers.shipping) {
         return "Tell us whether you need delivery or shipping options.";
       }
-      return null;
-    case "accounts":
       return answers.accounts
         ? null
         : "Tell us whether people will need their own accounts.";
-    case "content":
-      return answers.contentManagement
-        ? null
-        : "Tell us whether you want to update the website yourself.";
-    case "integrations":
+    }
+    case "running":
+      if (!answers.contentManagement) {
+        return "Tell us whether you want to update the website yourself.";
+      }
       if (
         answers.integrations.includes("other") &&
         answers.integrationsOther.trim().length === 0

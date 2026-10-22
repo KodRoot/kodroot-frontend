@@ -79,13 +79,10 @@ export const timelines = [
 ] as const;
 
 export const inquirySteps = [
-  "type",
-  "description",
+  "project",
   "goals",
-  "payments",
-  "accounts",
-  "content",
-  "integrations",
+  "customers",
+  "running",
   "budget",
   "contact",
   "review",

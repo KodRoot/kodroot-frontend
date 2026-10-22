@@ -9,6 +9,7 @@ export function SiteJsonLd() {
         name: site.name,
         url: site.url,
         email: site.email,
+        slogan: site.motto,
       },
       {
         "@type": "WebSite",
