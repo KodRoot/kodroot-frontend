@@ -1,6 +1,6 @@
-import Image from "next/image";
+import { RootSymbol } from "@/components/brand/root-symbol";
 import { InquiryForm } from "@/components/inquiry/inquiry-form";
-import { brandAssets } from "@/lib/brand";
+import { ScrollReplay } from "@/components/motion/scroll-replay";
 import { discussCopy, discussHeading } from "@/lib/content";
 
 export function DiscussYourProject() {
@@ -10,21 +10,24 @@ export function DiscussYourProject() {
       className="lg:grid lg:grid-cols-12"
     >
       <div className="surface-dark lg:col-span-5">
-        <div className="px-5 py-14 sm:px-8 lg:sticky lg:top-[var(--header-height)] lg:flex lg:min-h-[calc(100svh-var(--header-height))] lg:flex-col lg:px-12 lg:py-16">
+        <div className="relative overflow-hidden px-5 py-14 sm:px-8 lg:sticky lg:top-[var(--header-height)] lg:flex lg:min-h-[calc(100svh-var(--header-height))] lg:flex-col lg:px-12 lg:py-16">
+          <ScrollReplay />
+          <div className="hero-guides" aria-hidden="true">
+            <span className="hero-guide panel-guide-x" />
+            <span className="hero-guide panel-guide-y" />
+          </div>
           <h1
             id="discuss-heading"
-            className="type-display max-w-md text-[clamp(2.75rem,4vw,4.5rem)] text-paper"
+            className="hero-line type-display max-w-md text-[clamp(2.75rem,4vw,4.5rem)] text-paper"
           >
             {discussHeading}
           </h1>
-          <p className="mt-6 max-w-sm text-lg leading-relaxed text-paper/75">
+          <p className="hero-late mt-6 max-w-sm text-lg leading-relaxed text-paper/75">
             {discussCopy}
           </p>
-          <Image
-            src={brandAssets.symbol}
-            alt=""
-            width={120}
-            height={120}
+          <RootSymbol
+            titleId="discuss-symbol"
+            animate
             className="mt-16 w-20 lg:mt-auto"
           />
         </div>

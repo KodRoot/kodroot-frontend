@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DiscussYourProject } from "@/components/inquiry/discuss-your-project";
+import { PageTransition } from "@/components/page-transition";
 import { discussCopy } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -22,8 +23,10 @@ export const metadata: Metadata = {
 
 export default function DiscussYourProjectPage() {
   return (
-    <main id="main-content">
-      <DiscussYourProject />
-    </main>
+    <PageTransition>
+      <main id="main-content">
+        <DiscussYourProject />
+      </main>
+    </PageTransition>
   );
 }

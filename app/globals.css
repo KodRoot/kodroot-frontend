@@ -92,6 +92,9 @@ h4 {
 
 .inquiry-choice {
   box-shadow: inset 0 0 0 0 var(--mark);
+  transition:
+    background-color 0.3s var(--ease-out),
+    box-shadow 0.35s var(--ease-out);
 }
 
 .inquiry-choice input:focus,
@@ -105,6 +108,7 @@ h4 {
 }
 
 .inquiry-choice:has(:checked) {
+  background: color-mix(in srgb, var(--mark) 6%, transparent);
   box-shadow: inset 3px 0 0 var(--mark);
 }
 
@@ -117,6 +121,178 @@ h4 {
 
 .field-line:focus {
   border-bottom-color: var(--mark);
+}
+
+.link-rule {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 1px;
+}
+
+.symbol-stroke {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.rule-draw,
+.rule-draw-y {
+  transform-origin: left top;
+}
+
+.hero-pointer {
+  --mx: 0;
+  --my: 0;
+}
+
+.hero-guides {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+}
+
+.hero-guide {
+  position: absolute;
+  background: color-mix(in srgb, var(--paper) 16%, transparent);
+}
+
+.hero-guide-x {
+  top: 22%;
+  right: 8%;
+  left: 8%;
+  height: 1px;
+  transform-origin: left center;
+}
+
+.hero-guide-y {
+  top: 12%;
+  bottom: 18%;
+  left: 72%;
+  width: 1px;
+  transform-origin: center top;
+}
+
+.panel-guide-x,
+.section-guide-x {
+  height: 1px;
+  transform-origin: left center;
+}
+
+.panel-guide-y,
+.section-guide-y {
+  width: 1px;
+  transform-origin: center top;
+}
+
+.panel-guide-x {
+  top: 1.75rem;
+  right: 12%;
+  left: 8%;
+}
+
+.panel-guide-y {
+  top: 10%;
+  right: 0.7rem;
+  bottom: 16%;
+}
+
+.section-guide-x,
+.section-guide-y {
+  position: absolute;
+  background: color-mix(in srgb, var(--ink) 16%, transparent);
+}
+
+.section-guide-x {
+  top: 2.75rem;
+  right: 8%;
+  left: 8%;
+}
+
+.section-guide-y {
+  top: 8%;
+  right: 0.7rem;
+  bottom: 10%;
+}
+
+.hero-symbol {
+  transform: translate3d(calc(var(--mx) * 14px), calc(var(--my) * 10px), 0);
+  transition: transform 0.5s var(--ease-out);
+}
+
+.service-row {
+  transition: background-color 0.35s var(--ease-out);
+}
+
+.service-marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  transform: scaleY(0.16);
+  transform-origin: top;
+  background: var(--mark);
+  opacity: 0.55;
+  transition: transform 0.45s var(--ease-out);
+}
+
+.service-row:active .service-marker {
+  transform: scaleY(1);
+}
+
+.service-index,
+.cue {
+  transition:
+    transform 0.55s var(--ease-out),
+    opacity 0.55s var(--ease-out);
+}
+
+.approach-row {
+  position: relative;
+}
+
+.approach-row::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  transform-origin: left center;
+  background: color-mix(in srgb, var(--ink) 15%, transparent);
+}
+
+.approach-row .cue {
+  transition:
+    transform 0.4s var(--ease-out),
+    opacity 0.55s var(--ease-out),
+    color 0.35s var(--ease-out);
+}
+
+.capability {
+  border-top: 1px solid transparent;
+  transition: border-color 0.35s var(--ease-out);
+}
+
+.cta-mark {
+  position: relative;
+  display: inline-block;
+  width: 1.05rem;
+  height: 1px;
+  background: currentColor;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.cta-mark::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  right: 0;
+  width: 6px;
+  height: 6px;
+  border-top: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+  transform: rotate(45deg);
 }
 
 @keyframes kodroot-fade-in {
@@ -141,10 +317,76 @@ h4 {
   }
 }
 
-@keyframes kodroot-enter {
+@keyframes kodroot-line {
   from {
-    opacity: 0.001;
-    transform: translateY(1rem);
+    opacity: 0;
+    clip-path: inset(100% 0 0 0);
+    transform: translateY(0.28em);
+  }
+
+  to {
+    opacity: 1;
+    clip-path: inset(0);
+    transform: none;
+  }
+}
+
+@keyframes kodroot-reveal {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(0.45rem);
+  }
+
+  to {
+    clip-path: inset(0);
+    transform: none;
+  }
+}
+
+@keyframes kodroot-reveal-x {
+  from {
+    clip-path: inset(0 12% 0 0);
+  }
+
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes kodroot-fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes guide-draw-x {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes guide-draw-y {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes cue-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.65rem);
   }
 
   to {
@@ -153,29 +395,452 @@ h4 {
   }
 }
 
+@keyframes approach-uncover {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes symbol-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes rule-x {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes rule-y {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes page-leave {
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes page-arrive {
+  from {
+    opacity: 0;
+    clip-path: inset(10px 0 0 0);
+  }
+
+  to {
+    opacity: 1;
+    clip-path: inset(0);
+  }
+}
+
+@keyframes page-leave-back {
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+@keyframes page-arrive-back {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 10px 0);
+  }
+
+  to {
+    opacity: 1;
+    clip-path: inset(0);
+  }
+}
+
+@keyframes step-out {
+  to {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+}
+
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link-rule {
+    background-size: 0 1px;
+    transition:
+      background-size 0.35s var(--ease-out),
+      color 0.35s var(--ease-out);
+  }
+
+  .link-rule:hover,
+  .link-rule:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  .service-marker {
+    opacity: 1;
+  }
+
+  .service-row:hover,
+  .service-row:focus-within {
+    background: color-mix(in srgb, var(--ink) 4%, transparent);
+  }
+
+  .service-row:hover .service-marker,
+  .service-row:focus-within .service-marker,
+  .service-row:active .service-marker {
+    transform: scaleY(1);
+  }
+
+  .service-row:hover .service-index,
+  .service-row:focus-within .service-index {
+    transform: translateX(0.35rem);
+  }
+
+  .capability:hover {
+    border-top-color: var(--mark);
+  }
+
+  .cta-mark {
+    transform: translateX(0);
+  }
+
+  a:hover .cta-mark,
+  button:hover .cta-mark,
+  a:focus-visible .cta-mark,
+  button:focus-visible .cta-mark {
+    transform: translateX(0.28rem);
+  }
+
+  .approach-row:hover .cue,
+  .approach-row:focus-within .cue {
+    color: var(--mark);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .approach-row:hover .cue,
+  .approach-row:focus-within .cue {
+    transform: translateX(0.3rem);
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .motion-rise {
-    animation: kodroot-rise 0.85s var(--ease-out) both;
+  .hero-line {
+    animation: kodroot-line 0.85s var(--ease-out) both;
+  }
+
+  .hero-line:nth-child(2) {
+    animation-delay: 0.14s;
+  }
+
+  .hero-line:nth-child(3) {
+    animation-delay: 0.28s;
+  }
+
+  .hero-late {
+    animation: kodroot-rise 0.8s var(--ease-out) 0.42s both;
+  }
+
+  .symbol-stroke {
+    stroke-dashoffset: 1;
+    animation: symbol-draw 1.05s var(--ease-out) 0.4s forwards;
+  }
+
+  .hero-guide-x,
+  .panel-guide-x {
+    animation: guide-draw-x 0.9s var(--ease-out) 0.15s both;
+  }
+
+  .hero-guide-y,
+  .panel-guide-y {
+    animation: guide-draw-y 0.9s var(--ease-out) 0.28s both;
+  }
+
+  .form-note {
+    animation: kodroot-rise 0.4s var(--ease-out) both;
   }
 
   #mobile-navigation[open] {
     animation: kodroot-fade-in 0.22s ease both;
   }
+
+  #mobile-navigation[data-closing="true"] {
+    animation: kodroot-fade-out 0.2s ease both;
+  }
+
+  #mobile-navigation[open] .menu-rise {
+    animation: kodroot-rise 0.45s var(--ease-out) both;
+  }
+
+  .scroll-stage[data-phase="away"] .hero-line,
+  .scroll-stage[data-phase="away"] .hero-late {
+    animation: none;
+    opacity: 0;
+    clip-path: inset(100% 0 0 0);
+    transform: translateY(0.28em);
+    transition:
+      clip-path 0.55s var(--ease-out),
+      opacity 0.45s var(--ease-out),
+      transform 0.55s var(--ease-out);
+  }
+
+  .scroll-stage[data-phase="away"] .symbol-stroke {
+    animation: none;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 0.6s var(--ease-out);
+  }
+
+  .scroll-stage[data-phase="away"] .hero-guide-x,
+  .scroll-stage[data-phase="away"] .panel-guide-x,
+  .scroll-stage[data-phase="away"] .hero-guide-y,
+  .scroll-stage[data-phase="away"] .panel-guide-y {
+    animation: none;
+    transition: transform 0.5s var(--ease-out);
+  }
+
+  .scroll-stage[data-phase="away"] .hero-guide-x,
+  .scroll-stage[data-phase="away"] .panel-guide-x {
+    transform: scaleX(0);
+  }
+
+  .scroll-stage[data-phase="away"] .hero-guide-y,
+  .scroll-stage[data-phase="away"] .panel-guide-y {
+    transform: scaleY(0);
+  }
+
+  .scroll-stage[data-phase="play"] .hero-line {
+    animation: kodroot-line 0.85s var(--ease-out) both;
+    transition: none;
+  }
+
+  .scroll-stage[data-phase="play"] .hero-late {
+    animation: kodroot-rise 0.8s var(--ease-out) 0.42s both;
+    transition: none;
+  }
+
+  .scroll-stage[data-phase="play"] .symbol-stroke {
+    stroke-dashoffset: 1;
+    animation: symbol-draw 1.05s var(--ease-out) 0.4s forwards;
+    transition: none;
+  }
+
+  .scroll-stage[data-phase="play"] .hero-guide-x,
+  .scroll-stage[data-phase="play"] .panel-guide-x {
+    animation: guide-draw-x 0.9s var(--ease-out) 0.15s both;
+    transition: none;
+  }
+
+  .scroll-stage[data-phase="play"] .hero-guide-y,
+  .scroll-stage[data-phase="play"] .panel-guide-y {
+    animation: guide-draw-y 0.9s var(--ease-out) 0.28s both;
+    transition: none;
+  }
 }
 
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .motion-enter {
-      animation: kodroot-enter linear both;
+    .motion-reveal {
+      animation: kodroot-reveal linear both;
       animation-timeline: view();
-      animation-range: entry 0% entry 30%;
+      animation-range: entry 0% cover 18%;
+    }
+
+    .motion-reveal-x {
+      animation: kodroot-reveal-x linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 18%;
+    }
+
+    .rule-draw {
+      animation: rule-x linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 16%;
+    }
+
+    .rule-draw-y,
+    .section-guide-y {
+      animation: rule-y linear both;
+      animation-timeline: view();
+      animation-range: entry 8% cover 45%;
+    }
+
+    .section-guide-x {
+      animation: rule-x linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 28%;
+    }
+
+    .approach-line {
+      animation: approach-uncover linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 42%;
+    }
+
+    .approach-row::after {
+      animation: rule-x linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 42%;
+    }
+
+    .reveal-group .cue {
+      animation: cue-in linear backwards;
+      animation-timeline: view();
+      animation-range: cover 0% cover 48%;
     }
   }
 }
 
+@supports not (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal-group[data-arm] .replay:not([data-seen]) .cue {
+      transform: translateY(0.65rem);
+      opacity: 0;
+      transition:
+        transform 0.45s var(--ease-out),
+        opacity 0.45s var(--ease-out);
+    }
+
+    .reveal-group[data-arm] .replay[data-seen] .cue {
+      transform: none;
+      opacity: 1;
+      transition:
+        transform 0.55s var(--ease-out),
+        opacity 0.55s var(--ease-out);
+      transition-delay: calc(var(--i, 0) * 70ms);
+    }
+
+    .reveal-group[data-arm] .replay:not([data-seen]) .approach-line {
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 0.45s var(--ease-out);
+    }
+
+    .reveal-group[data-arm] .replay[data-seen] .approach-line {
+      clip-path: inset(0);
+      transition: clip-path 0.7s var(--ease-out);
+      transition-delay: calc(var(--i, 0) * 80ms);
+    }
+
+    .reveal-group[data-arm] .replay:not([data-seen]) .approach-row::after {
+      transform: scaleX(0);
+      transition: transform 0.45s var(--ease-out);
+    }
+
+    .reveal-group[data-arm] .replay[data-seen] .approach-row::after {
+      transform: scaleX(1);
+      transition: transform 0.7s var(--ease-out);
+      transition-delay: calc(var(--i, 0) * 80ms);
+    }
+  }
+}
+
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-group(site-header),
+::view-transition-group(site-footer) {
+  z-index: 100;
+  animation: none;
+}
+
+::view-transition-old(site-header),
+::view-transition-old(site-footer) {
+  display: none;
+}
+
+::view-transition-new(site-header),
+::view-transition-new(site-footer) {
+  animation: none;
+}
+
+::view-transition-old(.page-forward) {
+  animation: 180ms ease both page-leave;
+}
+
+::view-transition-new(.page-forward) {
+  animation: 320ms var(--ease-out) both page-arrive;
+}
+
+::view-transition-old(.page-back) {
+  animation: 180ms ease both page-leave-back;
+}
+
+::view-transition-new(.page-back) {
+  animation: 320ms var(--ease-out) both page-arrive-back;
+}
+
+::view-transition-old(.step-exit) {
+  animation: 160ms ease both step-out;
+}
+
+::view-transition-new(.step-enter) {
+  animation: 280ms var(--ease-out) both step-in;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .motion-rise,
-  .motion-enter {
+  .hero-line,
+  .hero-late,
+  .motion-reveal,
+  .motion-reveal-x,
+  .rule-draw,
+  .rule-draw-y,
+  .symbol-stroke,
+  .menu-rise,
+  .hero-guide-x,
+  .hero-guide-y,
+  .panel-guide-x,
+  .panel-guide-y,
+  .section-guide-x,
+  .section-guide-y,
+  .form-note {
     animation: none;
+  }
+
+  .hero-symbol,
+  .cta-mark,
+  .cue {
+    transform: none;
+    transition: none;
+  }
+
+  .service-marker {
+    transform: scaleY(0.16);
+    transition: none;
+  }
+
+  .symbol-stroke {
+    stroke-dashoffset: 0;
+  }
+
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
   }
 }

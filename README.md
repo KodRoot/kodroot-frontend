@@ -2,7 +2,7 @@
 
 Official website for KodRoot, a software development company founded in Kosovo.
 
-The current visual treatment is interim. Page copy, routes, and the questionnaire are in place so a later visual redesign can change layout and styling without rebuilding the architecture.
+The site is an industrial editorial presentation of the existing brand, with a project inquiry that sends through Resend once the environment variables below are set.
 
 ## Stack
 
@@ -10,7 +10,8 @@ The current visual treatment is interim. Page copy, routes, and the questionnair
 - React 19
 - TypeScript
 - Tailwind CSS 4
-- Zod 4 (questionnaire validation only)
+- Zod 4 (questionnaire validation, on the client and the server)
+- Resend (project inquiry email, server only)
 
 Package manager: **npm** (`package-lock.json`).
 
@@ -19,12 +20,15 @@ Package manager: **npm** (`package-lock.json`).
 | Path                    | Purpose                                                                         |
 | ----------------------- | ------------------------------------------------------------------------------- |
 | `/`                     | Homepage: introduction, offering, AI capabilities, approach, closing invitation |
-| `/discuss-your-project` | Guided project questionnaire                                                    |
+| `/discuss-your-project` | Multi-step project inquiry                                                      |
+| `/privacy`              | Privacy policy                                                                  |
+| `/terms`                | Terms and conditions                                                            |
+| `/api/inquiry`          | `POST` only. Validates and emails the inquiry                                   |
 | `/#services`            | Homepage offering                                                               |
 | `/#intelligence`        | Homepage AI capabilities                                                        |
 | `/#approach`            | Homepage approach                                                               |
 
-There is no Work, About, or per-service page. There is no backend, database, or API route.
+There is no Work, About, or per-service page. There is no database. The only server route is the inquiry handler.
 
 ## Project structure
 
@@ -36,7 +40,8 @@ There is no Work, About, or per-service page. There is no backend, database, or 
 - `lib/content.ts` — marketing copy
 - `lib/site.ts` — identity and default metadata (`kodroot.com`, `hello@kodroot.com`)
 - `lib/navigation.ts` — primary nav and the “Discuss your project” CTA
-- `lib/inquiry/` — questionnaire steps, validation, brief, mailto
+- `lib/inquiry/` — questionnaire steps, validation, brief, rate limit, Resend delivery
+- `app/api/inquiry/route.ts` — inquiry submission
 - `public/brand/` and `app/fonts/` — official brand files and Source Sans 3 (SIL OFL)
 - `docs/brand/` — brand documentation copies
 
@@ -44,11 +49,28 @@ Keep brand originals even when a file is not imported. Some assets are for metad
 
 ## Discuss your project
 
-The questionnaire is frontend-only. Answers stay in the browser. After review, the visitor can open a prepared `mailto:hello@kodroot.com` message or copy the brief. The page does not send the brief to KodRoot, produce a quote, or promise a delivery date.
+`/discuss-your-project` is a multi-step inquiry. Answers stay in the browser until the visitor sends them. Back and Continue keep those answers. The review step is not a quote, and a date on the form is not a delivery promise.
 
-`mailto` length can fail in some email clients. Copy brief is the fallback.
+Send posts JSON to `POST /api/inquiry`. The handler checks the origin, a honeypot field, a minimum fill time, and an in-memory rate limit (6 requests per 15 minutes per address, per server process). It validates the body with Zod again, then sends plain text through [Resend](https://resend.com/docs/send-with-nextjs). The page shows success only when the handler returns `{ "status": "received" }`. A missing key, a rejected send, a network failure, or a validation error stays a failure. Nothing is stored in a database.
 
-No environment variables are required. Pricing ranges stay disabled until an approved pricing model exists (`PRICING_ENABLED` in `lib/inquiry/defaults.ts`).
+The rate limit is per process. On a host with more than one instance it is best-effort, not a shared lock.
+
+Budget brackets are the visitor’s own range in euro. They are not KodRoot prices. Published prices stay off (`PRICING_ENABLED` in `lib/inquiry/defaults.ts`).
+
+### Email setup
+
+Email is not sent until these exist:
+
+1. A Resend account, an API key, and a verified domain at [resend.com/domains](https://resend.com/domains). `onboarding@resend.dev` is rejected. The `from` address has to be on a domain Resend has verified, or the handler reports that delivery is not configured.
+2. Environment variables, from `.env.example` into `.env.local` (and the host’s environment in production):
+
+| Variable             | Purpose                                                         |
+| -------------------- | --------------------------------------------------------------- |
+| `RESEND_API_KEY`     | Server-only Resend key. Never prefix it with `NEXT_PUBLIC_`.    |
+| `INQUIRY_FROM_EMAIL` | Sender, for example `KodRoot <hello@kodroot.com>`.              |
+| `INQUIRY_TO_EMAIL`   | Inbox that receives inquiries, for example `hello@kodroot.com`. |
+
+Until those are set, the form stays usable and a submission returns “This form cannot send email yet.” It does not pretend the inquiry was received. The footer address remains a direct way to write.
 
 ## Commands
 
@@ -67,6 +89,8 @@ npm start
 
 ## Visual system
 
-The current direction is industrial brutalist editorial: night and paper fields, burgundy used as a mark rather than small text on dark grounds, and Source Sans 3 for every line of type. Section composition lives in `components/sections/` and `components/inquiry/`. Tokens live in `app/globals.css`.
+The current direction is industrial brutalist editorial: night and paper fields, burgundy used as a mark rather than small text on dark grounds, and Source Sans 3 for every line of type. Section composition lives in `components/sections/` and `components/inquiry/`. Tokens and motion live in `app/globals.css`.
 
-A later pass can restyle those compositions without changing routes or the frontend-only questionnaire. Do not invent clients, metrics, quotes, prices, or case studies. Change palette tokens only with an approved brand change.
+Motion is CSS and the View Transitions API: a short hero sequence, a stroke reveal on the official root symbol, scroll-drawn rules, service-row shift on hover, and a brief page move between `/` and `/discuss-your-project`. `prefers-reduced-motion: reduce` removes those animations. There is no scroll hijacking and no extra animation library.
+
+Do not invent clients, metrics, quotes, prices, or case studies. Change palette tokens only with an approved brand change.

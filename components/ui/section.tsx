@@ -5,6 +5,7 @@ type SectionProps = {
   id?: string;
   labelledBy: string;
   surface?: "paper" | "night" | "mark";
+  className?: string;
   children: ReactNode;
 };
 
@@ -18,13 +19,14 @@ export function Section({
   id,
   labelledBy,
   surface = "paper",
+  className = "",
   children,
 }: SectionProps) {
   return (
     <section
       id={id}
       aria-labelledby={labelledBy}
-      className={surfaceClass[surface]}
+      className={`${surfaceClass[surface]} ${className}`.trim()}
     >
       <PageContainer className="py-[var(--section-y)] lg:py-[var(--section-y-lg)]">
         {children}

@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+import { RevealGroup } from "@/components/motion/reveal-group";
 import { Section } from "@/components/ui/section";
 import { Kicker } from "@/components/ui/kicker";
 import { intelligenceCapabilities, intelligenceHeading } from "@/lib/content";
@@ -14,29 +16,40 @@ export function Intelligence() {
           <Kicker className="text-paper/45">02</Kicker>
           <h2
             id="intelligence-heading"
-            className="type-display mt-4 max-w-md text-[clamp(2.75rem,5vw,4.75rem)] text-paper"
+            className="motion-reveal-x type-display mt-4 max-w-md text-[clamp(2.75rem,5vw,4.75rem)] text-paper"
           >
             {intelligenceHeading}
           </h2>
         </div>
-        <ol className="border-l-2 border-mark lg:col-span-6 lg:col-start-7">
-          {intelligenceCapabilities.map((item) => (
-            <li
-              key={item.id}
-              className="motion-enter border-b border-paper/15 py-8 pl-6 first:pt-0 last:border-b-0 last:pb-0 sm:pl-8"
-            >
-              <p className="text-[11px] font-semibold tracking-label text-paper/45">
-                {item.number}
-              </p>
-              <h3 className="mt-3 text-2xl leading-snug text-paper sm:text-3xl">
-                {item.name}
-              </h3>
-              <p className="mt-3 max-w-sm leading-relaxed text-paper/70">
-                {item.summary}
-              </p>
-            </li>
-          ))}
-        </ol>
+        <div className="relative lg:col-span-6 lg:col-start-7">
+          <span
+            className="rule-draw-y absolute inset-y-0 left-0 w-0.5 bg-mark"
+            aria-hidden="true"
+          />
+          <RevealGroup>
+            <ol>
+              {intelligenceCapabilities.map((item, index) => (
+                <li
+                  key={item.id}
+                  className="replay border-b border-paper/15 py-8 pl-6 first:pt-0 last:border-b-0 last:pb-0 sm:pl-8"
+                >
+                  <p
+                    className="cue text-[11px] font-semibold tracking-label text-paper/45"
+                    style={{ "--i": index } as CSSProperties}
+                  >
+                    {item.number}
+                  </p>
+                  <h3 className="mt-3 text-2xl leading-snug text-paper sm:text-3xl">
+                    {item.name}
+                  </h3>
+                  <p className="mt-3 max-w-sm leading-relaxed text-paper/70">
+                    {item.summary}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </RevealGroup>
+        </div>
       </div>
     </Section>
   );

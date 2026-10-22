@@ -2,6 +2,7 @@ import type { InquiryStep } from "@/types/inquiry";
 
 export const questionSteps = [
   "type",
+  "description",
   "goals",
   "payments",
   "accounts",
@@ -20,6 +21,10 @@ export const stepCopy: Record<
   type: {
     kicker: "Project type",
     question: "What are you looking to build?",
+  },
+  description: {
+    kicker: "Project",
+    question: "What should we know about it?",
   },
   goals: {
     kicker: "Outcomes",
@@ -45,8 +50,8 @@ export const stepCopy: Record<
   },
   budget: {
     kicker: "Budget and timing",
-    question: "Do you have a budget in mind?",
-    hint: "A date here is a hope, not a promise.",
+    question: "What range are you considering?",
+    hint: "Your bracket, in euro. Not a quote.",
   },
   contact: {
     kicker: "Contact",

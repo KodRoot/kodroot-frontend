@@ -1,3 +1,4 @@
+import type { Ref } from "react";
 import { summarizeInquiry } from "@/lib/inquiry/brief";
 import { TextButton } from "@/components/ui/text-link";
 import type { InquiryAnswers, InquiryStep } from "@/types/inquiry";
@@ -5,17 +6,26 @@ import type { InquiryAnswers, InquiryStep } from "@/types/inquiry";
 type InquiryReviewProps = {
   answers: InquiryAnswers;
   onEdit: (step: InquiryStep) => void;
+  headingRef?: Ref<HTMLHeadingElement>;
 };
 
-export function InquiryReview({ answers, onEdit }: InquiryReviewProps) {
+export function InquiryReview({
+  answers,
+  onEdit,
+  headingRef,
+}: InquiryReviewProps) {
   const items = summarizeInquiry(answers);
 
   return (
     <div>
-      <h3 className="type-display text-[clamp(1.75rem,3vw,2.5rem)] text-ink">
+      <h3
+        ref={headingRef}
+        tabIndex={-1}
+        className="type-display text-[clamp(1.75rem,3vw,2.5rem)] text-ink outline-none"
+      >
         Check your answers.
       </h3>
-      <p className="mt-3 leading-relaxed text-muted">A brief, not a quote.</p>
+      <p className="mt-3 leading-relaxed text-muted">Not a quote.</p>
       <dl className="mt-8 border-t border-ink/12">
         {items.map((item) => (
           <div

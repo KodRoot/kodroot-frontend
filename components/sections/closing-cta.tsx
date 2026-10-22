@@ -11,7 +11,7 @@ export function ClosingCta() {
       </p>
       <h2
         id="closing-heading"
-        className="type-display mt-6 max-w-5xl text-[clamp(3rem,9vw,7.5rem)]"
+        className="motion-reveal type-display mt-6 max-w-5xl text-[clamp(3rem,9vw,7.5rem)]"
       >
         <AppLink
           href={navCta.href}

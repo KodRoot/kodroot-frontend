@@ -70,6 +70,6 @@ export const approachPrinciples = [
 
 export const discussHeading = "Discuss your project";
 
-export const discussCopy = "A few questions. Then a brief you can email.";
+export const discussCopy = "A few questions. We reply by email.";
 
 export const closingHeading = "Discuss your project";

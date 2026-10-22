@@ -85,6 +85,7 @@ export function AppLink({
       href={href}
       className={className}
       aria-label={ariaLabel}
+      transitionTypes={[href === "/" ? "nav-back" : "nav-forward"]}
       onClick={handleClick}
     >
       {children}

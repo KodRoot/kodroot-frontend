@@ -2,7 +2,7 @@ import { site } from "@/lib/site";
 import {
   accountFeatureOptions,
   accountOptions,
-  budgetOptions,
+  budgetRangeOptions,
   contentOptions,
   integrationOptions,
   paymentsOptions,
@@ -85,17 +85,14 @@ export function formatInquiryBrief(data: InquirySubmission): string {
     lines.push(`Other tools described: ${data.integrationsOther.trim()}`);
   }
 
-  lines.push(`Budget: ${labelFor(budgetOptions, data.budgetStance)}`);
-  if (data.budgetAmount.trim()) {
-    lines.push(`Budget note: ${data.budgetAmount.trim()}`);
-  }
+  lines.push(
+    `Budget range: ${labelFor(budgetRangeOptions, data.budgetRange)} (the visitor’s bracket, not a quote)`,
+  );
   lines.push(
     `Hoped launch window: ${labelFor(timelineOptions, data.timeline)} (not a delivery promise)`,
   );
 
-  if (data.projectDescription.trim()) {
-    lines.push("", "Project notes:", data.projectDescription.trim());
-  }
+  lines.push("", "Project:", data.projectDescription.trim());
 
   lines.push("", "Working notes for KodRoot:");
   for (const note of deriveInternalNotes(data)) {
@@ -149,16 +146,6 @@ function deriveInternalNotes(data: InquirySubmission): string[] {
   return notes;
 }
 
-export function buildMailto(
-  brief: string,
-  email: string,
-  name: string,
-): string {
-  const subject = encodeURIComponent(`Project inquiry from ${name}`);
-  const body = encodeURIComponent(brief);
-  return `mailto:${email}?subject=${subject}&body=${body}`;
-}
-
 type InquirySummaryItem = {
   step: InquiryStep;
   label: string;
@@ -173,6 +160,11 @@ export function summarizeInquiry(
       step: "type",
       label: "What you want to build",
       value: labelFor(projectTypeOptions, answers.projectType),
+    },
+    {
+      step: "description",
+      label: "Project",
+      value: answers.projectDescription.trim() || "Not specified",
     },
     {
       step: "goals",
@@ -252,17 +244,9 @@ export function summarizeInquiry(
 
   items.push({
     step: "budget",
-    label: "Budget",
-    value: labelFor(budgetOptions, answers.budgetStance),
+    label: "Budget range",
+    value: labelFor(budgetRangeOptions, answers.budgetRange),
   });
-
-  if (answers.budgetAmount.trim()) {
-    items.push({
-      step: "budget",
-      label: "Budget note",
-      value: answers.budgetAmount.trim(),
-    });
-  }
 
   items.push({
     step: "budget",
@@ -292,14 +276,6 @@ export function summarizeInquiry(
       value: answers.existingWebsite.trim() || "Not specified",
     },
   );
-
-  if (answers.projectDescription.trim()) {
-    items.push({
-      step: "contact",
-      label: "Project notes",
-      value: answers.projectDescription.trim(),
-    });
-  }
 
   return items;
 }

@@ -62,7 +62,13 @@ export const integrations = [
   "not-sure",
 ] as const;
 
-export const budgetStances = ["have-budget", "need-help", "exploring"] as const;
+export const budgetRanges = [
+  "under-5000",
+  "5000-15000",
+  "15000-40000",
+  "over-40000",
+  "discuss",
+] as const;
 
 export const timelines = [
   "asap",
@@ -74,6 +80,7 @@ export const timelines = [
 
 export const inquirySteps = [
   "type",
+  "description",
   "goals",
   "payments",
   "accounts",
@@ -93,7 +100,7 @@ export type AccountNeed = (typeof accountNeeds)[number];
 export type AccountFeature = (typeof accountFeatures)[number];
 export type ContentManagement = (typeof contentManagement)[number];
 export type Integration = (typeof integrations)[number];
-export type BudgetStance = (typeof budgetStances)[number];
+export type BudgetRange = (typeof budgetRanges)[number];
 export type Timeline = (typeof timelines)[number];
 export type InquiryStep = (typeof inquirySteps)[number];
 
@@ -110,8 +117,7 @@ export type InquiryAnswers = {
   contentManagement: ContentManagement | null;
   integrations: Integration[];
   integrationsOther: string;
-  budgetStance: BudgetStance | null;
-  budgetAmount: string;
+  budgetRange: BudgetRange | null;
   timeline: Timeline | null;
   name: string;
   businessName: string;
@@ -121,6 +127,9 @@ export type InquiryAnswers = {
   consent: boolean;
 };
 
-export type SubmitInquiryResult =
-  | { status: "ready"; brief: string; mailto: string }
-  | { status: "invalid"; message: string };
+export type InquiryApiResult =
+  | { status: "received" }
+  | { status: "invalid"; message: string }
+  | { status: "unavailable"; message: string }
+  | { status: "limited"; message: string }
+  | { status: "error"; message: string };

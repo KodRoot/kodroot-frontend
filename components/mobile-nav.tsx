@@ -18,7 +18,34 @@ export function MobileNav() {
   }
 
   function closeMenu() {
-    dialogRef.current?.close();
+    const dialog = dialogRef.current;
+    if (!dialog?.open) {
+      return;
+    }
+
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (reduce) {
+      dialog.close();
+      return;
+    }
+
+    dialog.dataset.closing = "true";
+    let finished = false;
+    function finish() {
+      if (finished) {
+        return;
+      }
+      finished = true;
+      delete dialog?.dataset.closing;
+      if (dialog?.open) {
+        dialog.close();
+      }
+    }
+
+    dialog.addEventListener("animationend", finish, { once: true });
+    window.setTimeout(finish, 320);
   }
 
   useEffect(() => {
@@ -75,7 +102,11 @@ export function MobileNav() {
           <nav className="mt-12 flex flex-1 flex-col" aria-label="Primary">
             <ul className="flex flex-col border-t border-paper/15">
               {navItems.map((item, index) => (
-                <li key={item.href} className="border-b border-paper/15">
+                <li
+                  key={item.href}
+                  className="menu-rise border-b border-paper/15"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
                   <AppLink
                     href={item.href}
                     className="flex min-h-16 items-baseline justify-between gap-6 py-4"

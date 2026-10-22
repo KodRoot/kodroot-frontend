@@ -1,6 +1,15 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { AppLink } from "@/components/app-link";
 
+function PrimaryLabel({ children }: { children: ReactNode }) {
+  return (
+    <>
+      <span>{children}</span>
+      <span className="cta-mark" aria-hidden="true" />
+    </>
+  );
+}
+
 type TextLinkVariant = "primary" | "secondary";
 type TextLinkSurface = "paper" | "night" | "mark";
 
@@ -18,7 +27,7 @@ function textLinkClassName(
   surface: TextLinkSurface = "paper",
 ) {
   const base =
-    "inline-flex min-h-12 items-center text-[13px] font-semibold uppercase tracking-label motion-safe:transition-colors";
+    "inline-flex min-h-12 items-center gap-3 text-[13px] font-semibold uppercase tracking-label motion-safe:transition-[color,background-color,transform] motion-safe:duration-200 disabled:cursor-not-allowed disabled:opacity-40 active:translate-y-px";
 
   if (variant === "primary") {
     if (surface === "mark") {
@@ -30,7 +39,7 @@ function textLinkClassName(
     return `${base} bg-mark px-5 text-paper hover:bg-ink`;
   }
 
-  const quiet = `${base} border-b pb-0.5`;
+  const quiet = `${base} link-rule pb-0.5`;
   if (surface === "mark" || surface === "night") {
     return `${quiet} border-paper/40 text-paper/80 hover:border-paper hover:text-paper`;
   }
@@ -47,17 +56,20 @@ export function TextLink({
 }: TextLinkProps) {
   const classes = `${textLinkClassName(variant, surface)} ${className}`.trim();
 
+  const label =
+    variant === "primary" ? <PrimaryLabel>{children}</PrimaryLabel> : children;
+
   if (href.startsWith("mailto:") || href.startsWith("http")) {
     return (
       <a href={href} className={classes} onClick={onClick}>
-        {children}
+        {label}
       </a>
     );
   }
 
   return (
     <AppLink href={href} className={classes} onClick={onClick}>
-      {children}
+      {label}
     </AppLink>
   );
 }
@@ -72,6 +84,7 @@ export function TextButton({
   surface = "paper",
   className = "",
   type = "button",
+  children,
   ...props
 }: TextButtonProps) {
   return (
@@ -79,6 +92,12 @@ export function TextButton({
       type={type}
       className={`${textLinkClassName(variant, surface)} ${className}`.trim()}
       {...props}
-    />
+    >
+      {variant === "primary" ? (
+        <PrimaryLabel>{children}</PrimaryLabel>
+      ) : (
+        children
+      )}
+    </button>
   );
 }

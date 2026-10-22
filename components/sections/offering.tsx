@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+import { RevealGroup } from "@/components/motion/reveal-group";
 import { Section } from "@/components/ui/section";
 import { Kicker } from "@/components/ui/kicker";
 import { capabilities, services, servicesHeading } from "@/lib/content";
@@ -8,18 +10,23 @@ export function Offering() {
       <Kicker className="text-muted">01</Kicker>
       <h2
         id="services-heading"
-        className="type-display mt-4 max-w-3xl text-[clamp(2.75rem,6vw,5.5rem)]"
+        className="motion-reveal type-display mt-4 max-w-3xl text-[clamp(2.75rem,6vw,5.5rem)]"
       >
         {servicesHeading}
       </h2>
 
-      <div className="mt-16 border-t border-ink/15 lg:mt-24">
-        {services.map((service) => (
+      <div className="rule-draw mt-16 h-px bg-ink/15 lg:mt-24" />
+      <RevealGroup>
+        {services.map((service, index) => (
           <article
             key={service.id}
-            className="motion-enter grid gap-4 border-b border-ink/15 py-10 lg:grid-cols-12 lg:items-baseline lg:py-14"
+            className="service-row replay relative grid gap-4 border-b border-ink/15 py-10 lg:grid-cols-12 lg:items-baseline lg:py-14"
           >
-            <p className="type-display text-4xl text-mark sm:text-5xl lg:col-span-2 lg:text-6xl">
+            <span className="service-marker" aria-hidden="true" />
+            <p
+              className="cue service-index type-display text-4xl text-mark sm:text-5xl lg:col-span-2 lg:text-6xl"
+              style={{ "--i": index } as CSSProperties}
+            >
               {service.number}
             </p>
             <h3 className="text-3xl leading-none sm:text-4xl lg:col-span-4">
@@ -30,11 +37,11 @@ export function Offering() {
             </p>
           </article>
         ))}
-      </div>
+      </RevealGroup>
 
       <div className="mt-16 grid gap-12 sm:grid-cols-2 lg:mt-24 lg:gap-16">
         {capabilities.map((capability) => (
-          <article key={capability.id}>
+          <article key={capability.id} className="capability">
             <h3 className="text-2xl leading-tight sm:text-3xl">
               {capability.name}
             </h3>

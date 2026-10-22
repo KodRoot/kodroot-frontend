@@ -2,7 +2,7 @@ import * as z from "zod";
 import {
   accountFeatures,
   accountNeeds,
-  budgetStances,
+  budgetRanges,
   contentManagement,
   integrations,
   paymentsNeeds,
@@ -14,31 +14,86 @@ import {
 } from "@/types/inquiry";
 import type { InquiryAnswers, InquiryStep } from "@/types/inquiry";
 
-export const inquirySubmissionSchema = z.object({
-  projectType: z.enum(projectTypes),
-  goals: z.array(z.enum(projectGoals)).min(1),
-  goalsOther: z.string(),
-  payments: z.enum(paymentsNeeds),
-  productCount: z.enum(productCounts).nullable(),
-  manageStore: z.enum(yesNoUnsure).nullable(),
-  shipping: z.enum(yesNoUnsure).nullable(),
-  accounts: z.enum(accountNeeds),
-  accountFeatures: z.array(z.enum(accountFeatures)),
-  contentManagement: z.enum(contentManagement),
-  integrations: z.array(z.enum(integrations)),
-  integrationsOther: z.string(),
-  budgetStance: z.enum(budgetStances),
-  budgetAmount: z.string(),
-  timeline: z.enum(timelines),
-  name: z.string().trim().min(1),
-  businessName: z.string(),
-  email: z.email(),
-  projectDescription: z.string(),
-  existingWebsite: z.string(),
-  consent: z.literal(true),
-});
+export const inquirySubmissionSchema = z
+  .object({
+    projectType: z.enum(projectTypes),
+    goals: z.array(z.enum(projectGoals)).min(1).max(projectGoals.length),
+    goalsOther: z.string().trim().max(500),
+    payments: z.enum(paymentsNeeds),
+    productCount: z.enum(productCounts).nullable(),
+    manageStore: z.enum(yesNoUnsure).nullable(),
+    shipping: z.enum(yesNoUnsure).nullable(),
+    accounts: z.enum(accountNeeds),
+    accountFeatures: z
+      .array(z.enum(accountFeatures))
+      .max(accountFeatures.length),
+    contentManagement: z.enum(contentManagement),
+    integrations: z.array(z.enum(integrations)).max(integrations.length),
+    integrationsOther: z.string().trim().max(500),
+    budgetRange: z.enum(budgetRanges),
+    timeline: z.enum(timelines),
+    name: z.string().trim().min(1).max(120),
+    businessName: z.string().trim().max(160),
+    email: z.email().max(200),
+    projectDescription: z.string().trim().min(10).max(4000),
+    existingWebsite: z.string().trim().max(300),
+    consent: z.literal(true),
+  })
+  .superRefine((data, ctx) => {
+    if (
+      data.goals.includes("something-else") &&
+      data.goalsOther.trim().length === 0
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Describe the other outcome.",
+        path: ["goalsOther"],
+      });
+    }
+
+    if (needsStoreFollowUp(data)) {
+      if (!data.productCount) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Choose a catalogue size.",
+          path: ["productCount"],
+        });
+      }
+      if (!data.manageStore) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Say whether you will manage products and orders.",
+          path: ["manageStore"],
+        });
+      }
+      if (!data.shipping) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Say whether you need shipping.",
+          path: ["shipping"],
+        });
+      }
+    }
+
+    if (
+      data.integrations.includes("other") &&
+      data.integrationsOther.trim().length === 0
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Describe the other tools.",
+        path: ["integrationsOther"],
+      });
+    }
+  });
 
 export type InquirySubmission = z.infer<typeof inquirySubmissionSchema>;
+
+export const inquiryRequestMetaSchema = z.object({
+  company: z.string().max(500),
+  startedAt: z.number().finite(),
+  submissionId: z.uuid(),
+});
 
 export function needsStoreFollowUp(answers: {
   projectType: InquiryAnswers["projectType"];
@@ -59,6 +114,10 @@ export function validateInquiryStep(
       return answers.projectType
         ? null
         : "Choose the option that best matches what you want to build.";
+    case "description":
+      return answers.projectDescription.trim().length >= 10
+        ? null
+        : "Describe the project in a sentence or two.";
     case "goals":
       if (answers.goals.length === 0) {
         return "Select at least one outcome, or choose “Something else”.";
@@ -101,8 +160,8 @@ export function validateInquiryStep(
       }
       return null;
     case "budget":
-      if (!answers.budgetStance) {
-        return "Choose the option that best matches where you are with budget.";
+      if (!answers.budgetRange) {
+        return "Choose a budget range, or say you would rather discuss it.";
       }
       if (!answers.timeline) {
         return "Choose when you hope to launch. This is not a delivery promise.";

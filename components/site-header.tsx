@@ -6,7 +6,10 @@ import { navCta, navItems } from "@/lib/navigation";
 
 export function SiteHeader() {
   return (
-    <header className="surface-dark sticky top-0 z-50 border-b border-paper/15">
+    <header
+      className="surface-dark sticky top-0 z-50 border-b border-paper/15"
+      style={{ viewTransitionName: "site-header" }}
+    >
       <PageContainer className="flex h-[var(--header-height)] items-center justify-between gap-8">
         <Logo priority variant="dark" />
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">

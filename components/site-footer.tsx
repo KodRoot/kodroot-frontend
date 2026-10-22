@@ -8,7 +8,10 @@ import { site } from "@/lib/site";
 
 export function SiteFooter() {
   return (
-    <footer className="surface-dark border-t border-paper/15">
+    <footer
+      className="surface-dark border-t border-paper/15"
+      style={{ viewTransitionName: "site-footer" }}
+    >
       <PageContainer className="py-14 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
           <div className="lg:col-span-5">
@@ -49,6 +52,14 @@ export function SiteFooter() {
               </li>
             </ul>
           </div>
+        </div>
+        <div className="mt-14 flex flex-wrap gap-x-6 gap-y-3 border-t border-paper/15 pt-6">
+          <TextLink href="/privacy" variant="secondary" surface="night">
+            Privacy policy
+          </TextLink>
+          <TextLink href="/terms" variant="secondary" surface="night">
+            Terms and conditions
+          </TextLink>
         </div>
       </PageContainer>
     </footer>
