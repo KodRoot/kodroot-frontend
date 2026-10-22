@@ -115,7 +115,7 @@ export function MobileNav() {
                     <span className="text-4xl leading-none font-semibold tracking-[-0.04em]">
                       {item.label}
                     </span>
-                    <span className="text-[11px] font-semibold tracking-label text-paper/45">
+                    <span className="text-[11px] font-semibold tracking-label text-paper/60">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                   </AppLink>

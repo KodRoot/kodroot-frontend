@@ -8,7 +8,25 @@ function addressFrom(value: string): string {
   return (match?.[1] ?? value).trim();
 }
 
+function mockDelivery(): "sent" | "unavailable" | "failed" | null {
+  const value = process.env.INQUIRY_MOCK_DELIVERY?.trim();
+  if (value === "sent" || value === "unavailable" || value === "failed") {
+    return value;
+  }
+  return null;
+}
+
 function deliverySettings() {
+  const mocked = mockDelivery();
+  if (mocked) {
+    return {
+      apiKey: "mock",
+      from: "KodRoot <hello@mail.kodroot.com>",
+      to: "hello@kodroot.com",
+      mocked,
+    };
+  }
+
   const apiKey = process.env.RESEND_API_KEY?.trim();
   const from = process.env.INQUIRY_FROM_EMAIL?.trim();
   const to = process.env.INQUIRY_TO_EMAIL?.trim();
@@ -29,7 +47,7 @@ function deliverySettings() {
     return null;
   }
 
-  return { apiKey, from, to };
+  return { apiKey, from, to, mocked: null };
 }
 
 export function inquiryDeliveryConfigured(): boolean {
@@ -43,6 +61,9 @@ export async function sendInquiryEmail(input: {
   const settings = deliverySettings();
   if (!settings) {
     return "unavailable";
+  }
+  if (settings.mocked) {
+    return settings.mocked;
   }
 
   const resend = new Resend(settings.apiKey);

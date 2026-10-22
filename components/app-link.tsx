@@ -33,6 +33,8 @@ export function AppLink({
   const pathname = usePathname();
   const hashId = homeHashId(href);
 
+  const currentPage = !hashId && href === pathname;
+
   if (hashId) {
     const sectionId = hashId;
 
@@ -85,6 +87,7 @@ export function AppLink({
       href={href}
       className={className}
       aria-label={ariaLabel}
+      aria-current={currentPage ? "page" : undefined}
       transitionTypes={[href === "/" ? "nav-back" : "nav-forward"]}
       onClick={handleClick}
     >

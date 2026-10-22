@@ -81,9 +81,15 @@ npm run lint
 npm run typecheck
 npm run format
 npm run format:check
+npm run test
+npm run test:e2e
+npm run test:e2e:production
+npm run audit:lighthouse
 npm run build
 npm start
 ```
+
+`test:e2e` starts its own server on port 4173 with `INQUIRY_MOCK_DELIVERY=sent`, so Playwright does not send real email. `test:e2e:production` builds first, then runs the same tests against `next start`. Live Resend checks stay off unless `E2E_LIVE_INQUIRY=1` is set with an authorized recipient.
 
 `npm install` also runs `prepare`, which sets up Husky. The pre-commit hook runs lint-staged (ESLint and Prettier on staged files only). To skip hooks for a single command, set `HUSKY=0`.
 

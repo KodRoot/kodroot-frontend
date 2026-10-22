@@ -8,13 +8,13 @@ type InquirySuccessProps = {
 
 export function InquirySuccess({ onReset }: InquirySuccessProps) {
   return (
-    <div className="form-note">
+    <div className="form-note" role="status">
       <p className="text-[12px] font-semibold uppercase tracking-label text-muted">
         Received
       </p>
-      <h3 className="type-display mt-4 text-[clamp(1.75rem,3vw,2.5rem)] text-ink">
+      <h2 className="type-display mt-4 text-[clamp(1.75rem,3vw,2.5rem)] text-ink">
         We have the brief.
-      </h3>
+      </h2>
       <p className="mt-4 max-w-md leading-relaxed text-muted">
         KodRoot will reply by email. This is not a quote.
       </p>

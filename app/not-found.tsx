@@ -20,7 +20,7 @@ export default function NotFound() {
       <main id="main-content" className="surface-dark">
         <PageContainer className="grid min-h-[70vh] content-center gap-10 py-20 lg:grid-cols-12 lg:items-end lg:py-28">
           <div className="lg:col-span-8">
-            <Kicker className="text-paper/45">404</Kicker>
+            <Kicker className="text-paper/60">404</Kicker>
             <h1 className="type-display mt-6 max-w-4xl text-[clamp(3rem,9vw,6.5rem)] text-paper">
               This page is not on the site.
             </h1>

@@ -3,11 +3,23 @@ import { AppLink } from "@/components/app-link";
 import { LegalPage, LegalSection } from "@/components/legal-page";
 import { site } from "@/lib/site";
 
+const description = "The terms for using the KodRoot website.";
+
 export const metadata: Metadata = {
   title: "Terms and conditions",
-  description: "The terms for using the KodRoot website.",
+  description,
   alternates: {
     canonical: "/terms",
+  },
+  openGraph: {
+    url: "/terms",
+    title: "Terms and conditions",
+    description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Terms and conditions",
+    description,
   },
 };
 

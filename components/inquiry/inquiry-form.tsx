@@ -131,7 +131,7 @@ export function InquiryForm() {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (submitting) {
+    if (sending.current || submitting) {
       return;
     }
     if (step === "review") {
@@ -231,10 +231,7 @@ export function InquiryForm() {
       aria-busy={submitting}
       aria-describedby={error ? errorId : undefined}
     >
-      <div
-        className="absolute -left-[9999px] h-px w-px overflow-hidden"
-        aria-hidden="true"
-      >
+      <div className="hidden" aria-hidden="true">
         <label htmlFor="inquiry-company">Company</label>
         <input
           id="inquiry-company"
@@ -271,13 +268,13 @@ export function InquiryForm() {
               <p className="text-[12px] font-semibold uppercase tracking-label text-muted">
                 {stepCopy[step].kicker}
               </p>
-              <h3
+              <h2
                 ref={headingRef}
                 tabIndex={-1}
                 className="type-display mt-4 text-[clamp(1.75rem,3vw,2.5rem)] text-ink outline-none"
               >
                 {stepCopy[step].question}
-              </h3>
+              </h2>
               {stepCopy[step].hint ? (
                 <p className="mt-3 leading-relaxed text-muted">
                   {stepCopy[step].hint}
@@ -563,7 +560,7 @@ export function InquiryForm() {
             Back
           </TextButton>
         ) : null}
-        <TextButton type="submit" disabled={submitting}>
+        <TextButton type="submit" disabled={submitting} aria-busy={submitting}>
           {submitting
             ? "Sending"
             : step === "review"

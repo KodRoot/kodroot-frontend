@@ -91,6 +91,7 @@ h4 {
 }
 
 .inquiry-choice {
+  scroll-margin-top: calc(var(--header-height) + 1rem);
   box-shadow: inset 0 0 0 0 var(--mark);
   transition:
     background-color 0.3s var(--ease-out),

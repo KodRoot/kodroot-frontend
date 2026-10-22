@@ -1,0 +1,162 @@
+import { expect, type APIRequestContext, type Page } from "@playwright/test";
+
+export const validInquiry = {
+  projectType: "business-website",
+  goals: ["present-business"],
+  goalsOther: "",
+  payments: "no-payments",
+  productCount: null,
+  manageStore: null,
+  shipping: null,
+  accounts: "no-accounts",
+  accountFeatures: [],
+  contentManagement: "mostly-static",
+  integrations: ["nothing"],
+  integrationsOther: "",
+  budgetRange: "discuss",
+  timeline: "flexible",
+  name: "Alex Rivera",
+  businessName: "Rivera Studio",
+  email: "alex.rivera@example.com",
+  projectDescription:
+    "A small business site with a clear services page and a way to enquire.",
+  existingWebsite: "",
+  consent: true,
+} as const;
+
+export function inquiryRequest(overrides: Record<string, unknown> = {}) {
+  return {
+    ...validInquiry,
+    company: "",
+    startedAt: Date.now() - 5_000,
+    submissionId: crypto.randomUUID(),
+    ...overrides,
+  };
+}
+
+export async function postInquiry(
+  request: APIRequestContext,
+  body: unknown,
+  headers: Record<string, string> = {},
+) {
+  return request.post("/api/inquiry", {
+    data: body,
+    headers: {
+      "content-type": "application/json",
+      "x-forwarded-for": `198.51.100.${Math.floor(Math.random() * 200) + 20}`,
+      ...headers,
+    },
+  });
+}
+
+export async function chooseOption(page: Page, label: string) {
+  await page
+    .locator("label.inquiry-choice")
+    .filter({ has: page.getByText(label, { exact: true }) })
+    .click();
+}
+
+export async function chooseMany(page: Page, label: string) {
+  await page
+    .locator("label.inquiry-choice")
+    .filter({ has: page.getByText(label, { exact: true }) })
+    .click();
+}
+
+export async function continueInquiry(page: Page) {
+  await page.getByRole("button", { name: "Continue" }).click();
+}
+
+export async function fillHappyPath(page: Page) {
+  await chooseOption(page, "A business website");
+  await continueInquiry(page);
+  await expect(
+    page.getByRole("heading", { name: "What should we know about it?" }),
+  ).toBeVisible();
+
+  await page
+    .getByRole("textbox", { name: /Project description/i })
+    .fill(validInquiry.projectDescription);
+  await continueInquiry(page);
+  await expect(
+    page.getByRole("heading", {
+      name: "What should your website or product help you do?",
+    }),
+  ).toBeVisible();
+
+  await chooseMany(page, "Present my business and services");
+  await continueInquiry(page);
+  await expect(
+    page.getByRole("heading", {
+      name: "Will customers need to pay you online?",
+    }),
+  ).toBeVisible();
+
+  await chooseOption(page, "No, I only need to present my business");
+  await continueInquiry(page);
+  await expect(
+    page.getByRole("heading", {
+      name: "Will your customers need their own accounts?",
+    }),
+  ).toBeVisible();
+
+  await chooseOption(
+    page,
+    "No, visitors can use the website without signing in",
+  );
+  await continueInquiry(page);
+  await expect(
+    page.getByRole("heading", {
+      name: "Would you like to update the website yourself?",
+    }),
+  ).toBeVisible();
+
+  await chooseOption(page, "No, the information can stay mostly as it is");
+  await continueInquiry(page);
+  await expect(
+    page.getByRole("heading", {
+      name: "Does the project need to work with any other tools?",
+    }),
+  ).toBeVisible();
+
+  await chooseMany(page, "Nothing specific");
+  await continueInquiry(page);
+  await expect(
+    page.getByRole("heading", { name: "What range are you considering?" }),
+  ).toBeVisible();
+
+  await chooseOption(page, "I’d rather discuss it");
+  await chooseOption(page, "I’m flexible");
+  await continueInquiry(page);
+  await expect(
+    page.getByRole("heading", { name: "How should we reach you?" }),
+  ).toBeVisible();
+
+  await page.locator("#inquiry-name").fill(validInquiry.name);
+  await page.locator("#inquiry-email").fill(validInquiry.email);
+  await page.getByRole("checkbox", { name: /I agree that KodRoot/ }).check();
+  await continueInquiry(page);
+  await expect(
+    page.getByRole("heading", { name: "Check your answers." }),
+  ).toBeVisible();
+}
+
+export async function assertNoPageErrors(page: Page) {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => {
+    errors.push(error.message);
+  });
+  page.on("console", (message) => {
+    if (message.type() === "error") {
+      errors.push(message.text());
+    }
+  });
+  return () => {
+    const unexpected = errors.filter(
+      (message) =>
+        !message.includes("favicon") &&
+        !message.includes("Download the React DevTools"),
+    );
+    expect(unexpected, unexpected.join("\n")).toEqual([]);
+  };
+}

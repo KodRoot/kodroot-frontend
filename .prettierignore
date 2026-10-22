@@ -4,6 +4,11 @@ build
 coverage
 node_modules
 .vercel
+test-results
+playwright-report
+blob-report
+reports/lighthouse
+reports/screenshots
 package-lock.json
 next-env.d.ts
 *.tsbuildinfo

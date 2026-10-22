@@ -18,13 +18,13 @@ export function InquiryReview({
 
   return (
     <div>
-      <h3
+      <h2
         ref={headingRef}
         tabIndex={-1}
         className="type-display text-[clamp(1.75rem,3vw,2.5rem)] text-ink outline-none"
       >
         Check your answers.
-      </h3>
+      </h2>
       <p className="mt-3 leading-relaxed text-muted">Not a quote.</p>
       <dl className="mt-8 border-t border-ink/12">
         {items.map((item) => (

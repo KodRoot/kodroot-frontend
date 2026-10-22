@@ -18,7 +18,7 @@ export function SiteFooter() {
             <Logo variant="dark" />
           </div>
           <div className="lg:col-span-3 lg:col-start-7">
-            <Kicker className="text-paper/45">What we build</Kicker>
+            <Kicker className="text-paper/60">What we build</Kicker>
             <ul className="mt-5 space-y-3">
               {services.map((service) => (
                 <li key={service.id}>
@@ -34,7 +34,7 @@ export function SiteFooter() {
             </ul>
           </div>
           <div className="lg:col-span-3">
-            <Kicker className="text-paper/45">Contact</Kicker>
+            <Kicker className="text-paper/60">Contact</Kicker>
             <ul className="mt-5 space-y-4">
               <li>
                 <TextLink href={navCta.href} surface="night">
