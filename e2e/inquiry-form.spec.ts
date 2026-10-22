@@ -105,12 +105,14 @@ test.describe("project inquiry form", () => {
   test("shows success only when the server accepts the inquiry", async ({
     page,
   }) => {
+    await page.setViewportSize({ width: 390, height: 700 });
     await page.goto("/discuss-your-project");
     await fillHappyPath(page);
     await page.getByRole("button", { name: "Send inquiry" }).click();
-    await expect(
-      page.getByRole("heading", { name: "We have the brief." }),
-    ).toBeVisible();
+    const heading = page.getByRole("heading", { name: "We have the brief." });
+    await expect(heading).toBeVisible();
+    await expect(heading).toBeInViewport();
+    await expect(page.getByText("Received")).toBeInViewport();
     await expect(page.getByRole("status")).toContainText(
       "KodRoot will reply by email",
     );
