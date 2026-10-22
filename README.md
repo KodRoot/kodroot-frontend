@@ -64,11 +64,11 @@ Email is not sent until these exist:
 1. A Resend account, an API key, and a verified domain at [resend.com/domains](https://resend.com/domains). `onboarding@resend.dev` is rejected. The `from` address has to be on a domain Resend has verified, or the handler reports that delivery is not configured.
 2. Environment variables, from `.env.example` into `.env.local` (and the host’s environment in production):
 
-| Variable             | Purpose                                                         |
-| -------------------- | --------------------------------------------------------------- |
-| `RESEND_API_KEY`     | Server-only Resend key. Never prefix it with `NEXT_PUBLIC_`.    |
-| `INQUIRY_FROM_EMAIL` | Sender, for example `KodRoot <hello@kodroot.com>`.              |
-| `INQUIRY_TO_EMAIL`   | Inbox that receives inquiries, for example `hello@kodroot.com`. |
+| Variable             | Purpose                                                                               |
+| -------------------- | ------------------------------------------------------------------------------------- |
+| `RESEND_API_KEY`     | Server-only Resend key. Never prefix it with `NEXT_PUBLIC_`.                          |
+| `INQUIRY_FROM_EMAIL` | Sender on the verified Resend domain, for example `KodRoot <hello@mail.kodroot.com>`. |
+| `INQUIRY_TO_EMAIL`   | Inbox that receives inquiries, for example `hello@kodroot.com`.                       |
 
 Until those are set, the form stays usable and a submission returns “This form cannot send email yet.” It does not pretend the inquiry was received. The footer address remains a direct way to write.
 
