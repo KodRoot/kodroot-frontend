@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { assertNoHorizontalOverflow, viewports } from "./helpers/layout";
 
-const routes = ["/", "/discuss-your-project", "/privacy"] as const;
+const routes = ["/", "/discuss-your-project", "/faq", "/privacy"] as const;
 
 test.describe("responsive layout", () => {
   for (const viewport of viewports) {

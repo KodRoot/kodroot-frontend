@@ -5,7 +5,7 @@ export const questionSteps = [
   "goals",
   "customers",
   "running",
-  "budget",
+  "timing",
   "contact",
 ] as const satisfies readonly InquiryStep[];
 
@@ -33,10 +33,10 @@ export const stepCopy: Record<
     kicker: "Running it",
     question: "How would you like to work with the site?",
   },
-  budget: {
-    kicker: "Budget and timing",
-    question: "What range are you considering?",
-    hint: "Your bracket, in euro. Not a quote.",
+  timing: {
+    kicker: "Timing",
+    question: "When do you hope to launch?",
+    hint: "A starting point for the conversation. Not a delivery promise.",
   },
   contact: {
     kicker: "Contact",

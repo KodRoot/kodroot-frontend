@@ -2,7 +2,6 @@ import { site } from "@/lib/site";
 import {
   accountFeatureOptions,
   accountOptions,
-  budgetRangeOptions,
   contentOptions,
   integrationOptions,
   paymentsOptions,
@@ -85,9 +84,6 @@ export function formatInquiryBrief(data: InquirySubmission): string {
     lines.push(`Other tools described: ${data.integrationsOther.trim()}`);
   }
 
-  lines.push(
-    `Budget range: ${labelFor(budgetRangeOptions, data.budgetRange)} (the visitor’s bracket, not a quote)`,
-  );
   lines.push(
     `Hoped launch window: ${labelFor(timelineOptions, data.timeline)} (not a delivery promise)`,
   );
@@ -243,13 +239,7 @@ export function summarizeInquiry(
   }
 
   items.push({
-    step: "budget",
-    label: "Budget range",
-    value: labelFor(budgetRangeOptions, answers.budgetRange),
-  });
-
-  items.push({
-    step: "budget",
+    step: "timing",
     label: "Hoped launch window",
     value: `${labelFor(timelineOptions, answers.timeline)} (not a delivery promise)`,
   });

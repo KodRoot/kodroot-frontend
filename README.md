@@ -55,7 +55,7 @@ Send posts JSON to `POST /api/inquiry`. The handler checks the origin, a honeypo
 
 The rate limit is per process. On a host with more than one instance it is best-effort, not a shared lock.
 
-Budget brackets are the visitor’s own range in euro. They are not KodRoot prices. Published prices stay off (`PRICING_ENABLED` in `lib/inquiry/defaults.ts`).
+The form does not ask for a budget. Cost is discussed after the project is understood. Published prices stay off (`PRICING_ENABLED` in `lib/inquiry/defaults.ts`).
 
 ### Email setup
 

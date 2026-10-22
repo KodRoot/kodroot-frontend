@@ -1,7 +1,13 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-const routes = ["/", "/discuss-your-project", "/privacy", "/terms"] as const;
+const routes = [
+  "/",
+  "/discuss-your-project",
+  "/faq",
+  "/privacy",
+  "/terms",
+] as const;
 
 test.describe("accessibility", () => {
   for (const route of routes) {

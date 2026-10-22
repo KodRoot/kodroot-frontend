@@ -38,9 +38,9 @@ export default function TermsPage() {
       </LegalSection>
       <LegalSection title="Inquiries">
         <p>
-          The project form collects what we need to reply. A budget range and a
-          hoped-for date are your notes. They are not a price and not a delivery
-          promise.
+          The project form collects what we need to reply. A hoped-for launch
+          date is your note. It is not a delivery promise. Cost is discussed
+          after we understand the project, and nothing on this site is a quote.
         </p>
         <p>Work starts only when both sides agree in writing.</p>
         <p>

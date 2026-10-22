@@ -12,6 +12,11 @@ const pages = [
     canonical: "https://kodroot.com/discuss-your-project",
   },
   {
+    path: "/faq",
+    title: /Questions — KodRoot/,
+    canonical: "https://kodroot.com/faq",
+  },
+  {
     path: "/privacy",
     title: /Privacy policy — KodRoot/,
     canonical: "https://kodroot.com/privacy",
@@ -61,6 +66,7 @@ test.describe("SEO", () => {
     const xml = await sitemap.text();
     expect(xml).toContain("https://kodroot.com</loc>");
     expect(xml).toContain("https://kodroot.com/discuss-your-project");
+    expect(xml).toContain("https://kodroot.com/faq");
     expect(xml).toContain("https://kodroot.com/privacy");
     expect(xml).toContain("https://kodroot.com/terms");
     expect(xml).not.toContain("localhost");

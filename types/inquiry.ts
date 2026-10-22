@@ -62,14 +62,6 @@ export const integrations = [
   "not-sure",
 ] as const;
 
-export const budgetRanges = [
-  "under-5000",
-  "5000-15000",
-  "15000-40000",
-  "over-40000",
-  "discuss",
-] as const;
-
 export const timelines = [
   "asap",
   "1-3-months",
@@ -83,7 +75,7 @@ export const inquirySteps = [
   "goals",
   "customers",
   "running",
-  "budget",
+  "timing",
   "contact",
   "review",
 ] as const;
@@ -97,7 +89,6 @@ export type AccountNeed = (typeof accountNeeds)[number];
 export type AccountFeature = (typeof accountFeatures)[number];
 export type ContentManagement = (typeof contentManagement)[number];
 export type Integration = (typeof integrations)[number];
-export type BudgetRange = (typeof budgetRanges)[number];
 export type Timeline = (typeof timelines)[number];
 export type InquiryStep = (typeof inquirySteps)[number];
 
@@ -114,7 +105,6 @@ export type InquiryAnswers = {
   contentManagement: ContentManagement | null;
   integrations: Integration[];
   integrationsOther: string;
-  budgetRange: BudgetRange | null;
   timeline: Timeline | null;
   name: string;
   businessName: string;

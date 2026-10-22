@@ -2,7 +2,6 @@ import * as z from "zod";
 import {
   accountFeatures,
   accountNeeds,
-  budgetRanges,
   contentManagement,
   integrations,
   paymentsNeeds,
@@ -30,7 +29,6 @@ export const inquirySubmissionSchema = z
     contentManagement: z.enum(contentManagement),
     integrations: z.array(z.enum(integrations)).max(integrations.length),
     integrationsOther: z.string().trim().max(500),
-    budgetRange: z.enum(budgetRanges),
     timeline: z.enum(timelines),
     name: z.string().trim().min(1).max(120),
     businessName: z.string().trim().max(160),
@@ -183,14 +181,10 @@ export function validateInquiryStep(
         return "Briefly describe the other tools you have in mind, or deselect that option.";
       }
       return null;
-    case "budget":
-      if (!answers.budgetRange) {
-        return "Choose a budget range, or say you would rather discuss it.";
-      }
-      if (!answers.timeline) {
-        return "Choose when you hope to launch. This is not a delivery promise.";
-      }
-      return null;
+    case "timing":
+      return answers.timeline
+        ? null
+        : "Choose when you hope to launch. This is not a delivery promise.";
     case "contact":
       if (answers.name.trim().length === 0) {
         return "Enter your name.";

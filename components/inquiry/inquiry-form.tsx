@@ -23,7 +23,6 @@ import { emptyInquiryAnswers } from "@/lib/inquiry/defaults";
 import {
   accountFeatureOptions,
   accountOptions,
-  budgetRangeOptions,
   contentOptions,
   integrationOptions,
   paymentsOptions,
@@ -483,23 +482,13 @@ export function InquiryForm() {
               </div>
             ) : null}
 
-            {step === "budget" ? (
-              <div className="space-y-12">
-                <ChoiceList
-                  legend={stepCopy.budget.question}
-                  options={budgetRangeOptions}
-                  value={answers.budgetRange}
-                  onChange={(budgetRange) => update({ budgetRange })}
-                />
-                <FollowUp question="When do you hope to launch?">
-                  <ChoiceList
-                    legend="When do you hope to launch?"
-                    options={timelineOptions}
-                    value={answers.timeline}
-                    onChange={(timeline) => update({ timeline })}
-                  />
-                </FollowUp>
-              </div>
+            {step === "timing" ? (
+              <ChoiceList
+                legend={stepCopy.timing.question}
+                options={timelineOptions}
+                value={answers.timeline}
+                onChange={(timeline) => update({ timeline })}
+              />
             ) : null}
 
             {step === "contact" ? (

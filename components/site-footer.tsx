@@ -45,6 +45,11 @@ export function SiteFooter() {
                 </TextLink>
               </li>
               <li>
+                <TextLink href="/faq" variant="secondary" surface="night">
+                  Questions
+                </TextLink>
+              </li>
+              <li>
                 <TextLink
                   href={`mailto:${site.email}`}
                   variant="secondary"

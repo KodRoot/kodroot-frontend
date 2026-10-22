@@ -13,7 +13,6 @@ export const emptyInquiryAnswers: InquiryAnswers = {
   contentManagement: null,
   integrations: [],
   integrationsOther: "",
-  budgetRange: null,
   timeline: null,
   name: "",
   businessName: "",

@@ -44,9 +44,9 @@ export default function PrivacyPage() {
       <LegalSection title="What the form collects">
         <p>
           If you send a project inquiry, we receive the answers you choose to
-          give: the project type and description, goals, follow-up answers,
-          budget range, timeline, your name, and your email. Business name and
-          an existing website are optional.
+          give: the project type and description, goals, follow-up answers, a
+          hoped-for launch window, your name, and your email. Business name and
+          an existing website are optional. The form does not ask for a budget.
         </p>
         <p>
           There is no account on this site. The server may hold an IP address in

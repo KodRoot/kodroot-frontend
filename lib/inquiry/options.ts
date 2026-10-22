@@ -1,7 +1,6 @@
 import type {
   AccountFeature,
   AccountNeed,
-  BudgetRange,
   ContentManagement,
   Integration,
   PaymentsNeed,
@@ -271,34 +270,6 @@ export const integrationOptions: Choice<Integration>[] = [
   {
     value: "not-sure",
     label: "I’m not sure",
-    description: "",
-  },
-];
-
-export const budgetRangeOptions: Choice<BudgetRange>[] = [
-  {
-    value: "under-5000",
-    label: "Under €5,000",
-    description: "",
-  },
-  {
-    value: "5000-15000",
-    label: "€5,000–€15,000",
-    description: "",
-  },
-  {
-    value: "15000-40000",
-    label: "€15,000–€40,000",
-    description: "",
-  },
-  {
-    value: "over-40000",
-    label: "Over €40,000",
-    description: "",
-  },
-  {
-    value: "discuss",
-    label: "I’d rather discuss it",
     description: "",
   },
 ];

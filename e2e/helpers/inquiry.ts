@@ -13,7 +13,6 @@ export const validInquiry = {
   contentManagement: "mostly-static",
   integrations: ["nothing"],
   integrationsOther: "",
-  budgetRange: "discuss",
   timeline: "flexible",
   name: "Alex Rivera",
   businessName: "Rivera Studio",
@@ -101,10 +100,9 @@ export async function fillHappyPath(page: Page) {
   await chooseMany(page, "Nothing specific");
   await continueInquiry(page);
   await expect(
-    page.getByRole("heading", { name: "What range are you considering?" }),
+    page.getByRole("heading", { name: "When do you hope to launch?" }),
   ).toBeVisible();
 
-  await chooseOption(page, "I’d rather discuss it");
   await chooseOption(page, "I’m flexible");
   await continueInquiry(page);
   await expect(
