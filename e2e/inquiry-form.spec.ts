@@ -43,7 +43,6 @@ test.describe("project inquiry form", () => {
     await chooseOption(page, "No, the information can stay mostly as it is");
     await chooseMany(page, "Nothing specific");
     await continueInquiry(page);
-    await chooseOption(page, "I’d rather discuss it");
     await chooseOption(page, "I’m flexible");
     await continueInquiry(page);
 
