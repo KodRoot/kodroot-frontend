@@ -72,6 +72,33 @@ test.describe("SEO", () => {
     expect(xml).not.toContain("localhost");
   });
 
+  test("favicon is a stable, crawlable image Google Search can use", async ({
+    request,
+    page,
+  }) => {
+    const ico = await request.get("/favicon.ico");
+    expect(ico.ok()).toBe(true);
+    expect(ico.headers()["content-type"] ?? "").toMatch(/image\//);
+
+    await page.goto("/");
+    const iconHrefs = await page
+      .locator('link[rel="icon"], link[rel="apple-touch-icon"]')
+      .evaluateAll((nodes) =>
+        nodes.map((node) => ({
+          href: node.getAttribute("href") ?? "",
+          type: node.getAttribute("type") ?? "",
+        })),
+      );
+    expect(
+      iconHrefs.some(
+        (icon) =>
+          icon.type === "image/png" ||
+          icon.href.includes(".png") ||
+          icon.href.includes("favicon.ico"),
+      ),
+    ).toBe(true);
+  });
+
   test("structured data describes KodRoot without invented claims", async ({
     page,
   }) => {
