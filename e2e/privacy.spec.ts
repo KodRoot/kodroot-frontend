@@ -17,6 +17,12 @@ test.describe("privacy and analytics", () => {
     await expect(page.locator("main")).toContainText(
       "does not set analytics cookies",
     );
+    await expect(page.locator("main")).toContainText(
+      "anonymous form-progress events",
+    );
+    await expect(page.locator("main")).toContainText(
+      "Inquiry answers, including your name, email, and description, are never sent to analytics.",
+    );
     await expect(page.locator("main")).toContainText("Resend");
     await expect(page.locator("main")).toContainText("hello@kodroot.com");
     await expect(

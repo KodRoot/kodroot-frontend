@@ -1,3 +1,4 @@
+import { formatAttribution } from "@/lib/attribution";
 import { site } from "@/lib/site";
 import {
   accountFeatureOptions,
@@ -8,6 +9,7 @@ import {
   productCountOptions,
   projectGoalOptions,
   projectTypeOptions,
+  referralOptions,
   timelineOptions,
   yesNoUnsureOptions,
 } from "@/lib/inquiry/options";
@@ -16,12 +18,14 @@ import { needsStoreFollowUp } from "@/lib/inquiry/schema";
 import type { InquirySubmission } from "@/lib/inquiry/schema";
 import type { InquiryAnswers, InquiryStep } from "@/types/inquiry";
 
+const NOT_ANSWERED = "Not answered";
+
 function labelFor<T extends string>(
   options: Choice<T>[],
   value: T | null | undefined,
 ): string {
   if (!value) {
-    return "Not specified";
+    return NOT_ANSWERED;
   }
   return options.find((option) => option.value === value)?.label ?? value;
 }
@@ -31,7 +35,7 @@ function labelsFor<T extends string>(
   values: T[],
 ): string {
   if (values.length === 0) {
-    return "Not specified";
+    return NOT_ANSWERED;
   }
   return values.map((value) => labelFor(options, value)).join("; ");
 }
@@ -44,10 +48,19 @@ export function formatInquiryBrief(data: InquirySubmission): string {
     `Business: ${data.businessName.trim() || "Not specified"}`,
     `Email: ${data.email}`,
     `Existing website: ${data.existingWebsite.trim() || "Not specified"}`,
+    `How they heard about KodRoot: ${labelFor(referralOptions, data.referral)}`,
+  ];
+
+  const attribution = formatAttribution(data.attribution);
+  if (attribution) {
+    lines.push(`Attribution: ${attribution}`);
+  }
+
+  lines.push(
     "",
     `What they want to build: ${labelFor(projectTypeOptions, data.projectType)}`,
     `Outcomes: ${labelsFor(projectGoalOptions, data.goals)}`,
-  ];
+  );
 
   if (data.goalsOther.trim()) {
     lines.push(`Other outcome: ${data.goalsOther.trim()}`);
@@ -75,7 +88,7 @@ export function formatInquiryBrief(data: InquirySubmission): string {
   }
 
   lines.push(
-    `Updating the website: ${labelFor(contentOptions, data.contentManagement)}`,
+    `Updating the content: ${labelFor(contentOptions, data.contentManagement)}`,
   );
   lines.push(
     `Other tools: ${labelsFor(integrationOptions, data.integrations)}`,
@@ -88,7 +101,7 @@ export function formatInquiryBrief(data: InquirySubmission): string {
     `Hoped launch window: ${labelFor(timelineOptions, data.timeline)} (not a delivery promise)`,
   );
 
-  lines.push("", "Project:", data.projectDescription.trim());
+  lines.push("", "Project:", data.projectDescription.trim() || NOT_ANSWERED);
 
   lines.push("", "Working notes for KodRoot:");
   for (const note of deriveInternalNotes(data)) {
@@ -160,7 +173,7 @@ export function summarizeInquiry(
     {
       step: "project",
       label: "Project",
-      value: answers.projectDescription.trim() || "Not specified",
+      value: answers.projectDescription.trim() || NOT_ANSWERED,
     },
     {
       step: "goals",
@@ -220,7 +233,7 @@ export function summarizeInquiry(
   items.push(
     {
       step: "running",
-      label: "Updating the website",
+      label: "Updating the content",
       value: labelFor(contentOptions, answers.contentManagement),
     },
     {
@@ -264,6 +277,11 @@ export function summarizeInquiry(
       step: "contact",
       label: "Existing website",
       value: answers.existingWebsite.trim() || "Not specified",
+    },
+    {
+      step: "contact",
+      label: "How you heard about us",
+      value: labelFor(referralOptions, answers.referral),
     },
   );
 

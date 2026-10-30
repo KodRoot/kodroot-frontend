@@ -19,6 +19,7 @@ export const emptyInquiryAnswers: InquiryAnswers = {
   email: "",
   projectDescription: "",
   existingWebsite: "",
+  referral: null,
   consent: false,
 };
 

@@ -4,6 +4,8 @@ import {
   chooseOption,
   continueInquiry,
   fillHappyPath,
+  fillMinimalPath,
+  useOwnClientAddress,
 } from "./helpers/inquiry";
 
 test.describe("project inquiry form", () => {
@@ -20,29 +22,29 @@ test.describe("project inquiry form", () => {
     ).toBeVisible();
   });
 
-  test("validates the description and an invalid email", async ({ page }) => {
+  test("lets the description and technical questions be skipped, but validates an invalid email", async ({
+    page,
+  }) => {
     await page.goto("/discuss-your-project");
     await chooseOption(page, "A business website");
     await continueInquiry(page);
-    await expect(page.locator("p[role='alert']")).toContainText(
-      "Describe the project in a sentence or two.",
-    );
+    await expect(page.locator("p[role='alert']")).toHaveCount(0);
+    await expect(
+      page.getByRole("heading", { name: "What should it help you do?" }),
+    ).toBeVisible();
 
-    await page
-      .getByRole("textbox", { name: /Project description/i })
-      .fill("A small business site with a services page.");
     await continueInquiry(page);
+    await expect(page.locator("p[role='alert']")).toContainText(
+      "Select at least one outcome",
+    );
     await chooseMany(page, "Present my business and services");
     await continueInquiry(page);
-    await chooseOption(page, "No, I only need to present my business");
-    await chooseOption(
-      page,
-      "No, visitors can use the website without signing in",
+    await continueInquiry(page);
+    await continueInquiry(page);
+    await continueInquiry(page);
+    await expect(page.locator("p[role='alert']")).toContainText(
+      "Choose when you hope to launch",
     );
-    await continueInquiry(page);
-    await chooseOption(page, "No, the information can stay mostly as it is");
-    await chooseMany(page, "Nothing specific");
-    await continueInquiry(page);
     await chooseOption(page, "I’m flexible");
     await continueInquiry(page);
 
@@ -51,6 +53,94 @@ test.describe("project inquiry form", () => {
     await page.getByRole("checkbox", { name: /I agree that KodRoot/ }).check();
     await continueInquiry(page);
     await expect(page.locator("p[role='alert']")).toContainText("valid email");
+  });
+
+  test("sends an inquiry with only the required answers", async ({ page }) => {
+    await useOwnClientAddress(page);
+    let body: Record<string, unknown> | null = null;
+    page.on("request", (request) => {
+      if (request.url().endsWith("/api/inquiry")) {
+        body = request.postDataJSON() as Record<string, unknown>;
+      }
+    });
+    await page.goto("/discuss-your-project");
+    await fillMinimalPath(page);
+    await continueInquiry(page);
+    await expect(
+      page.getByRole("heading", { name: "Check your answers." }),
+    ).toBeVisible();
+    await expect(page.getByText("Not answered").first()).toBeVisible();
+    await page.getByRole("button", { name: "Send inquiry" }).click();
+    await expect(
+      page.getByRole("heading", { name: "We have the brief." }),
+    ).toBeVisible();
+    expect(body).toMatchObject({
+      projectType: "business-website",
+      projectDescription: "",
+      payments: null,
+      accounts: null,
+      contentManagement: null,
+      referral: null,
+    });
+  });
+
+  test("offers an optional referral question and shows it on review", async ({
+    page,
+  }) => {
+    await page.goto("/discuss-your-project");
+    await fillMinimalPath(page);
+    await expect(
+      page.getByRole("group", { name: "How did you hear about us?" }),
+    ).toBeVisible();
+    await expect(
+      page
+        .getByRole("group", { name: "How did you hear about us?" })
+        .getByRole("radio"),
+    ).toHaveCount(5);
+    await chooseOption(page, "A friend or colleague");
+    await continueInquiry(page);
+    const review = page.locator("dl");
+    await expect(review).toContainText("How you heard about us");
+    await expect(review).toContainText("A friend or colleague");
+
+    await useOwnClientAddress(page);
+    let body: Record<string, unknown> | null = null;
+    page.on("request", (request) => {
+      if (request.url().endsWith("/api/inquiry")) {
+        body = request.postDataJSON() as Record<string, unknown>;
+      }
+    });
+    await page.getByRole("button", { name: "Send inquiry" }).click();
+    await expect(
+      page.getByRole("heading", { name: "We have the brief." }),
+    ).toBeVisible();
+    expect(body).toMatchObject({ referral: "referral" });
+  });
+
+  test("renders single choices as circles and multiple choices as squares", async ({
+    page,
+  }) => {
+    await page.goto("/discuss-your-project");
+    const radioIndicator = page
+      .locator("label.inquiry-choice")
+      .first()
+      .locator("span[aria-hidden='true']");
+    const radius = await radioIndicator.evaluate(
+      (node) => getComputedStyle(node).borderTopLeftRadius,
+    );
+    expect(Number.parseFloat(radius)).toBeGreaterThan(4);
+
+    await chooseOption(page, "A business website");
+    await continueInquiry(page);
+    const checkboxIndicator = page
+      .locator("label.inquiry-choice")
+      .first()
+      .locator("span[aria-hidden='true']");
+    expect(
+      await checkboxIndicator.evaluate(
+        (node) => getComputedStyle(node).borderTopLeftRadius,
+      ),
+    ).toBe("0px");
   });
 
   test("preserves answers when moving backward", async ({ page }) => {
@@ -75,7 +165,7 @@ test.describe("project inquiry form", () => {
       .fill("A small business site with a services page.");
     await continueInquiry(page);
     const heading = page.getByRole("heading", {
-      name: "What should your website or product help you do?",
+      name: "What should it help you do?",
     });
     await expect(heading).toBeVisible();
     await expect(heading).toBeInViewport();
@@ -209,7 +299,7 @@ test.describe("project inquiry form", () => {
     await page.keyboard.press("Enter");
     await expect(
       page.getByRole("heading", {
-        name: "What should your website or product help you do?",
+        name: "What should it help you do?",
       }),
     ).toBeVisible();
   });
@@ -221,6 +311,20 @@ test.describe("project inquiry form", () => {
       page.getByRole("heading", { name: "What are you looking to build?" }),
     ).toBeVisible();
     await expect(page.getByRole("button", { name: "Continue" })).toBeVisible();
+  });
+
+  test("shows the progress and first question in the first phone screen", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto("/discuss-your-project");
+    const heading = page.getByRole("heading", {
+      name: "What are you looking to build?",
+    });
+    await expect(heading).toBeInViewport();
+    await expect(page.getByRole("progressbar")).toBeInViewport();
+    const box = await heading.boundingBox();
+    expect(box?.y ?? Number.POSITIVE_INFINITY).toBeLessThan(812 * 0.4);
   });
 
   test("reload after success does not keep a received state", async ({

@@ -1,6 +1,23 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("navigation", () => {
+  test("the footer links to Instagram in a new tab with a clear name", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const link = page
+      .getByRole("contentinfo")
+      .getByRole("link", { name: "KodRoot on Instagram (opens in a new tab)" });
+    await expect(link).toBeVisible();
+    await expect(link).toHaveText("Instagram");
+    await expect(link).toHaveAttribute(
+      "href",
+      "https://www.instagram.com/kodroot/",
+    );
+    await expect(link).toHaveAttribute("target", "_blank");
+    await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+  });
+
   test("header, logo, footer, and hash links go to the intended places", async ({
     page,
   }) => {

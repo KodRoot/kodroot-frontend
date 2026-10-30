@@ -48,6 +48,17 @@ export async function postInquiry(
   });
 }
 
+// Gives a page its own client address so tests that post to the real route do
+// not share the per-address rate limit.
+export async function useOwnClientAddress(page: Page) {
+  const address = `192.0.2.${Math.floor(Math.random() * 200) + 20}`;
+  await page.route("**/api/inquiry", (route) =>
+    route.continue({
+      headers: { ...route.request().headers(), "x-forwarded-for": address },
+    }),
+  );
+}
+
 export async function chooseOption(page: Page, label: string) {
   await page
     .locator("label.inquiry-choice")
@@ -66,7 +77,19 @@ export async function continueInquiry(page: Page) {
   await page.getByRole("button", { name: "Continue" }).click();
 }
 
+// The API refuses forms filled in under two seconds. Scripted clicks can beat
+// that, so tests that post to the real route wait like a person would.
+const MIN_HUMAN_FILL_MS = 2_300;
+
+async function padToHumanSpeed(page: Page, startedAt: number) {
+  const remaining = MIN_HUMAN_FILL_MS - (Date.now() - startedAt);
+  if (remaining > 0) {
+    await page.waitForTimeout(remaining);
+  }
+}
+
 export async function fillHappyPath(page: Page) {
+  const startedAt = Date.now();
   await chooseOption(page, "A business website");
   await page
     .getByRole("textbox", { name: /Project description/i })
@@ -74,7 +97,7 @@ export async function fillHappyPath(page: Page) {
   await continueInquiry(page);
   await expect(
     page.getByRole("heading", {
-      name: "What should your website or product help you do?",
+      name: "What should it help you do?",
     }),
   ).toBeVisible();
 
@@ -84,19 +107,16 @@ export async function fillHappyPath(page: Page) {
     page.getByRole("heading", { name: "How will people use it?" }),
   ).toBeVisible();
 
-  await chooseOption(page, "No, I only need to present my business");
-  await chooseOption(
-    page,
-    "No, visitors can use the website without signing in",
-  );
+  await chooseOption(page, "No, nothing needs to be paid for online");
+  await chooseOption(page, "No, people can use it without signing in");
   await continueInquiry(page);
   await expect(
     page.getByRole("heading", {
-      name: "How would you like to work with the site?",
+      name: "How would you like to run it day to day?",
     }),
   ).toBeVisible();
 
-  await chooseOption(page, "No, the information can stay mostly as it is");
+  await chooseOption(page, "No, it can stay mostly as it is");
   await chooseMany(page, "Nothing specific");
   await continueInquiry(page);
   await expect(
@@ -116,6 +136,34 @@ export async function fillHappyPath(page: Page) {
   await expect(
     page.getByRole("heading", { name: "Check your answers." }),
   ).toBeVisible();
+  await padToHumanSpeed(page, startedAt);
+}
+
+export async function fillMinimalPath(page: Page) {
+  const startedAt = Date.now();
+  await chooseOption(page, "A business website");
+  await continueInquiry(page);
+  await chooseMany(page, "Present my business and services");
+  await continueInquiry(page);
+  await expect(
+    page.getByRole("heading", { name: "How will people use it?" }),
+  ).toBeVisible();
+  await continueInquiry(page);
+  await expect(
+    page.getByRole("heading", {
+      name: "How would you like to run it day to day?",
+    }),
+  ).toBeVisible();
+  await continueInquiry(page);
+  await chooseOption(page, "I’m flexible");
+  await continueInquiry(page);
+  await expect(
+    page.getByRole("heading", { name: "How should we reach you?" }),
+  ).toBeVisible();
+  await page.locator("#inquiry-name").fill(validInquiry.name);
+  await page.locator("#inquiry-email").fill(validInquiry.email);
+  await page.getByRole("checkbox", { name: /I agree that KodRoot/ }).check();
+  await padToHumanSpeed(page, startedAt);
 }
 
 export async function assertNoPageErrors(page: Page) {

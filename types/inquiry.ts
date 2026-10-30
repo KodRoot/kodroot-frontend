@@ -70,6 +70,14 @@ export const timelines = [
   "flexible",
 ] as const;
 
+export const referralSources = [
+  "google",
+  "instagram",
+  "linkedin",
+  "referral",
+  "other",
+] as const;
+
 export const inquirySteps = [
   "project",
   "goals",
@@ -90,6 +98,7 @@ export type AccountFeature = (typeof accountFeatures)[number];
 export type ContentManagement = (typeof contentManagement)[number];
 export type Integration = (typeof integrations)[number];
 export type Timeline = (typeof timelines)[number];
+export type ReferralSource = (typeof referralSources)[number];
 export type InquiryStep = (typeof inquirySteps)[number];
 
 export type InquiryAnswers = {
@@ -111,6 +120,7 @@ export type InquiryAnswers = {
   email: string;
   projectDescription: string;
   existingWebsite: string;
+  referral: ReferralSource | null;
   consent: boolean;
 };
 

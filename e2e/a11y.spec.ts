@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { fillMinimalPath } from "./helpers/inquiry";
 
 const routes = [
   "/",
@@ -23,6 +24,25 @@ test.describe("accessibility", () => {
       expect(serious, JSON.stringify(serious, null, 2)).toEqual([]);
     });
   }
+
+  test("has no serious axe violations on the contact step at phone width", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto("/discuss-your-project");
+    await fillMinimalPath(page);
+    await expect(
+      page.getByRole("group", { name: "How did you hear about us?" }),
+    ).toBeVisible();
+    const results = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+      .analyze();
+    const serious = results.violations.filter(
+      (violation) =>
+        violation.impact === "serious" || violation.impact === "critical",
+    );
+    expect(serious, JSON.stringify(serious, null, 2)).toEqual([]);
+  });
 
   test("inquiry errors are announced", async ({ page }) => {
     await page.goto("/discuss-your-project");

@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <LegalPage title="Privacy policy" updated="22 October 2026">
+    <LegalPage title="Privacy policy" updated="30 October 2026">
       <LegalSection title="Who we are">
         <p>
           KodRoot designs and builds websites, mobile products, and custom
@@ -44,9 +44,15 @@ export default function PrivacyPage() {
       <LegalSection title="What the form collects">
         <p>
           If you send a project inquiry, we receive the answers you choose to
-          give: the project type and description, goals, follow-up answers, a
-          hoped-for launch window, your name, and your email. Business name and
-          an existing website are optional. The form does not ask for a budget.
+          give: the project type, goals, a hoped-for launch window, your name,
+          and your email. A project description, follow-up answers, business
+          name, an existing website, and how you heard about us are optional.
+          The form does not ask for a budget.
+        </p>
+        <p>
+          If you arrived through a link with campaign tags, such as utm_source,
+          those tags are kept in your browser for the visit and added to the
+          inquiry email, so we can see which link led to it.
         </p>
         <p>
           There is no account on this site. The server may hold an IP address in
@@ -89,10 +95,21 @@ export default function PrivacyPage() {
         <p>
           A data point may include the page path, a filtered query string, the
           referrer, country, region, city, operating system, browser, and device
-          type. It is not shown in the dashboard against a name, an email
-          address, or an IP address. Inquiry answers are not sent to analytics.
-          This site does not load advertising pixels or a second analytics
-          product.
+          type. The query string is filtered to campaign (UTM) parameters, such
+          as utm_source and utm_medium. Everything else is removed. A data point
+          is not shown in the dashboard against a name, an email address, or an
+          IP address. This site does not load advertising pixels or a second
+          analytics product.
+        </p>
+        <p>
+          The site also records three anonymous form-progress events: that the
+          inquiry form was started, which step was reached, and that an inquiry
+          was sent. Each event carries only the step name and number and any
+          campaign (UTM) parameters from your visit. Campaign parameters and a
+          list of events already recorded are held in session storage in your
+          browser until the tab closes. They are not cookies. Inquiry answers,
+          including your name, email, and description, are never sent to
+          analytics.
         </p>
         <p>
           Vercel processes those measurements as the host of the site. Because
