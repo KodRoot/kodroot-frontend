@@ -7,6 +7,7 @@ import type {
   ProductCount,
   ProjectGoal,
   ProjectType,
+  ReferralSource,
   Timeline,
   YesNoUnsure,
 } from "@/types/inquiry";
@@ -101,7 +102,7 @@ export const projectGoalOptions: Choice<ProjectGoal>[] = [
 export const paymentsOptions: Choice<PaymentsNeed>[] = [
   {
     value: "no-payments",
-    label: "No, I only need to present my business",
+    label: "No, nothing needs to be paid for online",
     description: "",
   },
   {
@@ -165,7 +166,7 @@ export const yesNoUnsureOptions: Choice<YesNoUnsure>[] = [
 export const accountOptions: Choice<AccountNeed>[] = [
   {
     value: "no-accounts",
-    label: "No, visitors can use the website without signing in",
+    label: "No, people can use it without signing in",
     description: "",
   },
   {
@@ -206,7 +207,7 @@ export const accountFeatureOptions: Choice<AccountFeature>[] = [
 export const contentOptions: Choice<ContentManagement>[] = [
   {
     value: "mostly-static",
-    label: "No, the information can stay mostly as it is",
+    label: "No, it can stay mostly as it is",
     description: "",
   },
   {
@@ -298,6 +299,34 @@ export const timelineOptions: Choice<Timeline>[] = [
   {
     value: "flexible",
     label: "I’m flexible",
+    description: "",
+  },
+];
+
+export const referralOptions: Choice<ReferralSource>[] = [
+  {
+    value: "google",
+    label: "Google",
+    description: "",
+  },
+  {
+    value: "instagram",
+    label: "Instagram",
+    description: "",
+  },
+  {
+    value: "linkedin",
+    label: "LinkedIn",
+    description: "",
+  },
+  {
+    value: "referral",
+    label: "A friend or colleague",
+    description: "",
+  },
+  {
+    value: "other",
+    label: "Other",
     description: "",
   },
 ];

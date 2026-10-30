@@ -20,6 +20,8 @@ type TextLinkProps = {
   variant?: TextLinkVariant;
   surface?: TextLinkSurface;
   onClick?: () => void;
+  external?: boolean;
+  "aria-label"?: string;
 };
 
 function textLinkClassName(
@@ -53,6 +55,8 @@ export function TextLink({
   variant = "primary",
   surface = "paper",
   onClick,
+  external = false,
+  "aria-label": ariaLabel,
 }: TextLinkProps) {
   const classes = `${textLinkClassName(variant, surface)} ${className}`.trim();
 
@@ -61,7 +65,13 @@ export function TextLink({
 
   if (href.startsWith("mailto:") || href.startsWith("http")) {
     return (
-      <a href={href} className={classes} onClick={onClick}>
+      <a
+        href={href}
+        className={classes}
+        onClick={onClick}
+        aria-label={ariaLabel}
+        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      >
         {label}
       </a>
     );

@@ -10,6 +10,7 @@ export function SiteJsonLd() {
         url: site.url,
         email: site.email,
         slogan: site.motto,
+        sameAs: [site.instagram],
       },
       {
         "@type": "WebSite",

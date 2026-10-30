@@ -206,6 +206,12 @@ h4 {
   bottom: 16%;
 }
 
+@media (max-width: 1023px) {
+  .panel-guide-x {
+    top: 0.75rem;
+  }
+}
+
 .section-guide-x,
 .section-guide-y {
   position: absolute;

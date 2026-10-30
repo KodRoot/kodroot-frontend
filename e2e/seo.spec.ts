@@ -114,6 +114,12 @@ test.describe("SEO", () => {
     const types = data["@graph"].map((node) => node["@type"]);
     expect(types).toContain("Organization");
     expect(types).toContain("WebSite");
+    const organization = data["@graph"].find(
+      (node) => node["@type"] === "Organization",
+    );
+    expect(organization?.sameAs).toEqual([
+      "https://www.instagram.com/kodroot/",
+    ]);
     expect(JSON.stringify(data)).toContain("Rooted in code. Built for growth.");
     expect(JSON.stringify(data)).not.toMatch(/reviewRating|aggregateRating/);
     expect(JSON.stringify(data)).not.toContain("localhost");

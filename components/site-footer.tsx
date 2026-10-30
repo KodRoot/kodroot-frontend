@@ -58,6 +58,17 @@ export function SiteFooter() {
                   {site.email}
                 </TextLink>
               </li>
+              <li>
+                <TextLink
+                  href={site.instagram}
+                  variant="secondary"
+                  surface="night"
+                  external
+                  aria-label="KodRoot on Instagram (opens in a new tab)"
+                >
+                  Instagram
+                </TextLink>
+              </li>
             </ul>
           </div>
         </div>

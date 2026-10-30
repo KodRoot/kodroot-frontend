@@ -19,6 +19,12 @@ import { InquirySuccess } from "@/components/inquiry/inquiry-result";
 import { InquiryReview } from "@/components/inquiry/inquiry-review";
 import { TextButton } from "@/components/ui/text-link";
 import { Vinculum } from "@/components/ui/vinculum";
+import {
+  trackFormStarted,
+  trackFormStepReached,
+  trackInquirySent,
+} from "@/lib/analytics-events";
+import { readStoredUtm } from "@/lib/attribution";
 import { emptyInquiryAnswers } from "@/lib/inquiry/defaults";
 import {
   accountFeatureOptions,
@@ -29,6 +35,7 @@ import {
   productCountOptions,
   projectGoalOptions,
   projectTypeOptions,
+  referralOptions,
   timelineOptions,
   yesNoUnsureOptions,
 } from "@/lib/inquiry/options";
@@ -110,6 +117,7 @@ export function InquiryForm() {
   }, [error]);
 
   function update(partial: Partial<InquiryAnswers>) {
+    trackFormStarted();
     setAnswers((current) => applyInquiryPatch(current, partial));
     setError(null);
   }
@@ -117,6 +125,7 @@ export function InquiryForm() {
   function goTo(next: InquiryStep) {
     setError(null);
     setStep(next);
+    trackFormStepReached(next);
   }
 
   function goBack() {
@@ -181,7 +190,11 @@ export function InquiryForm() {
       return;
     }
 
-    const parsed = inquirySubmissionSchema.safeParse(answers);
+    const utm = readStoredUtm();
+    const parsed = inquirySubmissionSchema.safeParse({
+      ...answers,
+      attribution: Object.keys(utm).length > 0 ? utm : undefined,
+    });
     if (!parsed.success) {
       setError("Some answers are missing. Go back and check them.");
       return;
@@ -207,6 +220,7 @@ export function InquiryForm() {
         .catch(() => null)) as InquiryApiResult | null;
 
       if (response.ok && payload?.status === "received") {
+        trackInquirySent(submissionId.current);
         setReceived(true);
         return;
       }
@@ -282,7 +296,7 @@ export function InquiryForm() {
           />
         </div>
 
-        <div className="mt-8">
+        <div className="mt-4 lg:mt-8">
           {isQuestionStep(step) ? (
             <div>
               <p className="text-[12px] font-semibold uppercase tracking-label text-muted">
@@ -327,7 +341,7 @@ export function InquiryForm() {
                 <TextField
                   id="inquiry-description"
                   label="Project description"
-                  required
+                  hint="Optional"
                   value={answers.projectDescription}
                   onChange={(projectDescription) =>
                     update({ projectDescription })
@@ -366,7 +380,10 @@ export function InquiryForm() {
 
             {step === "customers" ? (
               <div className="space-y-12">
-                <FollowUp question="Will customers need to pay you online?">
+                <FollowUp
+                  question="Will customers need to pay you online?"
+                  hint="Optional."
+                >
                   <ChoiceList
                     legend="Will customers need to pay you online?"
                     options={paymentsOptions}
@@ -376,7 +393,10 @@ export function InquiryForm() {
                 </FollowUp>
                 {needsStoreFollowUp(answers) ? (
                   <>
-                    <FollowUp question="Approximately how many products will you sell?">
+                    <FollowUp
+                      question="Approximately how many products will you sell?"
+                      hint="Optional."
+                    >
                       <ChoiceList
                         legend="Approximately how many products will you sell?"
                         options={productCountOptions}
@@ -384,7 +404,10 @@ export function InquiryForm() {
                         onChange={(productCount) => update({ productCount })}
                       />
                     </FollowUp>
-                    <FollowUp question="Do you need to manage products and orders yourself?">
+                    <FollowUp
+                      question="Do you need to manage products and orders yourself?"
+                      hint="Optional."
+                    >
                       <ChoiceList
                         legend="Do you need to manage products and orders yourself?"
                         options={yesNoUnsureOptions}
@@ -392,7 +415,10 @@ export function InquiryForm() {
                         onChange={(manageStore) => update({ manageStore })}
                       />
                     </FollowUp>
-                    <FollowUp question="Do you need delivery or shipping options?">
+                    <FollowUp
+                      question="Do you need delivery or shipping options?"
+                      hint="Optional."
+                    >
                       <ChoiceList
                         legend="Do you need delivery or shipping options?"
                         options={yesNoUnsureOptions}
@@ -402,7 +428,10 @@ export function InquiryForm() {
                     </FollowUp>
                   </>
                 ) : null}
-                <FollowUp question="Will your customers need their own accounts?">
+                <FollowUp
+                  question="Will your customers need their own accounts?"
+                  hint="Optional."
+                >
                   <ChoiceList
                     legend="Will your customers need their own accounts?"
                     options={accountOptions}
@@ -439,9 +468,12 @@ export function InquiryForm() {
 
             {step === "running" ? (
               <div className="space-y-12">
-                <FollowUp question="Would you like to update the website yourself?">
+                <FollowUp
+                  question="Would you like to update the content yourself?"
+                  hint="Optional."
+                >
                   <ChoiceList
-                    legend="Would you like to update the website yourself?"
+                    legend="Would you like to update the content yourself?"
                     options={contentOptions}
                     value={answers.contentManagement}
                     onChange={(contentManagement) =>
@@ -527,6 +559,17 @@ export function InquiryForm() {
                   value={answers.existingWebsite}
                   onChange={(existingWebsite) => update({ existingWebsite })}
                 />
+                <FollowUp
+                  question="How did you hear about us?"
+                  hint="Optional."
+                >
+                  <ChoiceList
+                    legend="How did you hear about us?"
+                    options={referralOptions}
+                    value={answers.referral}
+                    onChange={(referral) => update({ referral })}
+                  />
+                </FollowUp>
                 <div className="flex gap-3">
                   <input
                     id="inquiry-consent"

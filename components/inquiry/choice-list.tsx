@@ -52,12 +52,25 @@ export function ChoiceList<T extends string>(props: ChoiceListProps<T>) {
                 onChange={() => onChange(option.value)}
                 className="sr-only focus-visible:outline-none"
               />
-              <span
-                aria-hidden="true"
-                className={`mt-1.5 h-3 w-3 shrink-0 border ${
-                  selected ? "border-mark bg-mark" : "border-ink/35 bg-paper"
-                }`}
-              />
+              {props.multiple ? (
+                <span
+                  aria-hidden="true"
+                  className={`mt-1.5 h-3 w-3 shrink-0 border ${
+                    selected ? "border-mark bg-mark" : "border-ink/35 bg-paper"
+                  }`}
+                />
+              ) : (
+                <span
+                  aria-hidden="true"
+                  className={`mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border bg-paper ${
+                    selected ? "border-mark" : "border-ink/35"
+                  }`}
+                >
+                  {selected ? (
+                    <span className="h-2 w-2 rounded-full bg-mark" />
+                  ) : null}
+                </span>
+              )}
               <span className="min-w-0">
                 <span className="block text-xl leading-snug text-ink">
                   {option.label}

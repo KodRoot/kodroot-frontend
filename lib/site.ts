@@ -5,6 +5,7 @@ export const site = {
   domain: "kodroot.com",
   url: "https://kodroot.com",
   email: "hello@kodroot.com",
+  instagram: "https://www.instagram.com/kodroot/",
   locale: "en",
   tagline: "Websites, mobile products, and custom software.",
   motto: "Rooted in code. Built for growth.",

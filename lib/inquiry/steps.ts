@@ -18,11 +18,11 @@ export const stepCopy: Record<
   project: {
     kicker: "The project",
     question: "What are you looking to build?",
-    hint: "Then a sentence or two about it.",
+    hint: "Then, if you like, a sentence or two about it.",
   },
   goals: {
     kicker: "Outcomes",
-    question: "What should your website or product help you do?",
+    question: "What should it help you do?",
     hint: "Select all that apply.",
   },
   customers: {
@@ -31,7 +31,7 @@ export const stepCopy: Record<
   },
   running: {
     kicker: "Running it",
-    question: "How would you like to work with the site?",
+    question: "How would you like to run it day to day?",
   },
   timing: {
     kicker: "Timing",
